@@ -46,8 +46,7 @@
 .v2-sim-note { margin:6px 0 0; font:600 .66rem/1.45 var(--font-body); color:var(--text-muted); }
 .v2-sim-note code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--color-brand-blue); }
 
-/* Hypha control-bar hardening: the original chevron had no intrinsic CSS size and
-   --color-brand-purple was missing, causing an oversized browser-default button. */
+/* Hypha control-bar hardening */
 .mesh-control-bar { align-items: center; }
 .mesh-step-btn {
   min-height: 40px;
@@ -72,7 +71,7 @@
 #nodeBob.v2-draggable:active { cursor:grabbing !important; filter:drop-shadow(0 0 12px rgba(56,189,248,.45)); }
 .v2-range-ring { position:absolute; border:1px dashed rgba(56,189,248,.3); background:rgba(56,189,248,.035); border-radius:999px; pointer-events:none; transform:translate(-50%,-50%); z-index:0; }
 
-/* Core reveal choreography without another animation library/runtime. */
+/* Core reveal choreography layered on top of the original dark/glitch/3D flip engine. */
 body.is-engineering-core .card-face-back > * { animation:v2CoreIn .55s cubic-bezier(.16,1,.3,1) both; }
 body.is-engineering-core .card-face-back > *:nth-child(2) { animation-delay:.05s; }
 body.is-engineering-core .card-face-back > *:nth-child(3) { animation-delay:.09s; }
@@ -80,13 +79,11 @@ body.is-engineering-core .card-face-back > *:nth-child(4) { animation-delay:.13s
 body.is-engineering-core .card-face-back > *:nth-child(5) { animation-delay:.17s; }
 @keyframes v2CoreIn { from { opacity:0; transform:translateY(8px) translateZ(12px); } to { opacity:1; transform:none; } }
 
-/* Accessible reduced-motion really means reduced motion. */
+/* Reduced-motion only suppresses passive/infinite decoration.
+   User-triggered 3D tilt, chromatic glitch and card flip remain intact. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+  html { scroll-behavior:auto !important; }
   .ambient-orb, .satellite-item { animation:none !important; }
-  .card-tilt-wrapper { transform:none !important; }
-  .glass-hero-card.is-engineering-flipped { transition:none !important; }
-  .cursor-ring { transition:none !important; }
 }
 
 @media (max-width:640px) {
