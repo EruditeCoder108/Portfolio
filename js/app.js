@@ -200,14 +200,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateCachedDimensions();
 
-  // Throttled window resize & scroll updates for geometry cache
+  // Throttled window resize & scroll updates for geometry cache (Avoids layout thrashing during scroll)
   let resizeTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(updateCachedDimensions, 100);
   }, { passive: true });
 
-  window.addEventListener('scroll', updateCachedDimensions, { passive: true });
+  let scrollDebounceTimer = null;
+  window.addEventListener('scroll', () => {
+    if (isAnyModalOpen) return;
+    if (!scrollDebounceTimer) {
+      scrollDebounceTimer = setTimeout(() => {
+        updateCachedDimensions();
+        scrollDebounceTimer = null;
+      }, 150);
+    }
+  }, { passive: true });
 
   // Lightweight mousemove listener (ZERO DOM WRITES, ZERO REFLOWS)
   window.addEventListener('mousemove', (e) => {
