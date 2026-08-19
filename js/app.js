@@ -230,91 +230,85 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  // Detect touch devices — skip ALL desktop-only motion systems on mobile
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-  if (!isTouchDevice) {
-    // Single Unified 120FPS GPU Animation Loop (Desktop only)
-    function animationTick() {
-      if (isMouseActive) {
-        // 1. Instant dot placement via translate3d (zero latency point)
-        if (cursorDot) {
-          cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-        }
-
-        // 2. Fluid trailing ring physics (lerp 0.16 for satisfying, elastic follow latency)
-        ringX += (mouseX - ringX) * 0.16;
-        ringY += (mouseY - ringY) * 0.16;
-
-        if (cursorRing) {
-          cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-        }
-
-        // 3. 3D Card Parallax Tilt (Only when modals are closed to preserve 100% GPU frame budget)
-        if (!isAnyModalOpen && cardTiltWrapper && heroCard) {
-          const diffX = mouseX - cachedCardCenterX;
-          const diffY = mouseY - cachedCardCenterY;
-
-          targetRotateY = (diffX / (cachedWinW / 2)) * 4.5;
-          targetRotateX = -(diffY / (cachedWinH / 2)) * 4.5;
-
-          currentRotateX += (targetRotateX - currentRotateX) * 0.14;
-          currentRotateY += (targetRotateY - currentRotateY) * 0.14;
-
-          cardTiltWrapper.style.transform = `rotateX(${currentRotateX.toFixed(2)}deg) rotateY(${currentRotateY.toFixed(2)}deg) translateZ(0)`;
-
-          // Specular Glare Coordinates
-          const glareX = Math.min(Math.max(((mouseX - cachedCardLeft) / cachedCardWidth) * 100, 0), 100);
-          const glareY = Math.min(Math.max(((mouseY - cachedCardTop) / cachedCardHeight) * 100, 0), 100);
-          heroCard.style.setProperty('--mouse-x', `${glareX.toFixed(1)}%`);
-          heroCard.style.setProperty('--mouse-y', `${glareY.toFixed(1)}%`);
-        }
+  // Single Unified 120FPS GPU Animation Loop
+  function animationTick() {
+    if (isMouseActive) {
+      // 1. Instant dot placement via translate3d (zero latency point)
+      if (cursorDot) {
+        cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       }
 
-      requestAnimationFrame(animationTick);
+      // 2. Fluid trailing ring physics (lerp 0.16 for satisfying, elastic follow latency)
+      ringX += (mouseX - ringX) * 0.16;
+      ringY += (mouseY - ringY) * 0.16;
+
+      if (cursorRing) {
+        cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      }
+
+      // 3. 3D Card Parallax Tilt (Only when modals are closed to preserve 100% GPU frame budget)
+      if (!isAnyModalOpen && cardTiltWrapper && heroCard) {
+        const diffX = mouseX - cachedCardCenterX;
+        const diffY = mouseY - cachedCardCenterY;
+
+        targetRotateY = (diffX / (cachedWinW / 2)) * 4.5;
+        targetRotateX = -(diffY / (cachedWinH / 2)) * 4.5;
+
+        currentRotateX += (targetRotateX - currentRotateX) * 0.14;
+        currentRotateY += (targetRotateY - currentRotateY) * 0.14;
+
+        cardTiltWrapper.style.transform = `rotateX(${currentRotateX.toFixed(2)}deg) rotateY(${currentRotateY.toFixed(2)}deg) translateZ(0)`;
+
+        // Specular Glare Coordinates
+        const glareX = Math.min(Math.max(((mouseX - cachedCardLeft) / cachedCardWidth) * 100, 0), 100);
+        const glareY = Math.min(Math.max(((mouseY - cachedCardTop) / cachedCardHeight) * 100, 0), 100);
+        heroCard.style.setProperty('--mouse-x', `${glareX.toFixed(1)}%`);
+        heroCard.style.setProperty('--mouse-y', `${glareY.toFixed(1)}%`);
+      }
     }
+
     requestAnimationFrame(animationTick);
+  }
+  requestAnimationFrame(animationTick);
 
-    // Mouse leave / enter window boundaries
-    document.addEventListener('mouseleave', () => {
-      if (cursorDot) cursorDot.style.opacity = '0';
-      if (cursorRing) cursorRing.style.opacity = '0';
-    });
+  // Mouse leave / enter window boundaries
+  document.addEventListener('mouseleave', () => {
+    if (cursorDot) cursorDot.style.opacity = '0';
+    if (cursorRing) cursorRing.style.opacity = '0';
+  });
 
-    document.addEventListener('mouseenter', () => {
-      if (cursorDot) cursorDot.style.opacity = '1';
-      if (cursorRing) cursorRing.style.opacity = '1';
-    });
+  document.addEventListener('mouseenter', () => {
+    if (cursorDot) cursorDot.style.opacity = '1';
+    if (cursorRing) cursorRing.style.opacity = '1';
+  });
 
-    // Attach hover triggers to interactive elements
-    function refreshCursorTriggers() {
-      const interactives = document.querySelectorAll('a, button, [data-cursor], [data-close-modal], .capability-card, .project-card-header, .proj-action-btn, .btn-toggle-all, .filter-tab, .satellite-bubble');
-      interactives.forEach((el) => {
-        el.addEventListener('mouseenter', () => {
-          const label = el.getAttribute('data-cursor') || 'VIEW';
-          if (cursorLabel) cursorLabel.textContent = label;
-          document.body.classList.add('cursor-hovering');
-        }, { passive: true });
+  // Attach hover triggers to interactive elements
+  function refreshCursorTriggers() {
+    const interactives = document.querySelectorAll('a, button, [data-cursor], [data-close-modal], .capability-card, .project-card-header, .proj-action-btn, .btn-toggle-all, .filter-tab, .satellite-bubble');
+    interactives.forEach((el) => {
+      el.addEventListener('mouseenter', () => {
+        const label = el.getAttribute('data-cursor') || 'VIEW';
+        if (cursorLabel) cursorLabel.textContent = label;
+        document.body.classList.add('cursor-hovering');
+      }, { passive: true });
 
-        el.addEventListener('mouseleave', () => {
-          document.body.classList.remove('cursor-hovering');
-          if (cursorLabel) cursorLabel.textContent = '';
-        }, { passive: true });
-      });
-    }
-    refreshCursorTriggers();
-
-    // Interactive Action Cards Button Glare Tracker (zero reflows using offsetX)
-    document.querySelectorAll('.action-card').forEach((btn) => {
-      btn.addEventListener('mousemove', (e) => {
-        const x = (e.offsetX / btn.offsetWidth) * 100;
-        const y = (e.offsetY / btn.offsetHeight) * 100;
-        btn.style.setProperty('--item-x', `${x.toFixed(1)}%`);
-        btn.style.setProperty('--item-y', `${y.toFixed(1)}%`);
+      el.addEventListener('mouseleave', () => {
+        document.body.classList.remove('cursor-hovering');
+        if (cursorLabel) cursorLabel.textContent = '';
       }, { passive: true });
     });
   }
-  // No gyroscope parallax — it fires at 60Hz and chokes mobile scroll
+  refreshCursorTriggers();
+
+  // Interactive Action Cards Button Glare Tracker (zero reflows using offsetX)
+  document.querySelectorAll('.action-card').forEach((btn) => {
+    btn.addEventListener('mousemove', (e) => {
+      const x = (e.offsetX / btn.offsetWidth) * 100;
+      const y = (e.offsetY / btn.offsetHeight) * 100;
+      btn.style.setProperty('--item-x', `${x.toFixed(1)}%`);
+      btn.style.setProperty('--item-y', `${y.toFixed(1)}%`);
+    }, { passive: true });
+  });
 
   // --------------------------------------------------------------------------
   // 3. Modal Management System (Zero Jump & Instant Smooth Transition)
