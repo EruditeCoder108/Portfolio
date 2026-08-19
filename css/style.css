@@ -2761,4 +2761,107 @@ body.modal-open .ambient-orb {
     padding: 10px 8px;
     font-size: 0.76rem;
   }
+
+  /* ========================================================================
+     MOBILE GPU PERFORMANCE: KILL INVISIBLE EXPENSIVE LAYERS
+     ======================================================================== */
+
+  /* 1. Kill 5× ambient blur orbs — each runs filter:blur(70px) costing a
+        full-screen GPU rasterisation pass per orb per frame */
+  .ambient-orb {
+    display: none !important;
+  }
+
+  /* Keep the ambient-background div for the gradient bg color */
+  .ambient-background {
+    background: linear-gradient(180deg, #F0F6FF 0%, #E2EDFE 50%, #DCE8FC 100%);
+  }
+
+  /* 2. Kill corner character layer — invisible at 0.25 opacity + still
+        running 4 animations + drop-shadow filters */
+  .corner-characters-layer {
+    display: none !important;
+  }
+
+  /* 3. Kill satellites layer (already hidden via media query at 1240px
+        but ensure it for all mobile) */
+  .satellites-layer {
+    display: none !important;
+  }
+
+  /* 4. Remove expensive backdrop-filter from hero card — replace with
+        solid opaque background (visually identical on mobile since orbs
+        are now hidden) */
+  .glass-hero-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.94);
+  }
+
+  /* 5. Remove backdrop-filter from HUD pill & buttons */
+  .hud-pill {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  .hud-btn {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  /* 6. Kill mix-blend-mode on card pattern overlay —
+        forces extra compositing pass */
+  .card-geometric-pattern {
+    mix-blend-mode: normal;
+  }
+
+  .card-glare {
+    mix-blend-mode: normal;
+    display: none;
+  }
+
+  /* 7. Replace 'transition: all' with specific GPU-friendly properties
+        to prevent compositor thread from scanning every property */
+  .capability-card {
+    transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .project-showcase-card {
+    transition: background 250ms ease, border-color 250ms ease, box-shadow 250ms ease;
+  }
+
+  .action-card {
+    transition: background 150ms ease, box-shadow 150ms ease;
+  }
+
+  .filter-tab {
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+
+  .cap-inquire-btn {
+    transition: background 150ms ease, color 150ms ease;
+  }
+
+  .proj-action-btn {
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+
+  .modal-close-btn {
+    transition: background 150ms ease, color 150ms ease;
+  }
+
+  .project-expand-btn {
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+
+  .btn-toggle-all {
+    transition: background 150ms ease, color 150ms ease;
+  }
+
+  .hud-pill,
+  .hud-btn {
+    transition: background 150ms ease;
+  }
 }
