@@ -74,6 +74,27 @@ html {
   scrollbar-gutter: stable;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(147, 197, 253, 0.65) transparent;
+}
+
+/* Global Custom Light-Blue Glass Scrollbar (Matches Modals) */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(147, 197, 253, 0.55);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-blue);
 }
 
 body {
@@ -82,6 +103,7 @@ body {
   background-color: #EBF3FE;
   min-height: 100vh;
   min-height: 100dvh;
+
   display: flex;
   flex-direction: column;
   align-items: center;
