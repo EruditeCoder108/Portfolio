@@ -132,22 +132,52 @@
        TOP FLOATING HUD / QUICK UTILITY BAR (Luminous Frosted Glass)
        ========================================================================= -->
   <header class="floating-hud">
-    <div class="hud-pill" data-cursor="STATUS">
-      <div class="pulse-indicator">
-        <span class="pulse-ring"></span>
-        <span class="pulse-dot"></span>
+    <div class="hud-left-group">
+      <!-- Status Pill -->
+      <div class="hud-pill" data-cursor="STATUS">
+        <div class="pulse-indicator">
+          <span class="pulse-ring"></span>
+          <span class="pulse-dot"></span>
+        </div>
+        <span class="hud-status">Available for projects</span>
       </div>
-      <span class="hud-status">Available for projects</span>
+
+      <!-- Client / Engineer Mode Segmented Switch -->
+      <div class="hud-mode-pill" id="hudModeSwitch" role="group" aria-label="Perspective View Mode">
+        <button class="mode-btn is-active" id="modeBtnClient" data-mode="client" data-cursor="CLIENT" title="Switch to Client / Business Mode">
+          <svg class="mode-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+          <span class="mode-text">Client</span>
+        </button>
+        <button class="mode-btn" id="modeBtnEngineer" data-mode="engineer" data-cursor="ENGINEER" title="Switch to Engineer / Architecture Mode">
+          <svg class="mode-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span class="mode-text">Engineer</span>
+        </button>
+      </div>
+
     </div>
 
     <div class="hud-controls">
+      <!-- Command Palette Terminal Quick Button -->
+      <button class="hud-btn hud-cmd-btn" id="btnOpenCommandPalette" title="Open Engineering Palette (Ctrl + K)" aria-label="Command Palette" data-cursor="TERMINAL">
+        <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+        <span class="hud-cmd-kbd">⌘K</span>
+      </button>
+
       <!-- Audio FX Soundscape Toggle -->
       <button class="hud-btn" id="audioToggleBtn" title="Toggle interactive UI sounds" aria-label="Toggle UI Audio" data-cursor="AUDIO">
-        <svg class="hud-icon sound-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="hud-icon sound-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
         </svg>
-        <svg class="hud-icon sound-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+        <svg class="hud-icon sound-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <line x1="23" y1="9" x2="17" y2="15"></line>
           <line x1="17" y1="9" x2="23" y2="15"></line>
@@ -167,234 +197,531 @@
     </div>
   </header>
 
+
   <!-- =========================================================================
        MAIN CARD CONTAINER (3D Interactive Tilt & Glassmorphic Hero)
        ========================================================================= -->
   <main class="page-stage">
     <div class="card-tilt-wrapper" id="cardTiltWrapper">
       <div class="glass-hero-card" id="heroCard">
-        <!-- Geometric Isometric 3D Pattern Layer -->
-        <div class="card-geometric-pattern" id="cardPattern" aria-hidden="true"></div>
+        
+        <!-- =====================================================================
+             FRONT FACE: POLISHED DIGITAL BUSINESS CARD & SHOWCASE
+             ===================================================================== -->
+        <div class="card-face card-face-front" id="cardFaceFront">
+          <!-- Geometric Isometric 3D Pattern Layer -->
+          <div class="card-geometric-pattern" id="cardPattern" aria-hidden="true"></div>
 
-        <!-- Specular glare overlay that tracks cursor -->
-        <div class="card-glare" id="cardGlare"></div>
+          <!-- Specular glare overlay that tracks cursor -->
+          <div class="card-glare" id="cardGlare"></div>
 
-        <!-- Hero Identity Header -->
-        <div class="hero-identity">
-          <!-- Profile Portrait Container (Using Sambhav's Sketch Portrait) -->
-          <div class="avatar-container" id="avatarMascot" data-cursor="SAMBHAV">
-            <div class="avatar-glow"></div>
-            <div class="avatar-ring">
-              <img src="assets/profile.webp" alt="Sambhav Jain" class="avatar-img avatar-portrait">
+          <!-- Hero Identity Header -->
+          <div class="hero-identity">
+            <!-- Profile Portrait Container (Using Sambhav's Sketch Portrait) -->
+            <div class="avatar-container" id="avatarMascot" data-cursor="SAMBHAV" title="Click avatar multiple times to unlock developer core">
+              <div class="avatar-glow"></div>
+              <div class="avatar-ring">
+                <img src="assets/profile.webp" alt="Sambhav Jain" class="avatar-img avatar-portrait">
+              </div>
+            </div>
+
+            <!-- Name & Core Title -->
+            <div class="hero-text-block">
+              <h1 class="hero-name">Sambhav Jain</h1>
+              <p class="hero-tagline" id="heroTagline">Practical digital, AI and product solutions for businesses</p>
+            </div>
+
+            <!-- Interactive Engineering Proof Chips (Opens Respective Deep Dive Directly) -->
+            <div class="engineering-proof-row" role="group" aria-label="Featured Technical Focus Areas">
+              <button class="proof-chip chip-ast" data-open-project="unravel" data-cursor="AST &bull; MCP" title="Explore Unravel AST Analysis &amp; MCP Infrastructure">
+                <span class="proof-dot dot-cyan"></span>
+                <span class="proof-label">AST + MCP Engine</span>
+              </button>
+              <button class="proof-chip chip-rust" data-open-project="hypha-relay" data-cursor="RUST &bull; MESH" title="Explore Hypha Delay-Tolerant Encrypted Mesh">
+                <span class="proof-dot dot-purple"></span>
+                <span class="proof-label">Rust Mesh Protocol</span>
+              </button>
+              <button class="proof-chip chip-fsrs" data-open-project="erudite-flashcards" data-cursor="LOCAL &bull; FSRS" title="Explore Erudite Local-First FSRS Platform">
+                <span class="proof-dot dot-emerald"></span>
+                <span class="proof-label">Local-First &amp; FSRS</span>
+              </button>
+            </div>
+
+            <!-- Sparkle Quote Pill from Business Card -->
+            <div class="quote-pill" data-cursor="PHILOSOPHY">
+              <div class="quote-sparkle-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path>
+                </svg>
+              </div>
+              <span class="quote-text" id="heroQuoteText">If you can imagine it, we can design it, build it and automate it.</span>
             </div>
           </div>
 
-          <!-- Name & Core Title -->
-          <div class="hero-text-block">
-            <h1 class="hero-name">Sambhav Jain</h1>
-            <p class="hero-tagline">Systems, Distributed Software &amp; AI Engineer</p>
+          <!-- =====================================================================
+               PRIMARY INTERACTIVE ACTION MATRIX
+               ===================================================================== -->
+          <div class="actions-matrix">
+
+            <!-- 1. Capabilities Button -->
+            <button class="action-card btn-capabilities" id="btnOpenCapabilities" data-cursor="EXPLORE">
+              <div class="action-card-glow"></div>
+              <div class="action-icon-wrap icon-cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+              </div>
+              <div class="action-info">
+                <div class="action-title-row">
+                  <span class="action-title" id="capActionTitle">What We Can Do</span>
+                  <span class="action-badge" id="capActionBadge">10 Services</span>
+                </div>
+                <span class="action-desc" id="capActionDesc">Web, Mobile, AI, Automation &amp; IoT solutions</span>
+              </div>
+              <div class="action-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </button>
+
+            <!-- 2. Apps & Portfolio Showcase Button -->
+            <button class="action-card btn-apps" id="btnOpenApps" data-cursor="PORTFOLIO">
+              <div class="action-card-glow"></div>
+              <div class="action-icon-wrap icon-violet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                </svg>
+              </div>
+              <div class="action-info">
+                <div class="action-title-row">
+                  <span class="action-title" id="appsActionTitle">Apps &amp; Creations</span>
+                  <span class="action-badge badge-featured" id="appsActionBadge">8 Projects</span>
+                </div>
+                <span class="action-desc" id="appsActionDesc">Explore Unravel, Erudite, Hypha, Lumium &amp; more</span>
+              </div>
+              <div class="action-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </button>
+
+            <!-- 3. GitHub Repository Button -->
+            <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="action-card btn-github" data-cursor="GITHUB">
+              <div class="action-card-glow"></div>
+              <div class="action-icon-wrap icon-slate">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+                </svg>
+              </div>
+              <div class="action-info">
+                <div class="action-title-row">
+                  <span class="action-title" id="ghActionTitle">GitHub Repositories</span>
+                  <span class="action-badge badge-slate" id="ghActionBadge">@EruditeCoder108</span>
+                </div>
+                <span class="action-desc" id="ghActionDesc">Open source code, tools &amp; algorithms</span>
+              </div>
+              <div class="action-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </div>
+            </a>
           </div>
 
-          <!-- Interactive Engineering Proof Chips (Opens Respective Deep Dive Directly) -->
-          <div class="engineering-proof-row" role="group" aria-label="Featured Technical Focus Areas">
-            <button class="proof-chip chip-ast" data-open-project="unravel" data-cursor="AST &bull; MCP" title="Explore Unravel AST Analysis &amp; MCP Infrastructure">
-              <span class="proof-dot dot-cyan"></span>
-              <span class="proof-label">AST + MCP Engine</span>
+          <!-- =====================================================================
+               INSTANT CONNECT DOCK & ACTIONS (Card Bottom Row)
+               ===================================================================== -->
+          <div class="connect-dock">
+            <!-- 1-Tap Save to Phone Contacts (vCard) -->
+            <button class="connect-chip chip-vcard" id="btnSaveContact" data-cursor="SAVE .VCF">
+              <div class="chip-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+              </div>
+              <div class="chip-content">
+                <span class="chip-label">Save Contact</span>
+                <span class="chip-sub">Add to Phone Address Book</span>
+              </div>
+              <span class="chip-badge-highlight">1-Tap</span>
             </button>
-            <button class="proof-chip chip-rust" data-open-project="hypha-relay" data-cursor="RUST &bull; MESH" title="Explore Hypha Delay-Tolerant Encrypted Mesh">
-              <span class="proof-dot dot-purple"></span>
-              <span class="proof-label">Rust Mesh Protocol</span>
-            </button>
-            <button class="proof-chip chip-fsrs" data-open-project="erudite-flashcards" data-cursor="LOCAL &bull; FSRS" title="Explore Erudite Local-First FSRS Platform">
-              <span class="proof-dot dot-emerald"></span>
-              <span class="proof-label">Local-First &amp; FSRS</span>
-            </button>
-          </div>
 
-          <!-- Sparkle Quote Pill from Business Card -->
-          <div class="quote-pill" data-cursor="PHILOSOPHY">
-            <div class="quote-sparkle-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path>
-              </svg>
+            <!-- Grid of Instant Quick Actions -->
+            <div class="quick-contact-grid">
+              <!-- WhatsApp Direct -->
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20scanned%20your%20business%20card%20and%20would%20like%20to%20discuss%20a%20project!" target="_blank" rel="noopener noreferrer" class="contact-pill pill-whatsapp" data-cursor="WHATSAPP">
+                <div class="pill-icon icon-wa">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 01-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.71 4.3 3.8 2.52 1.09 2.52.73 2.98.69.45-.04 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"/>
+                  </svg>
+                </div>
+                <div class="pill-info">
+                  <span class="pill-name">WhatsApp</span>
+                  <span class="pill-val">+91 70243 20441</span>
+                </div>
+              </a>
+
+              <!-- Direct Call -->
+              <a href="tel:+917024320441" class="contact-pill pill-call" data-cursor="CALL">
+                <div class="pill-icon icon-phone">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </div>
+                <div class="pill-info">
+                  <span class="pill-name">Phone Call</span>
+                  <span class="pill-val">+91 70243 20441</span>
+                </div>
+              </a>
+
+              <!-- Direct Email -->
+              <a href="mailto:EruditeSpartan@gmail.com?subject=Project%20Inquiry%20from%20Business%20Card" class="contact-pill pill-email" data-cursor="EMAIL">
+                <div class="pill-icon icon-mail">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <div class="pill-info">
+                  <span class="pill-name">Email</span>
+                  <span class="pill-val">EruditeSpartan@gmail.com</span>
+                </div>
+              </a>
+
+              <!-- Copy Info Button -->
+              <button class="contact-pill pill-copy" id="btnCopyDetails" data-cursor="COPY ALL">
+                <div class="pill-icon icon-copy">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </div>
+                <div class="pill-info">
+                  <span class="pill-name">Copy Details</span>
+                  <span class="pill-val" id="copyLabelText">Copy to Clipboard</span>
+                </div>
+              </button>
             </div>
-            <span class="quote-text">If you can imagine it, we can design it, build it and automate it.</span>
           </div>
+
+          <!-- Footer Signature -->
+          <footer class="card-footer">
+            <span class="footer-copy">Sambhav Jain &copy; 2026 &bull; Practical Digital Solutions &bull; <a href="privacy.html" class="footer-privacy-link" data-cursor="LEGAL">Privacy Policy</a></span>
+          </footer>
         </div>
 
-
         <!-- =====================================================================
-             PRIMARY INTERACTIVE ACTION MATRIX
+             BACK FACE: DENSE CYBERNETIC ENGINEERING CONSOLE (SYS_CORE)
              ===================================================================== -->
-        <div class="actions-matrix">
-
-          <!-- 1. Capabilities Button -->
-          <button class="action-card btn-capabilities" id="btnOpenCapabilities" data-cursor="EXPLORE">
-            <div class="action-card-glow"></div>
-            <div class="action-icon-wrap icon-cyan">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-              </svg>
-            </div>
-            <div class="action-info">
-              <div class="action-title-row">
-                <span class="action-title">What We Can Do</span>
-                <span class="action-badge">10 Services</span>
+        <div class="card-face card-face-back" id="cardFaceBack" aria-label="Engineering Console">
+          
+          <!-- Engineering Console Terminal Header -->
+          <div class="eng-header">
+            <div class="eng-header-top">
+              <div class="eng-kernel-meta">
+                <span class="eng-sys-tag">SYS_CORE // SAMBHAV_JAIN</span>
+                <h2 class="eng-console-title">ENGINEERING CONSOLE v2026.08</h2>
               </div>
-              <span class="action-desc">Web, Mobile, AI, Automation &amp; IoT solutions</span>
+              <div class="eng-header-badges">
+                <span class="eng-online-badge"><span class="eng-dot-green"></span>ONLINE</span>
+                <span class="eng-security-badge">NOISE_XX</span>
+              </div>
             </div>
-            <div class="action-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </div>
-          </button>
 
-          <!-- 2. Apps & Portfolio Showcase Button -->
-          <button class="action-card btn-apps" id="btnOpenApps" data-cursor="PORTFOLIO">
-            <div class="action-card-glow"></div>
-            <div class="action-icon-wrap icon-violet">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Live Streaming Kernel Log Ticker -->
+            <div class="eng-kernel-ticker" id="engKernelTicker">
+              <span class="ticker-prompt">&gt;</span>
+              <span class="ticker-text" id="engTickerText">[0.001s] CORE: Deterministic AST &amp; Delay-Tolerant Mesh Engine Armed.</span>
+            </div>
+
+            <div class="eng-status-row">
+              <span class="eng-tele-mini" id="engMiniTele">59.8 FPS &bull; 842 NODES &bull; 7.4ms FRAME</span>
+              <span class="eng-meta-tag">0 RUNTIME JS DEPS &bull; AUDIO: <span id="engAudioStatus">ARMED</span></span>
+            </div>
+          </div>
+
+          <!-- Live Real-Time Oscilloscope Waveform Canvas -->
+          <div class="eng-oscilloscope-box">
+            <div class="osc-header">
+              <span class="osc-title">REAL-TIME SIGNAL OSCILLATOR</span>
+              <span class="osc-meta" id="oscSampleRate">44.1 kHz // 120 FPS BUS</span>
+            </div>
+            <canvas id="engOscilloscope" class="eng-osc-canvas" width="480" height="28"></canvas>
+          </div>
+
+          <!-- Live Dynamic Telemetry Grid & Micro-Benchmark -->
+          <div class="eng-section">
+            <div class="eng-section-header-row">
+              <span class="eng-section-label">RUNTIME TELEMETRY</span>
+              <button type="button" class="btn-micro-benchmark" id="btnRunBenchmark" data-cursor="BENCHMARK">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>RUN BENCHMARK</span>
+              </button>
+            </div>
+            
+            <div class="eng-tele-grid">
+              <div class="tele-item"><span class="tele-k">FPS</span><span class="tele-v" id="teleFps">59.8</span></div>
+              <div class="tele-item"><span class="tele-k">FRAME TIME</span><span class="tele-v" id="teleFrameTime">7.4 ms</span></div>
+              <div class="tele-item"><span class="tele-k">DOM NODES</span><span class="tele-v" id="teleDomNodes">842</span></div>
+              <div class="tele-item"><span class="tele-k">JS HEAP</span><span class="tele-v" id="teleJsHeap">18.6 MB</span></div>
+              <div class="tele-item"><span class="tele-k">VIEWPORT</span><span class="tele-v" id="teleViewport">1920×1080</span></div>
+              <div class="tele-item"><span class="tele-k">DEVICE PIXEL RATIO</span><span class="tele-v" id="teleDpr">1.0</span></div>
+              <div class="tele-item"><span class="tele-k">CPU THREADS</span><span class="tele-v" id="teleThreads">8</span></div>
+              <div class="tele-item"><span class="tele-k">NETWORK RESOURCES</span><span class="tele-v" id="teleResources">34</span></div>
+              <div class="tele-item"><span class="tele-k">UPTIME</span><span class="tele-v" id="teleUptime">00:00</span></div>
+            </div>
+
+            <!-- Live Benchmark Diagnostic Result Bar (Hidden until clicked) -->
+            <div class="benchmark-result-bar" id="benchmarkResultBar" style="display: none;">
+              <div class="bench-res-left">
+                <span class="bench-badge-grade">A+</span>
+                <span class="bench-text" id="benchmarkResultText">0.42ms Reflow &bull; Zero Bottlenecks &bull; 100% Native V8 Efficiency</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tradeoffs & Postmortems Matrix (Expandable Engineering Invariants) -->
+          <div class="eng-section">
+            <div class="eng-section-label">ENGINEERING DECISIONS &amp; PROOFS</div>
+            <div class="eng-decisions-list">
+              
+              <!-- 01 HYPHA -->
+              <div class="decision-card" data-decision="hypha">
+                <div class="decision-header">
+                  <div class="decision-title-group">
+                    <span class="decision-num">01</span>
+                    <div class="decision-meta">
+                      <div class="decision-proj-row">
+                        <span class="decision-proj">HYPHA</span>
+                        <div class="decision-chips">
+                          <span class="d-chip chip-cyan">+340% Throughput</span>
+                          <span class="d-chip chip-green">0B Net</span>
+                        </div>
+                      </div>
+                      <span class="decision-sub">BLE-only transport &rarr; Hybrid BLE + Wi-Fi Direct</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-inspect-decision" data-cursor="INSPECT">
+                    <span>[ INSPECT ]</span>
+                  </button>
+                </div>
+                <div class="decision-drawer">
+                  <div class="postmortem-box">
+                    <div class="pm-block">
+                      <span class="pm-label">INITIAL APPROACH</span>
+                      <p class="pm-text">BLE discovery + BLE payload transfer.</p>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">FAILURE MODE</span>
+                      <p class="pm-text">Acceptable for handshakes and tiny messages. Severe 20KB/s bottleneck for media, voice bundles, and larger packets.</p>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">DESIGN CHANGE</span>
+                      <div class="pm-tree">
+                        <code>BLE<br>&boxur;&boxh;&boxh; discovery (advertisement packets)<br>&boxur;&boxh;&boxh; proximity presence<br>&boxur;&boxh;&boxh; Noise XX cryptographic handshake<br><br>Wi-Fi Direct<br>&boxur;&boxh;&boxh; opportunistic group owner peer negotiation<br>&boxur;&boxh;&boxh; high-throughput bulk bundle transmission (12+ MB/s)</code>
+                      </div>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">RESULT</span>
+                      <p class="pm-text highlight-res">Hybrid asynchronous DTN transport architecture with 0 bytes internet usage.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 02 LUMIUM -->
+              <div class="decision-card" data-decision="lumium">
+                <div class="decision-header">
+                  <div class="decision-title-group">
+                    <span class="decision-num">02</span>
+                    <div class="decision-meta">
+                      <div class="decision-proj-row">
+                        <span class="decision-proj">LUMIUM</span>
+                        <div class="decision-chips">
+                          <span class="d-chip chip-purple">0 Race Conditions</span>
+                          <span class="d-chip chip-amber">15s Lease TTL</span>
+                        </div>
+                      </div>
+                      <span class="decision-sub">Last-write-wins synchronization &rarr; Transactional ActiveTimerLease</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-inspect-decision" data-cursor="INSPECT">
+                    <span>[ INSPECT ]</span>
+                  </button>
+                </div>
+                <div class="decision-drawer">
+                  <div class="postmortem-box">
+                    <div class="pm-block">
+                      <span class="pm-label">INITIAL APPROACH</span>
+                      <p class="pm-text">Client-side timestamp comparison (Last-Write-Wins).</p>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">FAILURE MODE</span>
+                      <p class="pm-text">Clock skew across phone, web, and kiosk clients caused duplicate concurrent focus sessions and ghost sessions.</p>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">DESIGN CHANGE</span>
+                      <div class="pm-tree">
+                        <code>ActiveTimerLease<br>&boxur;&boxh;&boxh; Firestore atomic transaction lease lock<br>&boxur;&boxh;&boxh; 15-second heartbeat renewal pulse<br>&boxur;&boxh;&boxh; Automatic graceful reclaim on client disconnect</code>
+                      </div>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">RESULT</span>
+                      <p class="pm-text highlight-res">Guaranteed single-owner focus lock across all distributed platforms without race conditions.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 03 UNRAVEL -->
+              <div class="decision-card" data-decision="unravel">
+                <div class="decision-header">
+                  <div class="decision-title-group">
+                    <span class="decision-num">03</span>
+                    <div class="decision-meta">
+                      <div class="decision-proj-row">
+                        <span class="decision-proj">UNRAVEL</span>
+                        <div class="decision-chips">
+                          <span class="d-chip chip-cyan">0% Hallucination</span>
+                          <span class="d-chip chip-green">Tree-sitter AST</span>
+                        </div>
+                      </div>
+                      <span class="decision-sub">Raw-context code inspection &rarr; Deterministic AST evidence</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-inspect-decision" data-cursor="INSPECT">
+                    <span>[ INSPECT ]</span>
+                  </button>
+                </div>
+                <div class="decision-drawer">
+                  <div class="postmortem-box">
+                    <div class="pm-block">
+                      <span class="pm-label">INITIAL APPROACH</span>
+                      <p class="pm-text">Feeding raw repository files directly into LLM prompts.</p>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">FAILURE MODE</span>
+                      <p class="pm-text">LLM hallucinated phantom function signatures and missed cross-file call dependencies in large multi-crate repos.</p>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">DESIGN CHANGE</span>
+                      <div class="pm-tree">
+                        <code>Source Code &rarr; Tree-sitter Parser &rarr; Symbol Table &rarr; MCP Tool Server &rarr; LLM Verification Layer</code>
+                      </div>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">RESULT</span>
+                      <p class="pm-text highlight-res">The AI never becomes source-of-truth; AST structural evidence does.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 04 ERUDITE -->
+              <div class="decision-card" data-decision="erudite">
+                <div class="decision-header">
+                  <div class="decision-title-group">
+                    <span class="decision-num">04</span>
+                    <div class="decision-meta">
+                      <div class="decision-proj-row">
+                        <span class="decision-proj">ERUDITE</span>
+                        <div class="decision-chips">
+                          <span class="d-chip chip-green">0% Style Bleed</span>
+                          <span class="d-chip chip-purple">FSRS-4.5 Active</span>
+                        </div>
+                      </div>
+                      <span class="decision-sub">Global card DOM rendering &rarr; Isolated Shadow DOM sandbox</span>
+                    </div>
+                  </div>
+                  <button type="button" class="btn-inspect-decision" data-cursor="INSPECT">
+                    <span>[ INSPECT ]</span>
+                  </button>
+                </div>
+                <div class="decision-drawer">
+                  <div class="postmortem-box">
+                    <div class="pm-block">
+                      <span class="pm-label">INITIAL APPROACH</span>
+                      <p class="pm-text">Direct HTML injection of user-created flashcard templates.</p>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">FAILURE MODE</span>
+                      <p class="pm-text">Custom user CSS styles leaked out and broke application navigation, buttons, and responsive grid layout.</p>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">DESIGN CHANGE</span>
+                      <div class="pm-tree">
+                        <code>Shadow DOM Isolation Sandbox + DOMPurify Strict Sanitization Pipeline</code>
+                      </div>
+                    </div>
+                    <div class="pm-block">
+                      <span class="pm-label">RESULT</span>
+                      <p class="pm-text highlight-res">Total style encapsulation for custom LaTeX, formulas, and rich-text cards.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Bottom Action Dock -->
+          <div class="eng-action-dock">
+            <button type="button" class="eng-dock-btn" id="btnEngTerminal" data-cursor="TERMINAL">
+              <svg class="eng-dock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="4 17 10 11 4 5"></polyline>
+                <line x1="12" y1="19" x2="20" y2="19"></line>
+              </svg>
+              <span>&gt;_ TERMINAL</span>
+            </button>
+            <button type="button" class="eng-dock-btn" id="btnEngLabs" data-cursor="LABS">
+              <svg class="eng-dock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
                 <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
                 <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
                 <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
               </svg>
-            </div>
-            <div class="action-info">
-              <div class="action-title-row">
-                <span class="action-title">Apps &amp; Creations</span>
-                <span class="action-badge badge-featured">8 Projects</span>
-              </div>
-              <span class="action-desc">Explore Unravel, Erudite, Hypha, Lumium &amp; more</span>
-            </div>
-            <div class="action-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="9 18 15 12 9 6"></polyline>
+              <span>&#x25C8; LABS</span>
+            </button>
+            <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="eng-dock-btn" data-cursor="SOURCE">
+              <svg class="eng-dock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
               </svg>
-            </div>
-          </button>
-
-          <!-- 3. GitHub Repository Button -->
-          <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="action-card btn-github" data-cursor="GITHUB">
-            <div class="action-card-glow"></div>
-            <div class="action-icon-wrap icon-slate">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
-              </svg>
-            </div>
-            <div class="action-info">
-              <div class="action-title-row">
-                <span class="action-title">GitHub Repositories</span>
-                <span class="action-badge badge-slate">@EruditeCoder108</span>
-              </div>
-              <span class="action-desc">Open source code, tools &amp; algorithms</span>
-            </div>
-            <div class="action-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-            </div>
-          </a>
-
-        </div>
-
-        <!-- =====================================================================
-             INSTANT CONNECT DOCK & ACTIONS (Card Bottom Row)
-             ===================================================================== -->
-        <div class="connect-dock">
-          <!-- 1-Tap Save to Phone Contacts (vCard) -->
-          <button class="connect-chip chip-vcard" id="btnSaveContact" data-cursor="SAVE .VCF">
-            <div class="chip-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                <polyline points="7 3 7 8 15 8"></polyline>
-              </svg>
-            </div>
-            <div class="chip-content">
-              <span class="chip-label">Save Contact</span>
-              <span class="chip-sub">Add to Phone Address Book</span>
-            </div>
-            <span class="chip-badge-highlight">1-Tap</span>
-          </button>
-
-          <!-- Grid of Instant Quick Actions -->
-          <div class="quick-contact-grid">
-            <!-- WhatsApp Direct -->
-            <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20scanned%20your%20business%20card%20and%20would%20like%20to%20discuss%20a%20project!" target="_blank" rel="noopener noreferrer" class="contact-pill pill-whatsapp" data-cursor="WHATSAPP">
-              <div class="pill-icon icon-wa">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 01-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.71 4.3 3.8 2.52 1.09 2.52.73 2.98.69.45-.04 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"/>
-                </svg>
-              </div>
-              <div class="pill-info">
-                <span class="pill-name">WhatsApp</span>
-                <span class="pill-val">+91 70243 20441</span>
-              </div>
+              <span>&#123;&#125; SOURCE</span>
             </a>
-
-            <!-- Direct Call -->
-            <a href="tel:+917024320441" class="contact-pill pill-call" data-cursor="CALL">
-              <div class="pill-icon icon-phone">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
-              </div>
-              <div class="pill-info">
-                <span class="pill-name">Phone Call</span>
-                <span class="pill-val">+91 70243 20441</span>
-              </div>
-            </a>
-
-            <!-- Direct Email -->
-            <a href="mailto:EruditeSpartan@gmail.com?subject=Project%20Inquiry%20from%20Business%20Card" class="contact-pill pill-email" data-cursor="EMAIL">
-              <div class="pill-icon icon-mail">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </div>
-              <div class="pill-info">
-                <span class="pill-name">Email</span>
-                <span class="pill-val">EruditeSpartan@gmail.com</span>
-              </div>
-            </a>
-
-            <!-- Copy Info Button -->
-            <button class="contact-pill pill-copy" id="btnCopyDetails" data-cursor="COPY ALL">
-              <div class="pill-icon icon-copy">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </div>
-              <div class="pill-info">
-                <span class="pill-name">Copy Details</span>
-                <span class="pill-val" id="copyLabelText">Copy to Clipboard</span>
-              </div>
+            <button type="button" class="eng-dock-btn btn-exit-core" id="btnExitCore" data-cursor="EXIT">
+              <svg class="eng-dock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 14 4 9 9 4"></polyline>
+                <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+              </svg>
+              <span>&#x21A9; EXIT CORE</span>
             </button>
           </div>
-        </div>
 
-        <!-- Footer Signature -->
-        <footer class="card-footer">
-          <span class="footer-copy">Sambhav Jain &copy; 2026 &bull; Practical Digital Solutions &bull; <a href="privacy.html" class="footer-privacy-link" data-cursor="LEGAL">Privacy Policy</a></span>
-        </footer>
+        </div>
 
 
       </div>
     </div>
   </main>
 
+
   <!-- =========================================================================
        MODAL 1: WHAT WE CAN DO (Capabilities & Solutions Drawer)
        ========================================================================= -->
-  <div class="modal-overlay" id="modalCapabilities" role="dialog" aria-modal="true" aria-labelledby="capModalTitle">
+  <div class="modal-overlay" id="modalCapabilities" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="capModalTitle">
+
     <div class="modal-backdrop" data-close-modal></div>
     <div class="modal-container">
       <div class="modal-scroll-area custom-scrollbar">
@@ -652,7 +979,8 @@
   <!-- =========================================================================
        MODAL 2: APPS & PORTFOLIO SHOWCASE (Intelligent Dual-State Expandable UI)
        ========================================================================= -->
-  <div class="modal-overlay" id="modalApps" role="dialog" aria-modal="true" aria-labelledby="appsModalTitle">
+  <div class="modal-overlay" id="modalApps" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="appsModalTitle">
+
     <div class="modal-backdrop" data-close-modal></div>
     <div class="modal-container modal-container-lg">
       <div class="modal-scroll-area custom-scrollbar" id="appsScrollArea">
@@ -920,8 +1248,73 @@
                       </ul>
                     </div>
 
+                    <!-- Live Interactive Algorithm Simulator (Mini-Engine) -->
+                    <div class="interactive-simulator-card fsrs-simulator-card">
+                      <div class="sim-header">
+                        <div class="sim-title-group">
+                          <span class="sim-badge">Interactive Mini-Engine</span>
+                          <h5 class="sim-title">FSRS-4.5 Algorithm Simulator</h5>
+                        </div>
+                        <span class="sim-live-indicator"><span class="sim-pulse"></span>Live Math</span>
+                      </div>
+                      <p class="sim-desc">Test the Free Spaced Repetition Scheduler algorithm live. Choose card rating and observe calculated memory stability and next recall interval.</p>
+                      
+                      <div class="fsrs-controls-grid">
+                        <div class="fsrs-param-box">
+                          <div class="param-label-row">
+                            <span>Current Stability (S)</span>
+                            <span class="param-val" id="fsrsValStability">14.0 days</span>
+                          </div>
+                          <input type="range" class="fsrs-slider" id="fsrsSliderStability" min="1" max="60" value="14" step="1" aria-label="Stability in days">
+                        </div>
+
+                        <div class="fsrs-param-box">
+                          <div class="param-label-row">
+                            <span>Card Difficulty (D)</span>
+                            <span class="param-val" id="fsrsValDifficulty">6.2 / 10</span>
+                          </div>
+                          <input type="range" class="fsrs-slider" id="fsrsSliderDifficulty" min="1" max="10" value="6.2" step="0.1" aria-label="Difficulty score">
+                        </div>
+                      </div>
+
+                      <div class="fsrs-rating-row" role="group" aria-label="Flashcard Grade">
+                        <button type="button" class="fsrs-grade-btn grade-again" data-grade="1" data-cursor="GRADE">
+                          <span class="grade-label">Again (1)</span>
+                          <span class="grade-sub" id="fsrsPreviewAgain">10m</span>
+                        </button>
+                        <button type="button" class="fsrs-grade-btn grade-hard" data-grade="2" data-cursor="GRADE">
+                          <span class="grade-label">Hard (2)</span>
+                          <span class="grade-sub" id="fsrsPreviewHard">4d</span>
+                        </button>
+                        <button type="button" class="fsrs-grade-btn grade-good is-selected" data-grade="3" data-cursor="GRADE">
+                          <span class="grade-label">Good (3)</span>
+                          <span class="grade-sub" id="fsrsPreviewGood">31d</span>
+                        </button>
+                        <button type="button" class="fsrs-grade-btn grade-easy" data-grade="4" data-cursor="GRADE">
+                          <span class="grade-label">Easy (4)</span>
+                          <span class="grade-sub" id="fsrsPreviewEasy">58d</span>
+                        </button>
+                      </div>
+
+                      <div class="fsrs-result-card" id="fsrsResultOutput">
+                        <div class="result-metric">
+                          <span class="metric-name">Next Review Interval</span>
+                          <span class="metric-val" id="fsrsOutInterval">31 Days</span>
+                        </div>
+                        <div class="result-metric">
+                          <span class="metric-name">Calculated Stability (S')</span>
+                          <span class="metric-val" id="fsrsOutStability">34.8 Days</span>
+                        </div>
+                        <div class="result-metric">
+                          <span class="metric-name">Retention Target (R)</span>
+                          <span class="metric-val">90.0%</span>
+                        </div>
+                      </div>
+                    </div>
+
                     <!-- Tech Stack Pills -->
                     <div class="project-tech-stack">
+
                       <span class="tech-tag">JavaScript</span>
                       <span class="tech-tag">Electron</span>
                       <span class="tech-tag">Capacitor</span>
@@ -1024,8 +1417,89 @@
                       </ul>
                     </div>
 
+                    <!-- Live Interactive Algorithm Simulator (Mini-Engine) -->
+                    <div class="interactive-simulator-card hypha-simulator-card">
+                      <div class="sim-header">
+                        <div class="sim-title-group">
+                          <span class="sim-badge badge-purple">Interactive Protocol Sim</span>
+                          <h5 class="sim-title">Store-and-Forward Mesh Simulator</h5>
+                        </div>
+                        <span class="sim-live-indicator"><span class="sim-pulse pulse-purple"></span>0 Bytes Cellular</span>
+                      </div>
+                      <p class="sim-desc">Step through an asynchronous, delay-tolerant payload hop between physical nodes without cellular or internet infrastructure.</p>
+                      
+                      <!-- Visual Network Stage -->
+                      <div class="mesh-stage-box">
+                        <div class="mesh-node-col node-alice is-origin" id="nodeAlice">
+                          <div class="node-avatar-circle">
+                            <svg class="node-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                            </svg>
+                            <span class="node-status-dot online"></span>
+                          </div>
+                          <span class="node-name">Alice (Origin)</span>
+                          <span class="node-radio-badge">BLE + Wi-Fi</span>
+                        </div>
+
+                        <div class="mesh-path-connection" id="meshPath1">
+                          <div class="mesh-packet-dot" id="meshPacket1"></div>
+                          <span class="mesh-wire-label">Hop 1: BLE</span>
+                        </div>
+
+                        <div class="mesh-node-col node-bob is-carrier" id="nodeBob">
+                          <div class="node-avatar-circle">
+                            <svg class="node-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <circle cx="12" cy="12" r="3"></circle>
+                              <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path>
+                            </svg>
+                            <span class="node-status-dot moving"></span>
+                          </div>
+                          <span class="node-name">Bob (Courier)</span>
+                          <span class="node-radio-badge">Blind Carrier</span>
+                        </div>
+
+                        <div class="mesh-path-connection" id="meshPath2">
+                          <div class="mesh-packet-dot" id="meshPacket2"></div>
+                          <span class="mesh-wire-label">Hop 2: Wi-Fi Direct</span>
+                        </div>
+
+                        <div class="mesh-node-col node-charlie is-dest" id="nodeCharlie">
+                          <div class="node-avatar-circle">
+                            <svg class="node-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                            </svg>
+                            <span class="node-status-dot offline" id="charlieStatusDot"></span>
+                          </div>
+                          <span class="node-name">Charlie (Recipient)</span>
+                          <span class="node-radio-badge" id="charlieRadioBadge">Isolated Node</span>
+                        </div>
+                      </div>
+
+
+                      <!-- Interactive Sim Controls -->
+                      <div class="mesh-control-bar">
+                        <button type="button" class="mesh-step-btn" id="btnHyphaSimStep" data-cursor="HOP">
+                          <span id="hyphaStepBtnText">1. Encrypt &amp; Send to Bob (BLE)</span>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                        <button type="button" class="mesh-reset-btn" id="btnHyphaSimReset" title="Reset Simulation" data-cursor="RESET">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                        </button>
+                      </div>
+
+                      <div class="mesh-telemetry-box" id="hyphaTelemetryLog">
+                        <div class="log-row">
+                          <span class="log-time">00:00.00</span>
+                          <span class="log-msg">Protocol ready: Ed25519 identity key generated. Awaiting payload dispatch.</span>
+                        </div>
+                      </div>
+                    </div>
+
                     <!-- Tech Stack Pills -->
                     <div class="project-tech-stack">
+
                       <span class="tech-tag">Rust</span>
                       <span class="tech-tag">Flutter</span>
                       <span class="tech-tag">Dart</span>
@@ -1528,7 +2002,8 @@
   <!-- =========================================================================
        MODAL 4: SHARE / QR CODE MODAL
        ========================================================================= -->
-  <div class="modal-overlay" id="modalShare" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+  <div class="modal-overlay" id="modalShare" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="shareModalTitle">
+
     <div class="modal-backdrop" data-close-modal></div>
     <div class="modal-container modal-container-sm">
       <div class="modal-scroll-area custom-scrollbar">
@@ -1617,9 +2092,111 @@
   </div>
 
   <!-- =========================================================================
+       MODAL 04: COMMAND PALETTE TERMINAL (Ctrl + K / Cmd + K)
+       ========================================================================= -->
+  <div class="modal-overlay" id="modalCmd" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-container modal-container-cmd">
+      
+      <!-- Terminal Header Input -->
+      <div class="cmd-input-bar">
+        <svg class="cmd-prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+        <input type="text" class="cmd-search-input" id="cmdSearchInput" placeholder="Type a command (e.g. projects, trace hypha, skills, mode, benchmark)..." autocomplete="off" spellcheck="false">
+        <button class="cmd-close-btn" data-close-modal aria-label="Close command palette" data-cursor="CLOSE">
+          <kbd class="cmd-kbd-badge">ESC</kbd>
+        </button>
+      </div>
+
+      <!-- Quick Command Suggestions Area -->
+      <div class="cmd-results-area" id="cmdResultsArea">
+        <div class="cmd-group-label">Quick Commands</div>
+        
+        <button type="button" class="cmd-item" data-cmd="projects" data-cursor="RUN">
+          <div class="cmd-item-left">
+            <span class="cmd-tag">LIST</span>
+            <span class="cmd-text"><strong>projects</strong> — Browse all 8 engineering builds &amp; experiments</span>
+          </div>
+          <span class="cmd-shortcut">Enter</span>
+        </button>
+
+        <button type="button" class="cmd-item" data-cmd="trace unravel" data-cursor="RUN">
+          <div class="cmd-item-left">
+            <span class="cmd-tag tag-cyan">TRACE</span>
+            <span class="cmd-text"><strong>trace unravel</strong> — Inspect AST analysis &amp; MCP infrastructure</span>
+          </div>
+          <span class="cmd-shortcut">Unravel</span>
+        </button>
+
+        <button type="button" class="cmd-item" data-cmd="trace hypha" data-cursor="RUN">
+          <div class="cmd-item-left">
+            <span class="cmd-tag tag-purple">TRACE</span>
+            <span class="cmd-text"><strong>trace hypha</strong> — Delay-tolerant Rust mesh &amp; Noise protocol</span>
+          </div>
+          <span class="cmd-shortcut">Hypha</span>
+        </button>
+
+        <button type="button" class="cmd-item" data-cmd="trace erudite" data-cursor="RUN">
+          <div class="cmd-item-left">
+            <span class="cmd-tag tag-emerald">TRACE</span>
+            <span class="cmd-text"><strong>trace erudite</strong> — FSRS scheduling &amp; local-first SQLite</span>
+          </div>
+          <span class="cmd-shortcut">Erudite</span>
+        </button>
+
+        <button type="button" class="cmd-item" data-cmd="skills" data-cursor="RUN">
+          <div class="cmd-item-left">
+            <span class="cmd-tag">PROOF</span>
+            <span class="cmd-text"><strong>skills --proof</strong> — Verifiable production codebase evidence</span>
+          </div>
+          <span class="cmd-shortcut">Skills</span>
+        </button>
+
+        <button type="button" class="cmd-item" data-cmd="mode toggle" data-cursor="RUN">
+          <div class="cmd-item-left">
+            <span class="cmd-tag tag-amber">MODE</span>
+            <span class="cmd-text"><strong>mode</strong> — Switch between Client &amp; Engineer perspectives</span>
+          </div>
+          <span class="cmd-shortcut">Toggle</span>
+        </button>
+
+        <button type="button" class="cmd-item" data-cmd="benchmark" data-cursor="RUN">
+          <div class="cmd-item-left">
+            <span class="cmd-tag tag-rose">DIAG</span>
+            <span class="cmd-text"><strong>benchmark</strong> — Live DOM node count, memory &amp; render telemetry</span>
+          </div>
+          <span class="cmd-shortcut">Perf</span>
+        </button>
+
+        <button type="button" class="cmd-item" data-cmd="whoami" data-cursor="RUN">
+          <div class="cmd-item-left">
+            <span class="cmd-tag">INFO</span>
+            <span class="cmd-text"><strong>whoami</strong> — Sambhav Jain engineering bio &amp; contact</span>
+          </div>
+          <span class="cmd-shortcut">Bio</span>
+        </button>
+      </div>
+
+      <!-- Live Terminal Output Area (When command executed) -->
+      <div class="cmd-console-output" id="cmdConsoleOutput" style="display: none;"></div>
+
+      <!-- Footer Bar -->
+      <div class="cmd-footer-bar">
+        <span class="cmd-tip">Tip: Press <kbd>↑</kbd> <kbd>↓</kbd> to navigate, <kbd>Enter</kbd> to execute</span>
+        <span class="cmd-brand">Sambhav Jain Portfolio Engine</span>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
        INTERACTIVE TOAST NOTIFICATIONS
        ========================================================================= -->
   <div class="toast-hub" id="toastHub" aria-live="polite"></div>
+
 
   <!-- =========================================================================
        SCRIPTS
