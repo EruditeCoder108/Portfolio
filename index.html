@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sambhav Jain — Digital, AI &amp; Product Solutions</title>
+  <meta name="description" content="Sambhav Jain — Practical digital, AI and product solutions for modern businesses. Web apps, AI chatbots, automation, and IoT prototypes.">
+  <meta name="theme-color" content="#EBF3FE">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:title" content="Sambhav Jain — Digital, AI &amp; Product Solutions">
+  <meta property="og:description" content="If you can imagine it, we can design it, build it and automate it. Explore portfolio, capabilities, and get in touch.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit for ultra-clean tech aesthetic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="theme-glass">
+
+  <!-- =========================================================================
+       CUSTOM INTERACTIVE MAGNETIC CURSOR (Desktop only, auto-hides on touch)
+       ========================================================================= -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing">
+    <span class="cursor-label" id="cursorLabel"></span>
+  </div>
+
+  <!-- =========================================================================
+       AMBIENT CANVAS & BACKGROUND ILLUMINATION
+       ========================================================================= -->
+  <div class="ambient-background" aria-hidden="true">
+    <!-- Chromatic Floating Gradient Orbs -->
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+    <div class="ambient-orb orb-4"></div>
+    <div class="ambient-orb orb-5"></div>
+  </div>
+
+  <!-- =========================================================================
+       DESKTOP CORNER ILLUSTRATED CHARACTERS (From Business Card Artwork)
+       ========================================================================= -->
+  <div class="corner-characters-layer" aria-hidden="true">
+    <!-- Top Left: Boy coding with Web Dashboard -->
+    <div class="corner-char char-top-left" data-tilt-char>
+      <img src="assets/char-dev-boy-code.png" alt="Developer coding" class="char-img">
+    </div>
+
+    <!-- Top Right: Girl with Smart Assistant & Notifications -->
+    <div class="corner-char char-top-right" data-tilt-char>
+      <img src="assets/char-dev-girl-smart.png" alt="Smart workflows" class="char-img">
+    </div>
+
+    <!-- Bottom Left: Girl with WhatsApp & Workflows -->
+    <div class="corner-char char-bottom-left" data-tilt-char>
+      <img src="assets/char-dev-girl-whatsapp.png" alt="WhatsApp automation" class="char-img">
+    </div>
+
+    <!-- Bottom Right: Boy with Robotics & Terminal -->
+    <div class="corner-char char-bottom-right" data-tilt-char>
+      <img src="assets/char-dev-boy-robotics.png" alt="Robotics and hardware" class="char-img">
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       FLOATING 3D SATELLITES LAYER (Small, Delicate & Positioned in Open Sky)
+       ========================================================================= -->
+  <div class="satellites-layer" aria-hidden="true">
+    <!-- Left Flank: Raspberry Pi IoT Board -->
+    <div class="satellite-item sat-1" style="top: 24%; left: calc(50% - 350px);" data-depth="0.04">
+      <div class="satellite-bubble" data-cursor="RASPBERRY PI">
+        <img src="assets/elements/elem-raspberry-pi.png" alt="Raspberry Pi" class="satellite-img">
+      </div>
+    </div>
+
+    <!-- Left Flank: 3D AI Robot Assistant -->
+    <div class="satellite-item sat-2" style="top: 50%; left: calc(50% - 375px);" data-depth="0.03">
+      <div class="satellite-bubble" data-cursor="AI ROBOT">
+        <img src="assets/elements/elem-ai-robot.png" alt="AI Agent" class="satellite-img">
+      </div>
+    </div>
+
+    <!-- Left Flank: Automated Logic Workflow -->
+    <div class="satellite-item sat-3" style="top: 76%; left: calc(50% - 345px);" data-depth="0.05">
+      <div class="satellite-bubble" data-cursor="WORKFLOW">
+        <img src="assets/elements/elem-workflow-tree.png" alt="Automations" class="satellite-img">
+      </div>
+    </div>
+
+    <!-- Right Flank: Spatial VR Headset -->
+    <div class="satellite-item sat-4" style="top: 22%; right: calc(50% - 345px);" data-depth="0.04">
+      <div class="satellite-bubble" data-cursor="SPATIAL UI">
+        <img src="assets/elements/elem-vr-headset.png" alt="VR & Spatial Tech" class="satellite-img">
+      </div>
+    </div>
+
+    <!-- Right Flank: Glowing Innovation Bulb -->
+    <div class="satellite-item sat-5" style="top: 48%; right: calc(50% - 375px);" data-depth="0.03">
+      <div class="satellite-bubble" data-cursor="INNOVATION">
+        <img src="assets/elements/elem-3d-bulb-idea.png" alt="Product Ideas" class="satellite-img">
+      </div>
+    </div>
+
+    <!-- Right Flank: Cloud Database Disks -->
+    <div class="satellite-item sat-6" style="top: 74%; right: calc(50% - 350px);" data-depth="0.05">
+      <div class="satellite-bubble" data-cursor="APIs & CLOUD">
+        <img src="assets/elements/elem-database-disks.png" alt="Cloud Database" class="satellite-img">
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       TOP FLOATING HUD / QUICK UTILITY BAR (Luminous Frosted Glass)
+       ========================================================================= -->
+  <header class="floating-hud">
+    <div class="hud-pill" data-cursor="STATUS">
+      <div class="pulse-indicator">
+        <span class="pulse-ring"></span>
+        <span class="pulse-dot"></span>
+      </div>
+      <span class="hud-status">Available for projects</span>
+    </div>
+
+    <div class="hud-controls">
+      <!-- Audio FX Soundscape Toggle -->
+      <button class="hud-btn" id="audioToggleBtn" title="Toggle interactive UI sounds" aria-label="Toggle UI Audio" data-cursor="AUDIO">
+        <svg class="hud-icon sound-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg class="hud-icon sound-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+      </button>
+
+      <!-- Share / QR Button -->
+      <button class="hud-btn" id="shareBtn" title="Share profile" aria-label="Share profile" data-cursor="SHARE">
+        <svg class="hud-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN CARD CONTAINER (3D Interactive Tilt & Glassmorphic Hero)
+       ========================================================================= -->
+  <main class="page-stage">
+    <div class="card-tilt-wrapper" id="cardTiltWrapper">
+      <div class="glass-hero-card" id="heroCard">
+        <!-- Geometric Isometric 3D Pattern Layer -->
+        <div class="card-geometric-pattern" id="cardPattern" aria-hidden="true"></div>
+
+        <!-- Specular glare overlay that tracks cursor -->
+        <div class="card-glare" id="cardGlare"></div>
+
+        <!-- Hero Identity Header -->
+        <div class="hero-identity">
+          <!-- Profile Portrait Container (Using Sambhav's Sketch Portrait) -->
+          <div class="avatar-container" id="avatarMascot" data-cursor="SAMBHAV">
+            <div class="avatar-glow"></div>
+            <div class="avatar-ring">
+              <img src="assets/profile-portrait.png" alt="Sambhav Jain" class="avatar-img avatar-portrait">
+            </div>
+          </div>
+
+          <!-- Name & Core Title -->
+          <div class="hero-text-block">
+            <h1 class="hero-name">Sambhav Jain</h1>
+            <p class="hero-tagline">Practical digital, AI and product solutions for businesses</p>
+          </div>
+
+          <!-- Sparkle Quote Pill from Business Card -->
+          <div class="quote-pill" data-cursor="PHILOSOPHY">
+            <div class="quote-sparkle-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path>
+              </svg>
+            </div>
+            <span class="quote-text">If you can imagine it, we can design it, build it and automate it.</span>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             PRIMARY INTERACTIVE ACTION MATRIX
+             ===================================================================== -->
+        <div class="actions-matrix">
+
+          <!-- 1. Capabilities Button -->
+          <button class="action-card btn-capabilities" id="btnOpenCapabilities" data-cursor="EXPLORE">
+            <div class="action-card-glow"></div>
+            <div class="action-icon-wrap icon-cyan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <div class="action-info">
+              <div class="action-title-row">
+                <span class="action-title">What We Can Do</span>
+                <span class="action-badge">10 Services</span>
+              </div>
+              <span class="action-desc">Web, Mobile, AI, Automation &amp; IoT solutions</span>
+            </div>
+            <div class="action-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </button>
+
+          <!-- 2. Apps & Portfolio Showcase Button -->
+          <button class="action-card btn-apps" id="btnOpenApps" data-cursor="PORTFOLIO">
+            <div class="action-card-glow"></div>
+            <div class="action-icon-wrap icon-violet">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+              </svg>
+            </div>
+            <div class="action-info">
+              <div class="action-title-row">
+                <span class="action-title">Apps &amp; Creations</span>
+                <span class="action-badge badge-featured">8 Projects</span>
+              </div>
+              <span class="action-desc">Explore Unravel, Erudite, Hypha, Lumium &amp; more</span>
+            </div>
+            <div class="action-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </button>
+
+          <!-- 3. GitHub Repository Button -->
+          <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="action-card btn-github" data-cursor="GITHUB">
+            <div class="action-card-glow"></div>
+            <div class="action-icon-wrap icon-slate">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+              </svg>
+            </div>
+            <div class="action-info">
+              <div class="action-title-row">
+                <span class="action-title">GitHub Repositories</span>
+                <span class="action-badge">@EruditeCoder108</span>
+              </div>
+              <span class="action-desc">Open source code, tools &amp; algorithms</span>
+            </div>
+            <div class="action-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- =====================================================================
+             INSTANT CONNECT DOCK & ACTIONS (Card Bottom Row)
+             ===================================================================== -->
+        <div class="connect-dock">
+          <!-- 1-Tap Save to Phone Contacts (vCard) -->
+          <button class="connect-chip chip-vcard" id="btnSaveContact" data-cursor="SAVE .VCF">
+            <div class="chip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+            </div>
+            <div class="chip-content">
+              <span class="chip-label">Save Contact</span>
+              <span class="chip-sub">Add to Phone Address Book</span>
+            </div>
+            <span class="chip-badge-highlight">1-Tap</span>
+          </button>
+
+          <!-- Grid of Instant Quick Actions -->
+          <div class="quick-contact-grid">
+            <!-- WhatsApp Direct -->
+            <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20scanned%20your%20business%20card%20and%20would%20like%20to%20discuss%20a%20project!" target="_blank" rel="noopener noreferrer" class="contact-pill pill-whatsapp" data-cursor="WHATSAPP">
+              <div class="pill-icon icon-wa">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 01-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.71 4.3 3.8 2.52 1.09 2.52.73 2.98.69.45-.04 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"/>
+                </svg>
+              </div>
+              <div class="pill-info">
+                <span class="pill-name">WhatsApp</span>
+                <span class="pill-val">+91 70243 20441</span>
+              </div>
+            </a>
+
+            <!-- Direct Call -->
+            <a href="tel:+917024320441" class="contact-pill pill-call" data-cursor="CALL">
+              <div class="pill-icon icon-phone">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </div>
+              <div class="pill-info">
+                <span class="pill-name">Phone Call</span>
+                <span class="pill-val">+91 70243 20441</span>
+              </div>
+            </a>
+
+            <!-- Direct Email -->
+            <a href="mailto:EruditeSpartan@gmail.com?subject=Project%20Inquiry%20from%20Business%20Card" class="contact-pill pill-email" data-cursor="EMAIL">
+              <div class="pill-icon icon-mail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div class="pill-info">
+                <span class="pill-name">Email</span>
+                <span class="pill-val">EruditeSpartan@gmail.com</span>
+              </div>
+            </a>
+
+            <!-- Copy Info Button -->
+            <button class="contact-pill pill-copy" id="btnCopyDetails" data-cursor="COPY ALL">
+              <div class="pill-icon icon-copy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </div>
+              <div class="pill-info">
+                <span class="pill-name">Copy Details</span>
+                <span class="pill-val" id="copyLabelText">Copy to Clipboard</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Footer Signature -->
+        <footer class="card-footer">
+          <span class="footer-copy">Sambhav Jain &copy; 2026 &bull; Practical Digital Solutions</span>
+        </footer>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       MODAL 1: WHAT WE CAN DO (Capabilities & Solutions Drawer)
+       ========================================================================= -->
+  <div class="modal-overlay" id="modalCapabilities" role="dialog" aria-modal="true" aria-labelledby="capModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-container">
+      <div class="modal-scroll-area custom-scrollbar">
+
+        <!-- Unified Sticky Frosted Header -->
+        <div class="modal-sticky-top">
+          <div class="modal-header">
+            <div class="modal-header-left">
+              <div class="modal-icon-badge icon-cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+              </div>
+              <div>
+                <h2 class="modal-title" id="capModalTitle">What We Can Do For You</h2>
+                <p class="modal-subtitle">Practical digital, AI and product solutions for businesses</p>
+              </div>
+            </div>
+            <button class="modal-close-btn" data-close-modal aria-label="Close modal" data-cursor="CLOSE">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scrollable Capabilities Content (Slides up underneath frosted header) -->
+        <div class="modal-content-area">
+          <div class="capabilities-grid">
+
+            <!-- 1. Business Websites & Landing Pages -->
+            <div class="capability-card" data-service="Business Websites & Landing Pages">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-laptop-coding.png" alt="Websites" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">Business Websites, Stores &amp; Landing Pages</h3>
+                <p class="cap-desc">Ultra-fast, high-converting digital storefronts, marketing landing pages, and responsive web portals designed for flawless conversion.</p>
+                <div class="cap-tags">
+                  <span class="tag">Next.js</span>
+                  <span class="tag">Tailwind</span>
+                  <span class="tag">E-Commerce</span>
+                  <span class="tag">SEO &amp; Speed</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20Business%20Websites%20and%20Landing%20Pages." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 2. Mobile Apps & Portals -->
+            <div class="capability-card" data-service="Mobile Apps & Customer Portals">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-phone-charts.png" alt="Mobile Apps" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">Mobile Apps &amp; Customer Portals</h3>
+                <p class="cap-desc">Native-feel cross-platform iOS and Android mobile apps, client dashboards, and secure member authentication portals.</p>
+                <div class="cap-tags">
+                  <span class="tag">React Native / Flutter</span>
+                  <span class="tag">iOS &amp; Android</span>
+                  <span class="tag">Cloud Sync</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20Mobile%20Apps%20and%20Portals." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 3. Booking Systems & Custom Software -->
+            <div class="capability-card" data-service="Booking Systems & Custom Software">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-workflow-tree.png" alt="Custom Software" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">Booking Systems &amp; Custom Software</h3>
+                <p class="cap-desc">Automated appointment scheduling, table/seat reservations, calendar integrations, invoicing, and bespoke business ERP tools.</p>
+                <div class="cap-tags">
+                  <span class="tag">Real-time Booking</span>
+                  <span class="tag">Payments</span>
+                  <span class="tag">Custom CRM</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20Booking%20Systems%20and%20Custom%20Software." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 4. AI Tools, Chatbots & AI Integration -->
+            <div class="capability-card" data-service="AI Tools, Chatbots & AI Integration">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-ai-robot.png" alt="AI Agents" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">AI Tools, Chatbots &amp; AI Integration</h3>
+                <p class="cap-desc">Custom LLM agents, 24/7 intelligent customer service bots, document search (RAG), voice bots, and automated AI pipelines.</p>
+                <div class="cap-tags">
+                  <span class="tag">OpenAI / Gemini / Claude</span>
+                  <span class="tag">RAG / LangChain</span>
+                  <span class="tag">AI Agents</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20AI%20Tools%20and%20Chatbots." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 5. WhatsApp & Workflow Automation -->
+            <div class="capability-card" data-service="WhatsApp & Workflow Automation">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-3d-whatsapp-bubble.png" alt="WhatsApp Automation" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">WhatsApp &amp; Workflow Automation</h3>
+                <p class="cap-desc">Official WhatsApp Cloud API chatbots, automated order updates, CRM lead routing, Zapier/Make automations, and zero-touch pipelines.</p>
+                <div class="cap-tags">
+                  <span class="tag">WhatsApp API</span>
+                  <span class="tag">Automations</span>
+                  <span class="tag">Lead Funnels</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20WhatsApp%20and%20Workflow%20Automation." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 6. Dashboards, Backend Systems & APIs -->
+            <div class="capability-card" data-service="Dashboards, Backend Systems & APIs">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-database-disks.png" alt="Databases and APIs" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">Dashboards, Backend Systems &amp; APIs</h3>
+                <p class="cap-desc">Scalable cloud backends, microservices, REST/GraphQL APIs, real-time analytics dashboards, and robust database architectures.</p>
+                <div class="cap-tags">
+                  <span class="tag">Node / Python / Go</span>
+                  <span class="tag">PostgreSQL / Redis</span>
+                  <span class="tag">REST / WebSockets</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20Dashboards%20and%20Backend%20Systems." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 7. Branding, Logos & Graphic Design -->
+            <div class="capability-card" data-service="Branding, Logos & Graphic Design">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-3d-bulb-idea.png" alt="Branding" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">Branding, Logos &amp; Graphic Design</h3>
+                <p class="cap-desc">Distinctive visual identities, vector logos, cohesive design systems, typography guidelines, and brand asset packages.</p>
+                <div class="cap-tags">
+                  <span class="tag">Brand Identity</span>
+                  <span class="tag">Design Systems</span>
+                  <span class="tag">Figma</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20Branding%20and%20Graphic%20Design." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 8. Social Media Creatives & Launch Assets -->
+            <div class="capability-card" data-service="Social Media Creatives & Launch Assets">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-vr-headset.png" alt="Creative Launch" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">Social Media Creatives &amp; Launch Assets</h3>
+                <p class="cap-desc">High-impact motion teasers, 3D product visuals, launch banners, pitch decks, and viral-ready campaign graphics.</p>
+                <div class="cap-tags">
+                  <span class="tag">Motion Graphics</span>
+                  <span class="tag">Pitch Decks</span>
+                  <span class="tag">Launch Packs</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20Social%20Media%20Creatives%20and%20Launch%20Assets." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 9. IoT Solutions, Smart Devices & Prototypes -->
+            <div class="capability-card" data-service="IoT Solutions, Smart Devices & Prototypes">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-raspberry-pi.png" alt="Raspberry Pi & IoT" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">IoT Solutions, Smart Devices &amp; Prototypes</h3>
+                <p class="cap-desc">Smart connected hardware, Raspberry Pi / ESP32 / Arduino firmware, telemetry sensors, robotics, and smart home automation.</p>
+                <div class="cap-tags">
+                  <span class="tag">Raspberry Pi</span>
+                  <span class="tag">ESP32 / Arduino</span>
+                  <span class="tag">MQTT / BLE</span>
+                  <span class="tag">Hardware Prototyping</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20IoT%20Solutions%20and%20Prototypes." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+            <!-- 10. End-to-End Product Development -->
+            <div class="capability-card" data-service="End-to-End Product Development">
+              <div class="cap-icon-box">
+                <img src="assets/elements/elem-robot-arm.png" alt="Product Development" class="cap-3d-thumb">
+              </div>
+              <div class="cap-details">
+                <h3 class="cap-name">End-to-End Product Development</h3>
+                <p class="cap-desc">Full lifecycle execution from raw idea to market launch: architecture, UI/UX, coding, cloud infrastructure, testing, and scaling.</p>
+                <div class="cap-tags">
+                  <span class="tag">Zero to 1</span>
+                  <span class="tag">MVP Sprint</span>
+                  <span class="tag">Full-Stack Tech</span>
+                </div>
+              </div>
+              <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20am%20interested%20in%20End-to-End%20Product%20Development." target="_blank" rel="noopener noreferrer" class="cap-inquire-btn" data-cursor="INQUIRE">
+                <span>Inquire</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Sticky Frosted Modal Footer -->
+        <div class="modal-footer">
+          <div class="modal-footer-note">
+            <svg class="footer-note-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>Have a custom requirement? Let's discuss directly.</span>
+          </div>
+          <a href="https://wa.me/917024320441" target="_blank" rel="noopener noreferrer" class="modal-action-btn" data-cursor="CHAT">
+            <span>Start a Project Discussion</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: APPS & PORTFOLIO SHOWCASE (Intelligent Dual-State Expandable UI)
+       ========================================================================= -->
+  <div class="modal-overlay" id="modalApps" role="dialog" aria-modal="true" aria-labelledby="appsModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-container modal-container-lg">
+      <div class="modal-scroll-area custom-scrollbar" id="appsScrollArea">
+
+        <!-- Unified Sticky Frosted Header with Filter Tabs -->
+        <div class="modal-sticky-top">
+          <div class="modal-header">
+            <div class="modal-header-left">
+              <div class="modal-icon-badge icon-violet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                </svg>
+              </div>
+              <div>
+                <h2 class="modal-title" id="appsModalTitle">Apps &amp; Creations</h2>
+                <p class="modal-subtitle">Production engineering, AI infrastructure, and distributed systems</p>
+              </div>
+            </div>
+            <button class="modal-close-btn" data-close-modal aria-label="Close modal" data-cursor="CLOSE">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Seamlessly Integrated Filter Bar -->
+          <div class="filter-tabs-bar">
+            <button class="filter-tab is-active" data-filter="all" data-cursor="ALL">
+              <span>All Projects</span>
+              <span class="tab-count">8</span>
+            </button>
+            <button class="filter-tab" data-filter="ai" data-cursor="AI">
+              <svg class="tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.25 5.09 7.42L9 20h6l-.09-2.58C17.9 16.25 20 13.37 20 10a8 8 0 0 0-8-8z"></path></svg>
+              <span>AI &amp; Infra</span>
+            </button>
+            <button class="filter-tab" data-filter="mobile" data-cursor="APPS">
+              <svg class="tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+              <span>Mobile &amp; Web</span>
+            </button>
+            <button class="filter-tab" data-filter="iot" data-cursor="SYSTEMS">
+              <svg class="tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><circle cx="12" cy="12" r="3"></circle></svg>
+              <span>Networking &amp; IoT</span>
+            </button>
+            <button class="filter-tab" data-filter="tools" data-cursor="TOOLS">
+              <svg class="tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              <span>Dev Tools</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scrollable Project Content -->
+        <div class="modal-content-area">
+
+          <!-- Global Expand / Collapse All Quick Action Bar -->
+          <div class="portfolio-meta-bar">
+            <div class="meta-status-text">
+              <span class="live-dot"></span>
+              <span id="activeFilterLabel">Showing 8 Featured &amp; Experimental Projects</span>
+            </div>
+            <button class="btn-toggle-all" id="btnToggleAllProjects" data-cursor="TOGGLE ALL">
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
+              <span id="toggleAllLabel">Expand All</span>
+            </button>
+          </div>
+
+          <!-- SECTION 1: FEATURED PROJECTS (01 – 06) -->
+          <div class="projects-section-group">
+            <div class="section-badge-header">
+              <span class="group-title">Featured Projects</span>
+              <span class="group-line"></span>
+            </div>
+
+            <div class="projects-list-container" id="featuredProjectsList">
+
+              <!-- =================================================================
+                   PROJECT 01: UNRAVEL
+                   ================================================================= -->
+              <article class="project-showcase-card" data-category="ai tools" data-project-id="unravel">
+                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
+                  <div class="project-header-left">
+                    <div class="project-num-badge">01</div>
+                    <div class="project-thumb-box icon-ai">
+                      <img src="assets/projects/project-unravel.png" alt="Unravel AST Engine" class="project-3d-img">
+                    </div>
+                    <div class="project-title-group">
+                      <div class="project-title-row">
+                        <h3 class="project-title">Unravel</h3>
+                        <span class="project-tag-pill pill-ai">AI Infrastructure</span>
+                        <span class="project-tag-pill pill-featured">MCP Server</span>
+                      </div>
+                      <p class="project-subtitle">Deterministic Debugging Infrastructure for AI Coding Agents</p>
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <div class="project-expand-btn">
+                      <span class="expand-label">Deep Dive</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="project-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>Giving AI coding agents structural evidence instead of asking them to guess.</span>
+                </div>
+
+                <!-- Smooth Animated Drawer -->
+                <div class="project-drawer">
+                  <div class="project-drawer-inner">
+                    <!-- Architectural Flow Pipeline -->
+                    <div class="arch-pipeline-box">
+                      <div class="pipeline-label">3-Stage Verification Pipeline</div>
+                      <div class="pipeline-steps">
+                        <span class="step-pill step-blue">Deterministic Evidence</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-purple">AI Reasoning</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-emerald">Deterministic Verification</span>
+                      </div>
+                    </div>
+
+                    <!-- Problem & Architecture -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        The Problem &amp; Architecture
+                      </h4>
+                      <p class="section-text">AI coding agents are good at reasoning, but they hallucinate facts about codebases. Instead of asking an LLM to blindly inspect raw files, Unravel builds deterministic structural evidence using Tree-sitter AST analysis before the AI reasons, and independently verifies whether the AI's final claims actually exist in the source code.</p>
+                    </div>
+
+                    <!-- What I Built -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        What I Built
+                      </h4>
+                      <ul class="built-features-grid">
+                        <li>Tree-sitter AST analysis for JS, TypeScript, JSX &amp; TSX</li>
+                        <li>Cross-file function and call-graph analysis</li>
+                        <li>Variable mutation-chain &amp; closure capture tracing</li>
+                        <li>Async-boundary detection &amp; structural code queries</li>
+                        <li>Codebase knowledge graph generation &amp; semantic routing</li>
+                        <li>Deterministic verification of AI-generated claims</li>
+                        <li>Detection of invalid line numbers, vars &amp; references</li>
+                        <li>MCP Server integration, Web UI &amp; VS Code integration</li>
+                      </ul>
+                    </div>
+
+                    <!-- Why Technically Interesting -->
+                    <div class="tech-highlight-callout">
+                      <div class="callout-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        Why It Is Technically Interesting
+                      </div>
+                      <p class="callout-desc">Most AI coding tools rely on <code>Code &rarr; LLM &rarr; Answer</code>. Unravel instead executes <code>Code &rarr; AST/Graph Engine &rarr; Verified Evidence &rarr; LLM &rarr; Verification Engine &rarr; Answer</code>. That separation allows the model to remain creative when reasoning while strictly preventing it from inventing basic facts about the repository.</p>
+                    </div>
+
+                    <!-- Tech Stack Pills -->
+                    <div class="project-tech-stack">
+                      <span class="tech-tag">TypeScript</span>
+                      <span class="tech-tag">Node.js</span>
+                      <span class="tech-tag">Tree-sitter</span>
+                      <span class="tech-tag">AST Analysis</span>
+                      <span class="tech-tag">Graph Algorithms</span>
+                      <span class="tech-tag">MCP</span>
+                      <span class="tech-tag">React</span>
+                      <span class="tech-tag">VS Code</span>
+                      <span class="tech-tag">Embeddings</span>
+                      <span class="tech-tag">Semantic Search</span>
+                    </div>
+
+                    <!-- Action Footer -->
+                    <div class="project-card-footer">
+                      <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-gh" data-cursor="CODE">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                        <span>GitHub</span>
+                      </a>
+                      <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20tell%20me%20more%20about%20Unravel%20(AST%20debugging%20infrastructure)." target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-inquire" data-cursor="DISCUSS">
+                        <span>Request Architecture Brief</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =================================================================
+                   PROJECT 02: ERUDITE FLASHCARDS
+                   ================================================================= -->
+              <article class="project-showcase-card" data-category="mobile web" data-project-id="erudite-flashcards">
+                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
+                  <div class="project-header-left">
+                    <div class="project-num-badge">02</div>
+                    <div class="project-thumb-box icon-mobile">
+                      <img src="assets/projects/project-erudite-flashcards.png" alt="Erudite Flashcards" class="project-3d-img">
+                    </div>
+                    <div class="project-title-group">
+                      <div class="project-title-row">
+                        <h3 class="project-title">Erudite Flashcards</h3>
+                        <span class="project-tag-pill pill-prod">Production Ready</span>
+                        <span class="project-tag-pill pill-fsrs">FSRS Algorithm</span>
+                      </div>
+                      <p class="project-subtitle">Production-Grade Local-First Spaced Repetition Platform</p>
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <div class="project-expand-btn">
+                      <span class="expand-label">Deep Dive</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="project-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>A modern, production-oriented spaced repetition system built for serious students.</span>
+                </div>
+
+                <!-- Smooth Animated Drawer -->
+                <div class="project-drawer">
+                  <div class="project-drawer-inner">
+                    <!-- Note to Card Pipeline -->
+                    <div class="arch-pipeline-box">
+                      <div class="pipeline-label">Knowledge Engine Architecture</div>
+                      <div class="pipeline-steps">
+                        <span class="step-pill step-blue">Source Note</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-purple">Multi-Card Generation</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-emerald">FSRS Stability Scheduling</span>
+                      </div>
+                    </div>
+
+                    <!-- Vision & Card Architecture -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        Product Vision &amp; Card System
+                      </h4>
+                      <p class="section-text">Combines the raw power of Anki with a modern, elegant user experience. Supports Basic, Reversed, Cloze Deletion, Image Occlusion, Formula cards, and secure custom HTML/CSS cards isolated inside Shadow DOM with multi-stage sanitization.</p>
+                    </div>
+
+                    <!-- What I Built -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        What I Built
+                      </h4>
+                      <ul class="built-features-grid">
+                        <li>FSRS algorithm scheduling with stability &amp; difficulty modeling</li>
+                        <li>Shadow DOM card sandbox with CSS/HTML sanitization</li>
+                        <li>SQLite relational-document hybrid DB with tombstones</li>
+                        <li>Electron desktop + Capacitor Android cross-platform code</li>
+                        <li>Deep study analytics (activity heatmaps, retention forecasts)</li>
+                        <li>Leech detection &amp; workload scheduling estimates</li>
+                        <li>Pre-made educational deck ecosystem &amp; library support</li>
+                        <li>WASM SQL fallback for browser development</li>
+                      </ul>
+                    </div>
+
+                    <!-- Tech Stack Pills -->
+                    <div class="project-tech-stack">
+                      <span class="tech-tag">JavaScript</span>
+                      <span class="tech-tag">Electron</span>
+                      <span class="tech-tag">Capacitor</span>
+                      <span class="tech-tag">Android</span>
+                      <span class="tech-tag">SQLite</span>
+                      <span class="tech-tag">FSRS</span>
+                      <span class="tech-tag">Shadow DOM</span>
+                      <span class="tech-tag">HTML Sanitization</span>
+                      <span class="tech-tag">Offline-First</span>
+                    </div>
+
+                    <!-- Action Footer -->
+                    <div class="project-card-footer">
+                      <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-gh" data-cursor="CODE">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                        <span>GitHub</span>
+                      </a>
+                      <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20tell%20me%20about%20Erudite%20Flashcards." target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-inquire" data-cursor="DISCUSS">
+                        <span>Request Demo / Build</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =================================================================
+                   PROJECT 03: HYPHA (PROJECT RELAY)
+                   ================================================================= -->
+              <article class="project-showcase-card" data-category="iot mobile" data-project-id="hypha-relay">
+                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
+                  <div class="project-header-left">
+                    <div class="project-num-badge">03</div>
+                    <div class="project-thumb-box icon-iot">
+                      <img src="assets/projects/project-hypha.png" alt="Hypha Relay" class="project-3d-img">
+                    </div>
+                    <div class="project-title-group">
+                      <div class="project-title-row">
+                        <h3 class="project-title">Hypha &bull; Project Relay</h3>
+                        <span class="project-tag-pill pill-rust">Rust Core</span>
+                        <span class="project-tag-pill pill-mesh">Delay-Tolerant Mesh</span>
+                      </div>
+                      <p class="project-subtitle">Offline Encrypted Delay-Tolerant Mesh Communication</p>
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <div class="project-expand-btn">
+                      <span class="expand-label">Deep Dive</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="project-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>Messaging designed to survive when the internet does not.</span>
+                </div>
+
+                <!-- Smooth Animated Drawer -->
+                <div class="project-drawer">
+                  <div class="project-drawer-inner">
+                    <!-- Store and Forward Pipeline -->
+                    <div class="arch-pipeline-box">
+                      <div class="pipeline-label">Delay-Tolerant Propagation</div>
+                      <div class="pipeline-steps">
+                        <span class="step-pill step-blue">Alice (Origin)</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-purple">Bob (Blind Carrier)</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-emerald">Charlie (Recipient)</span>
+                      </div>
+                    </div>
+
+                    <!-- Core Concept -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        Core Concept &amp; Hybrid Wireless Architecture
+                      </h4>
+                      <p class="section-text">Allows smartphones to communicate with zero cellular towers, internet access, or cloud servers. Employs a hybrid wireless model: <strong>Bluetooth Low Energy (BLE)</strong> for nearby discovery, presence, and lightweight handshakes; <strong>Wi-Fi Direct</strong> for high-bandwidth transfers of photos, voice notes, and bulk media.</p>
+                    </div>
+
+                    <!-- What I Built -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        What I Built
+                      </h4>
+                      <ul class="built-features-grid">
+                        <li>Rust protocol core across crates: relay-wire, router, core, sim, ffi</li>
+                        <li>Flutter mobile application integration via native FFI bridge</li>
+                        <li>Noise XX handshakes &amp; Ed25519 identity key generation</li>
+                        <li>ChaCha20-Poly1305 authenticated end-to-end encryption</li>
+                        <li>Rotating anonymous BLE identifiers for privacy</li>
+                        <li>Dedicated threat model, invariants &amp; simulation suite</li>
+                        <li>Low-power ESP32 solar relay node hardware architecture</li>
+                        <li>Store-and-forward routes spanning both space and time</li>
+                      </ul>
+                    </div>
+
+                    <!-- Tech Stack Pills -->
+                    <div class="project-tech-stack">
+                      <span class="tech-tag">Rust</span>
+                      <span class="tech-tag">Flutter</span>
+                      <span class="tech-tag">Dart</span>
+                      <span class="tech-tag">BLE</span>
+                      <span class="tech-tag">Wi-Fi Direct</span>
+                      <span class="tech-tag">FFI</span>
+                      <span class="tech-tag">Noise Protocol</span>
+                      <span class="tech-tag">Ed25519</span>
+                      <span class="tech-tag">ChaCha20-Poly1305</span>
+                      <span class="tech-tag">ESP32</span>
+                    </div>
+
+                    <!-- Action Footer -->
+                    <div class="project-card-footer">
+                      <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-gh" data-cursor="CODE">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                        <span>GitHub</span>
+                      </a>
+                      <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20tell%20me%20more%20about%20Hypha%20Mesh%20Network." target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-inquire" data-cursor="DISCUSS">
+                        <span>View Protocol Specs</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =================================================================
+                   PROJECT 04: LUMIUM ECOSYSTEM
+                   ================================================================= -->
+              <article class="project-showcase-card" data-category="ai mobile iot" data-project-id="lumium-ecosystem">
+                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
+                  <div class="project-header-left">
+                    <div class="project-num-badge">04</div>
+                    <div class="project-thumb-box icon-ai">
+                      <img src="assets/projects/project-lumium.webp" alt="Lumium Ecosystem" class="project-3d-img">
+                    </div>
+                    <div class="project-title-group">
+                      <div class="project-title-row">
+                        <h3 class="project-title">Lumium Ecosystem</h3>
+                        <span class="project-tag-pill pill-ai">AI + Hardware</span>
+                        <span class="project-tag-pill pill-prod">Multi-Platform</span>
+                      </div>
+                      <p class="project-subtitle">Connected Productivity Ecosystem Spanning Software, AI &amp; Hardware</p>
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <div class="project-expand-btn">
+                      <span class="expand-label">Deep Dive</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="project-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>A connected productivity ecosystem spanning software, AI and dedicated hardware.</span>
+                </div>
+
+                <!-- Smooth Animated Drawer -->
+                <div class="project-drawer">
+                  <div class="project-drawer-inner">
+                    <!-- Ecosystem Triad -->
+                    <div class="arch-pipeline-box">
+                      <div class="pipeline-label">Ecosystem Architecture</div>
+                      <div class="pipeline-steps">
+                        <span class="step-pill step-blue">Modular Web/Android SPA</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-purple">Lumio Context AI</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-emerald">Dedicated RPi Kiosk Device</span>
+                      </div>
+                    </div>
+
+                    <!-- Ecosystem Overview -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        Ecosystem Overview
+                      </h4>
+                      <p class="section-text">A complete deep-work environment combining focus timers, ambient soundscapes, task management, and health telemetry with distributed multi-device coordination and distraction-free physical constraint hardware.</p>
+                    </div>
+
+                    <!-- What I Built -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        What I Built
+                      </h4>
+                      <ul class="built-features-grid">
+                        <li>ActiveTimerLease: Firestore transaction-based multi-device lease</li>
+                        <li>Lumio AI Assistant with productivity telemetry &amp; KaTeX rendering</li>
+                        <li>Lumium Link: Secure cryptographic QR pairing without storing raw secrets</li>
+                        <li>Dedicated constraint hardware built on Raspberry Pi with kiosk UI</li>
+                        <li>Idempotent session logging with midnight &amp; offline resilience</li>
+                        <li>Native Java speech recognition plugin for Capacitor Android</li>
+                        <li>Dynamic backgrounds, plant growth visualization &amp; soundscapes</li>
+                      </ul>
+                    </div>
+
+                    <!-- Tech Stack Pills -->
+                    <div class="project-tech-stack">
+                      <span class="tech-tag">JavaScript</span>
+                      <span class="tech-tag">Capacitor</span>
+                      <span class="tech-tag">Android</span>
+                      <span class="tech-tag">Firebase</span>
+                      <span class="tech-tag">Firestore</span>
+                      <span class="tech-tag">Java</span>
+                      <span class="tech-tag">Gemini AI</span>
+                      <span class="tech-tag">Raspberry Pi</span>
+                      <span class="tech-tag">PWA</span>
+                    </div>
+
+                    <!-- Action Footer -->
+                    <div class="project-card-footer">
+                      <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-gh" data-cursor="CODE">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                        <span>GitHub</span>
+                      </a>
+                      <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20tell%20me%20about%20Lumium%20Ecosystem." target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-inquire" data-cursor="DISCUSS">
+                        <span>Request Demo Call</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =================================================================
+                   PROJECT 05: PAGEVELLE
+                   ================================================================= -->
+              <article class="project-showcase-card" data-category="mobile" data-project-id="pagevelle">
+                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
+                  <div class="project-header-left">
+                    <div class="project-num-badge">05</div>
+                    <div class="project-thumb-box icon-mobile">
+                      <img src="assets/projects/project-pagevelle.png" alt="Pagevelle PDF" class="project-3d-img">
+                    </div>
+                    <div class="project-title-group">
+                      <div class="project-title-row">
+                        <h3 class="project-title">Pagevelle</h3>
+                        <span class="project-tag-pill pill-flutter">Flutter / Dart</span>
+                        <span class="project-tag-pill pill-ui">Experimental UX</span>
+                      </div>
+                      <p class="project-subtitle">Experimental Modern PDF Reading Experience</p>
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <div class="project-expand-btn">
+                      <span class="expand-label">Deep Dive</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="project-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>Exploring what a PDF reader could become if reading itself were treated as the product.</span>
+                </div>
+
+                <!-- Smooth Animated Drawer -->
+                <div class="project-drawer">
+                  <div class="project-drawer-inner">
+                    <!-- Reading Modes Pipeline -->
+                    <div class="arch-pipeline-box">
+                      <div class="pipeline-label">Multi-Modal Reading Engines</div>
+                      <div class="pipeline-steps">
+                        <span class="step-pill step-blue">Continuous Flow</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-purple">3D Book Page-Turn</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-emerald">RSVP Speed Reading</span>
+                      </div>
+                    </div>
+
+                    <!-- Core Innovation -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        Reading Architecture
+                      </h4>
+                      <p class="section-text">A forward-looking document reading system in Flutter designed across dedicated application, reader, dictionary, and platform modules. Features realistic page turning with bounded-memory recycling, RSVP speed reading with Optimal Recognition Position (ORP), and offline dictionary lookup.</p>
+                    </div>
+
+                    <!-- What I Built -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        What I Built
+                      </h4>
+                      <ul class="built-features-grid">
+                        <li>Core reader: continuous scroll, search, outline, bookmarks, dark mode</li>
+                        <li>Realistic book page-turning with memory-bounded recycling</li>
+                        <li>RSVP (Rapid Serial Visual Presentation) speed reading engine</li>
+                        <li>Punctuation-aware delays &amp; Optimal Recognition Position (ORP)</li>
+                        <li>Offline dictionary integration &amp; Text-to-Speech (TTS) accessibility</li>
+                        <li>Modular Flutter architecture across reader, platform &amp; settings</li>
+                      </ul>
+                    </div>
+
+                    <!-- Tech Stack Pills -->
+                    <div class="project-tech-stack">
+                      <span class="tech-tag">Flutter</span>
+                      <span class="tech-tag">Dart</span>
+                      <span class="tech-tag">PDFium / pdfrx</span>
+                      <span class="tech-tag">Custom Rendering</span>
+                      <span class="tech-tag">TTS</span>
+                      <span class="tech-tag">Mobile UX</span>
+                    </div>
+
+                    <!-- Action Footer -->
+                    <div class="project-card-footer">
+                      <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-gh" data-cursor="CODE">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                        <span>GitHub</span>
+                      </a>
+                      <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20tell%20me%20about%20Pagevelle%20Reader." target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-inquire" data-cursor="DISCUSS">
+                        <span>Request Case Study</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =================================================================
+                   PROJECT 06: XENON / GEMMA SHELL
+                   ================================================================= -->
+              <article class="project-showcase-card" data-category="ai" data-project-id="xenon-gemma">
+                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
+                  <div class="project-header-left">
+                    <div class="project-num-badge">06</div>
+                    <div class="project-thumb-box icon-ai">
+                      <img src="assets/projects/project-xenon.png" alt="Xenon AI" class="project-3d-img">
+                    </div>
+                    <div class="project-title-group">
+                      <div class="project-title-row">
+                        <h3 class="project-title">Xenon &bull; Gemma Shell</h3>
+                        <span class="project-tag-pill pill-ai">Local LLMs</span>
+                        <span class="project-tag-pill pill-ollama">100% On-Device</span>
+                      </div>
+                      <p class="project-subtitle">Local-First Personal AI Workspace &amp; Context Engine</p>
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <div class="project-expand-btn">
+                      <span class="expand-label">Deep Dive</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="project-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>A personal AI workspace where the model, memory and context can all stay local.</span>
+                </div>
+
+                <!-- Smooth Animated Drawer -->
+                <div class="project-drawer">
+                  <div class="project-drawer-inner">
+                    <!-- Local AI Paradigm -->
+                    <div class="arch-pipeline-box">
+                      <div class="pipeline-label">Privacy-Preserving Local Pipeline</div>
+                      <div class="pipeline-steps">
+                        <span class="step-pill step-blue">Local Files &amp; Media</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-purple">File-Based Memory</span>
+                        <svg class="arrow-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="step-pill step-emerald">Local Ollama (Gemma)</span>
+                      </div>
+                    </div>
+
+                    <!-- Core Innovation -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        Why It Matters
+                      </h4>
+                      <p class="section-text">Xenon pioneers a private computing model: <em>your files + your memory + your model + your computer</em>, instead of sending private data to cloud AI services. Features transparent, inspectable markdown memory files and multimodal ingestion directly on your machine.</p>
+                    </div>
+
+                    <!-- What I Built -->
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        What I Built
+                      </h4>
+                      <ul class="built-features-grid">
+                        <li>Local Ollama backend with seamless local model switching (Gemma, Llama)</li>
+                        <li>Transparent markdown memory: system.md, memory.md, context-plan.md</li>
+                        <li>Multimodal document ingestion for PDFs, code files &amp; high-res images</li>
+                        <li>Explicit context commands allowing direct user memory editing</li>
+                        <li>Zero cloud telemetry &amp; complete local execution</li>
+                      </ul>
+                    </div>
+
+                    <!-- Tech Stack Pills -->
+                    <div class="project-tech-stack">
+                      <span class="tech-tag">Python</span>
+                      <span class="tech-tag">Ollama</span>
+                      <span class="tech-tag">Gemma</span>
+                      <span class="tech-tag">Local LLMs</span>
+                      <span class="tech-tag">Multimodal AI</span>
+                      <span class="tech-tag">File Processing</span>
+                      <span class="tech-tag">Persistent Memory</span>
+                    </div>
+
+                    <!-- Action Footer -->
+                    <div class="project-card-footer">
+                      <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-gh" data-cursor="CODE">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                        <span>GitHub</span>
+                      </a>
+                      <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20tell%20me%20about%20Xenon%20Local%20AI." target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-inquire" data-cursor="DISCUSS">
+                        <span>Inquire on Local AI</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+          <!-- SECTION 2: MORE THINGS I'VE BUILT (07 – 08) -->
+          <div class="projects-section-group">
+            <div class="section-badge-header">
+              <span class="group-title">More Systems &amp; Libraries</span>
+              <span class="group-line"></span>
+            </div>
+
+            <div class="projects-list-container" id="moreProjectsList">
+
+              <!-- =================================================================
+                   PROJECT 07: UIQRAFT
+                   ================================================================= -->
+              <article class="project-showcase-card" data-category="tools web" data-project-id="uiqraft">
+                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
+                  <div class="project-header-left">
+                    <div class="project-num-badge">07</div>
+                    <div class="project-thumb-box icon-ui">
+                      <img src="assets/projects/project-uiqraft.png" alt="UIQraft" class="project-3d-img">
+                    </div>
+                    <div class="project-title-group">
+                      <div class="project-title-row">
+                        <h3 class="project-title">UIQraft</h3>
+                        <span class="project-tag-pill pill-tools">Design System</span>
+                        <span class="project-tag-pill pill-featured">90+ Components</span>
+                      </div>
+                      <p class="project-subtitle">Reusable Multi-Framework UI Component Library</p>
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <div class="project-expand-btn">
+                      <span class="expand-label">Deep Dive</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="project-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>Design once, translate the interaction across frameworks.</span>
+                </div>
+
+                <!-- Smooth Animated Drawer -->
+                <div class="project-drawer">
+                  <div class="project-drawer-inner">
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        Multi-Framework Architecture
+                      </h4>
+                      <p class="section-text">A reusable user-interface component collection with over 90 customizable button designs, loaders, and interactive components. Translates seamlessly across React, Vue, Svelte, and vanilla HTML/CSS with an interactive component explorer.</p>
+                    </div>
+
+                    <div class="project-tech-stack">
+                      <span class="tech-tag">React</span>
+                      <span class="tech-tag">Vite</span>
+                      <span class="tech-tag">Tailwind CSS</span>
+                      <span class="tech-tag">Vue</span>
+                      <span class="tech-tag">Svelte</span>
+                      <span class="tech-tag">HTML5</span>
+                      <span class="tech-tag">CSS3</span>
+                      <span class="tech-tag">JavaScript</span>
+                    </div>
+
+                    <div class="project-card-footer">
+                      <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-gh" data-cursor="CODE">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                        <span>GitHub</span>
+                      </a>
+                      <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20tell%20me%20about%20UIQraft." target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-inquire" data-cursor="DISCUSS">
+                        <span>Explore Library</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =================================================================
+                   PROJECT 08: PRODUCTIVITY TOOLKIT
+                   ================================================================= -->
+              <article class="project-showcase-card" data-category="tools web" data-project-id="productivity-toolkit">
+                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
+                  <div class="project-header-left">
+                    <div class="project-num-badge">08</div>
+                    <div class="project-thumb-box icon-ai">
+                      <img src="assets/projects/project-productivity-toolkit.png" alt="Productivity Toolkit" class="project-3d-img">
+                    </div>
+                    <div class="project-title-group">
+                      <div class="project-title-row">
+                        <h3 class="project-title">Productivity Toolkit</h3>
+                        <span class="project-tag-pill pill-tools">Experimental PWA</span>
+                        <span class="project-tag-pill pill-prod">Foundation</span>
+                      </div>
+                      <p class="project-subtitle">The Experimental Foundation That Became Lumium</p>
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <div class="project-expand-btn">
+                      <span class="expand-label">Deep Dive</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tagline Banner -->
+                <div class="project-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>The experimentation platform from which the Lumium ecosystem evolved.</span>
+                </div>
+
+                <!-- Smooth Animated Drawer -->
+                <div class="project-drawer">
+                  <div class="project-drawer-inner">
+                    <div class="project-section-block">
+                      <h4 class="section-heading">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        The Prototyping Laboratory
+                      </h4>
+                      <p class="section-text">The initial browser-based experimentation laboratory that validated focus mechanics, plant growth visualizations, ambient sound synthesis, and local-first offline storage before they were engineered into the full Lumium ecosystem.</p>
+                    </div>
+
+                    <div class="project-tech-stack">
+                      <span class="tech-tag">HTML5</span>
+                      <span class="tech-tag">CSS3</span>
+                      <span class="tech-tag">JavaScript</span>
+                      <span class="tech-tag">PWA</span>
+                      <span class="tech-tag">LocalStorage</span>
+                      <span class="tech-tag">Service Workers</span>
+                    </div>
+
+                    <div class="project-card-footer">
+                      <a href="https://github.com/EruditeCoder108" target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-gh" data-cursor="CODE">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                        <span>GitHub</span>
+                      </a>
+                      <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20tell%20me%20about%20Productivity%20Toolkit." target="_blank" rel="noopener noreferrer" class="proj-action-btn btn-inquire" data-cursor="DISCUSS">
+                        <span>View Details</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sticky Frosted Modal Footer -->
+        <div class="modal-footer">
+          <div class="modal-footer-note">
+            <svg class="footer-note-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>Have a technical project or idea you want built?</span>
+          </div>
+          <a href="https://wa.me/917024320441?text=Hi%20Sambhav%2C%20I%20reviewed%20your%20portfolio%20and%20would%20like%20to%20collaborate%20on%20a%20project." target="_blank" rel="noopener noreferrer" class="modal-action-btn" data-cursor="COLLABORATE">
+            <span>Collaborate on a Build</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- =========================================================================
+       MODAL 4: SHARE / QR CODE MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="modalShare" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-container modal-container-sm">
+      <div class="modal-scroll-area custom-scrollbar">
+
+        <!-- Unified Sticky Frosted Header -->
+        <div class="modal-sticky-top">
+          <div class="modal-header">
+            <div class="modal-header-left">
+              <div class="modal-icon-badge icon-cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+              </div>
+              <div>
+                <h2 class="modal-title" id="shareModalTitle">Share Portfolio Hub</h2>
+                <p class="modal-subtitle">Scan QR or share direct link</p>
+              </div>
+            </div>
+            <button class="modal-close-btn" data-close-modal aria-label="Close modal" data-cursor="CLOSE">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Share Content Area -->
+        <div class="modal-content-area text-center">
+          <div class="qr-display-box" id="qrContainer" data-cursor="SCAN ME">
+            <div class="qr-glow-effect"></div>
+            <svg class="qr-vector-code" viewBox="0 0 160 160" width="160" height="160">
+              <!-- Distinctive Aesthetic QR Pattern -->
+              <rect width="160" height="160" rx="16" fill="#FFFFFF"/>
+              <!-- Corner Markers -->
+              <rect x="16" y="16" width="36" height="36" rx="8" fill="#2563EB"/>
+              <rect x="22" y="22" width="24" height="24" rx="4" fill="#FFFFFF"/>
+              <rect x="27" y="27" width="14" height="14" rx="3" fill="#2563EB"/>
+
+              <rect x="108" y="16" width="36" height="36" rx="8" fill="#2563EB"/>
+              <rect x="114" y="22" width="24" height="24" rx="4" fill="#FFFFFF"/>
+              <rect x="119" y="27" width="14" height="14" rx="3" fill="#2563EB"/>
+
+              <rect x="16" y="108" width="36" height="36" rx="8" fill="#2563EB"/>
+              <rect x="22" y="114" width="24" height="24" rx="4" fill="#FFFFFF"/>
+              <rect x="27" y="119" width="14" height="14" rx="3" fill="#2563EB"/>
+
+              <!-- Aesthetic QR Data Modules -->
+              <rect x="64" y="20" width="8" height="8" rx="2" fill="#3B82F6"/>
+              <rect x="80" y="20" width="16" height="8" rx="2" fill="#6366F1"/>
+              <rect x="64" y="36" width="16" height="8" rx="2" fill="#2563EB"/>
+              <rect x="88" y="36" width="8" height="8" rx="2" fill="#38BDF8"/>
+              <rect x="20" y="64" width="8" height="16" rx="2" fill="#2563EB"/>
+              <rect x="36" y="64" width="16" height="8" rx="2" fill="#6366F1"/>
+              <rect x="60" y="60" width="40" height="40" rx="8" fill="#EEF2FF"/>
+              <circle cx="80" cy="80" r="12" fill="#2563EB"/>
+              <path d="M76 80L79 83L85 77" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="108" y="64" width="16" height="8" rx="2" fill="#3B82F6"/>
+              <rect x="132" y="64" width="8" height="16" rx="2" fill="#2563EB"/>
+              <rect x="64" y="108" width="8" height="16" rx="2" fill="#3B82F6"/>
+              <rect x="80" y="116" width="16" height="8" rx="2" fill="#6366F1"/>
+              <rect x="108" y="108" width="16" height="8" rx="2" fill="#2563EB"/>
+              <rect x="132" y="124" width="8" height="16" rx="2" fill="#38BDF8"/>
+            </svg>
+            <span class="qr-caption">Scan to open Sambhav's Profile</span>
+          </div>
+
+          <div class="share-actions-row">
+            <button class="share-pill-btn" id="btnCopyPageUrl" data-cursor="COPY">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              <span>Copy Link</span>
+            </button>
+            <a href="https://wa.me/?text=Check%20out%20Sambhav%20Jain%27s%20digital%20portfolio%20and%20AI%20solutions%3A%20https%3A%2F%2Fgithub.com%2FEruditeCoder108" target="_blank" rel="noopener noreferrer" class="share-pill-btn btn-wa-share" data-cursor="SHARE">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 01-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.71 4.3 3.8 2.52 1.09 2.52.73 2.98.69.45-.04 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"/></svg>
+              <span>WhatsApp Share</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       INTERACTIVE TOAST NOTIFICATIONS
+       ========================================================================= -->
+  <div class="toast-hub" id="toastHub" aria-live="polite"></div>
+
+  <!-- =========================================================================
+       SCRIPTS
+       ========================================================================= -->
+  <script src="js/app.js"></script>
+</body>
+</html>
