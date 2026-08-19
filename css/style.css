@@ -125,7 +125,7 @@ html.modal-open, body.modal-open {
     backface-visibility: hidden;
     perspective: 1000px;
     box-shadow: 0 0 10px rgba(37, 99, 235, 0.9);
-    transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.15s ease;
   }
 
   .cursor-ring {
@@ -189,7 +189,6 @@ html.modal-open, body.modal-open {
 
   body.cursor-hovering .cursor-dot {
     opacity: 0 !important;
-    transform: translate3d(var(--dot-x, -100px), var(--dot-y, -100px), 0) translate(-50%, -50%) scale(0) !important;
   }
 
   body.cursor-hovering .cursor-label {
