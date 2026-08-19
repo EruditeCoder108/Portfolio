@@ -1,2 +1,6 @@
-﻿# Redirect all routes to index.html for Single Page navigation
-/*    /index.html   200
+# Privacy policy route
+/privacy    /privacy.html   200
+
+# Redirect all other routes to index.html for Single Page navigation
+/*          /index.html     200
+

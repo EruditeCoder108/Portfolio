@@ -111,9 +111,8 @@ body {
   position: relative;
   overflow-x: hidden;
   line-height: 1.5;
-  user-select: none;
-  -webkit-user-select: none;
 }
+
 
 /* Scroll Lock when Modal is Active (No Jumps & Frees GPU Cycles) */
 html.modal-open, body.modal-open {
@@ -136,11 +135,17 @@ body.modal-open .satellites-layer {
    3. Custom Magnetic Snappy Cursor (Desktop with Hardware Acceleration)
    -------------------------------------------------------------------------- */
 @media (pointer: fine) {
-  body {
+  body.has-custom-cursor {
     cursor: none;
   }
 
-  a, button, input, textarea, [data-cursor], [data-close-modal], .filter-tab {
+  body.has-custom-cursor a,
+  body.has-custom-cursor button,
+  body.has-custom-cursor input,
+  body.has-custom-cursor textarea,
+  body.has-custom-cursor [data-cursor],
+  body.has-custom-cursor [data-close-modal],
+  body.has-custom-cursor .filter-tab {
     cursor: none !important;
   }
 
@@ -160,6 +165,11 @@ body.modal-open .satellites-layer {
     perspective: 1000px;
     box-shadow: 0 0 10px rgba(37, 99, 235, 0.9);
     transition: opacity 0.15s ease;
+    opacity: 0;
+  }
+
+  body.has-custom-cursor .cursor-dot {
+    opacity: 1;
   }
 
   .cursor-ring {
@@ -175,7 +185,7 @@ body.modal-open .satellites-layer {
     pointer-events: none;
     z-index: 9999;
     transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
-    will-change: transform;
+    will-change: transform, opacity;
     backface-visibility: hidden;
     perspective: 1000px;
     transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
@@ -190,8 +200,12 @@ body.modal-open .satellites-layer {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    opacity: 0;
   }
 
+  body.has-custom-cursor .cursor-ring {
+    opacity: 1;
+  }
 
   .cursor-label {
     font-family: var(--font-heading);
@@ -229,6 +243,7 @@ body.modal-open .satellites-layer {
     transform: scale(1);
   }
 }
+
 
 @media (pointer: coarse) {
   .cursor-dot, .cursor-ring {
@@ -671,17 +686,17 @@ body.modal-open .satellites-layer {
   mix-blend-mode: multiply;
 }
 
-/* Cursor Glare Sheen */
+/* Cursor Glare Sheen (Smooth Subsurface Luminous Glow) */
 .card-glare {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle 320px at var(--mouse-x, 50%) var(--mouse-y, 30%), rgba(255, 255, 255, 0.55), transparent 70%);
-  opacity: 0.8;
-  mix-blend-mode: overlay;
+  background: radial-gradient(circle 420px at var(--mouse-x, 50%) var(--mouse-y, 30%), rgba(255, 255, 255, 0.45) 0%, rgba(224, 242, 254, 0.18) 40%, transparent 75%);
+  opacity: 0.9;
   z-index: 2;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s ease;
 }
+
 
 /* --------------------------------------------------------------------------
    8. Hero Identity & User Profile Avatar
@@ -770,7 +785,75 @@ body.modal-open .satellites-layer {
   line-height: 1.4;
 }
 
+/* Interactive Engineering Proof Chips */
+.engineering-proof-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.proof-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  cursor: pointer;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.proof-chip:hover {
+  transform: translateY(-2px);
+  background: #FFFFFF;
+  border-color: rgba(147, 197, 253, 0.95);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.15);
+}
+
+.proof-chip:active {
+  transform: scale(0.97);
+}
+
+.proof-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-cyan {
+  background: #0284C7;
+  box-shadow: 0 0 8px rgba(2, 132, 199, 0.6);
+}
+
+.dot-purple {
+  background: #7C3AED;
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.6);
+}
+
+.dot-emerald {
+  background: #059669;
+  box-shadow: 0 0 8px rgba(5, 150, 105, 0.6);
+}
+
+.proof-label {
+  line-height: 1.2;
+}
+
 /* Quote Pill from Card Back */
+
 .quote-pill {
   display: inline-flex;
   align-items: center;
@@ -1224,6 +1307,19 @@ body.modal-open .satellites-layer {
   font-weight: 500;
   color: var(--text-subtle);
 }
+
+.footer-privacy-link {
+  color: var(--color-brand-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity var(--transition-fast);
+}
+
+.footer-privacy-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
 
 /* --------------------------------------------------------------------------
    11. Modal System (High-Performance GPU-Optimized Frosted Glass)
@@ -2193,6 +2289,20 @@ body.modal-open .satellites-layer {
   border-color: #0F172A;
 }
 
+.proj-action-btn.btn-private {
+  background: rgba(241, 245, 249, 0.9);
+  color: var(--text-muted);
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  cursor: default;
+}
+
+.proj-action-btn.btn-private:hover {
+  background: #E2E8F0;
+  border-color: #94A3B8;
+  color: var(--text-secondary);
+}
+
+
 .proj-action-btn.btn-inquire {
   background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
   color: var(--color-brand-blue);
@@ -2948,3 +3058,396 @@ body.modal-open .satellites-layer {
     transition: background 150ms ease;
   }
 }
+
+/* ==========================================================================
+   PRIVACY POLICY PAGE DESIGN SYSTEM
+   ========================================================================== */
+.privacy-page-body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 60px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* Navigation Top Bar */
+.privacy-nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.04);
+}
+
+.privacy-nav-container {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.privacy-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #FFFFFF;
+  border: 1px solid rgba(199, 210, 254, 0.7);
+  border-radius: var(--radius-pill);
+  color: var(--color-brand-blue);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+  transition: all var(--transition-fast);
+}
+
+.privacy-back-btn:hover {
+  background: var(--color-brand-blue);
+  color: #FFFFFF;
+  border-color: var(--color-brand-blue);
+  transform: translateX(-3px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.2);
+}
+
+.privacy-back-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.privacy-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-brand-emerald);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+/* Privacy Container & Glass Card */
+.privacy-container {
+  width: 100%;
+  max-width: 840px;
+  padding: 36px 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.privacy-glass-card {
+  background: var(--glass-bg-primary);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1.5px solid var(--glass-border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-ambient);
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.privacy-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.privacy-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: #EFF6FF;
+  border: 1px solid #DBEAFE;
+  border-radius: var(--radius-pill);
+  color: var(--color-brand-blue);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.privacy-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.privacy-title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.privacy-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.privacy-lead {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 6px;
+}
+
+.privacy-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(226, 232, 240, 0.2) 0%, rgba(226, 232, 240, 1) 50%, rgba(226, 232, 240, 0.2) 100%);
+}
+
+/* Policy Content Body & Sections */
+.privacy-content-body {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.policy-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.section-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-num {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--color-brand-blue);
+  background: #EFF6FF;
+  border: 1px solid #DBEAFE;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.policy-section h2 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.policy-section p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.policy-section strong {
+  color: var(--text-primary);
+}
+
+.policy-section a {
+  color: var(--color-brand-blue);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px dashed rgba(37, 99, 235, 0.4);
+  transition: all var(--transition-fast);
+}
+
+.policy-section a:hover {
+  border-bottom-style: solid;
+  border-color: var(--color-brand-blue);
+}
+
+/* Feature Grid Cards */
+.policy-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.policy-mini-card {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.04);
+}
+
+.mini-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.mini-card-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-blue {
+  background: #EFF6FF;
+  color: var(--color-brand-blue);
+  border: 1px solid #DBEAFE;
+}
+
+.icon-purple {
+  background: #FAF5FF;
+  color: var(--color-brand-violet);
+  border: 1px solid #F3E8FF;
+}
+
+.icon-green {
+  background: #ECFDF5;
+  color: var(--color-brand-emerald);
+  border: 1px solid #D1FAE5;
+}
+
+.policy-mini-card h3 {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.policy-mini-card p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Lists */
+.policy-list {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.policy-list li {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Contact Card Section */
+.policy-contact-card {
+  background: linear-gradient(135deg, rgba(240, 249, 255, 0.8) 0%, rgba(238, 242, 255, 0.8) 100%);
+  border: 1.5px solid rgba(199, 210, 254, 0.6);
+  border-radius: var(--radius-lg);
+  padding: 24px 26px;
+}
+
+.contact-details-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.contact-item {
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.contact-val {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.contact-val.link {
+  color: var(--color-brand-blue);
+  text-decoration: none;
+}
+
+.contact-val.link:hover {
+  text-decoration: underline;
+}
+
+/* Card Footer */
+.privacy-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-home-link {
+  color: var(--color-brand-blue);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+}
+
+.footer-home-link:hover {
+  transform: translateX(3px);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .privacy-glass-card {
+    padding: 28px 20px;
+    border-radius: var(--radius-lg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .privacy-title {
+    font-size: 1.7rem;
+  }
+
+  .contact-details-box {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-card-footer {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
