@@ -1,5 +1,8 @@
 /* Engineering Core v2 — truth-first instrumentation + restrained high-end motion */
 
+/* Compatibility token used by the original Hypha simulator styles. */
+:root { --color-brand-purple: var(--color-brand-violet); }
+
 /* The normal perspective switch is not the secret Engineering Core. */
 #modeBtnEngineer .mode-text { font-size: 0; }
 #modeBtnEngineer .mode-text::after { content: 'Technical'; font-size: .76rem; }
@@ -43,6 +46,27 @@
 .v2-sim-note { margin:6px 0 0; font:600 .66rem/1.45 var(--font-body); color:var(--text-muted); }
 .v2-sim-note code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--color-brand-blue); }
 
+/* Hypha control-bar hardening: the original chevron had no intrinsic CSS size and
+   --color-brand-purple was missing, causing an oversized browser-default button. */
+.mesh-control-bar { align-items: center; }
+.mesh-step-btn {
+  min-height: 40px;
+  max-height: 44px;
+  padding: 9px 14px;
+  line-height: 1.2;
+  overflow: hidden;
+}
+.mesh-step-btn span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mesh-step-btn svg {
+  display: block;
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px;
+  flex: 0 0 16px;
+}
+.mesh-reset-btn { flex: 0 0 40px; padding: 0; }
+.mesh-reset-btn svg { display:block; width:18px !important; height:18px !important; }
+
 /* Drag-capable mesh node */
 #nodeBob.v2-draggable { cursor:grab !important; touch-action:none; user-select:none; position:relative; z-index:5; transition:filter .18s ease; }
 #nodeBob.v2-draggable:active { cursor:grabbing !important; filter:drop-shadow(0 0 12px rgba(56,189,248,.45)); }
@@ -68,4 +92,6 @@ body.is-engineering-core .card-face-back > *:nth-child(5) { animation-delay:.17s
 @media (max-width:640px) {
   .eng-v2-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   #modeBtnEngineer .mode-text::after { font-size:.74rem; }
+  .mesh-step-btn { padding: 8px 10px; font-size: .76rem; }
+  .mesh-step-btn svg { width:14px !important; height:14px !important; min-width:14px; flex-basis:14px; }
 }
