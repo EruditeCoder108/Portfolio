@@ -1,16 +1,109 @@
-/* Engineering Core v2 — truth-first instrumentation + restrained high-end motion */
+/* Engineering Core v2 — truth-first instrumentation + balanced rendering */
 
-/* Compatibility token used by the original Hypha simulator styles. */
 :root { --color-brand-purple: var(--color-brand-violet); }
 
-/* The normal perspective switch is not the secret Engineering Core. */
+/* --------------------------------------------------------------------------
+   Perspective naming / Easter egg
+   -------------------------------------------------------------------------- */
 #modeBtnEngineer .mode-text { font-size: 0; }
 #modeBtnEngineer .mode-text::after { content: 'Technical'; font-size: .76rem; }
-
-/* Easter egg should be discovered, not advertised by a browser tooltip. */
 #avatarMascot { -webkit-tap-highlight-color: transparent; }
 
-/* V2 instrumentation panel */
+/* --------------------------------------------------------------------------
+   Balanced compositor profile
+   Keep the visual language, reduce large persistent blur surfaces.
+   -------------------------------------------------------------------------- */
+.ambient-orb {
+  filter: blur(52px) !important;
+  opacity: .48;
+  will-change: auto;
+}
+.satellite-bubble {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(255,255,255,.82) !important;
+}
+.hud-pill,
+.hud-btn,
+.hud-mode-pill {
+  backdrop-filter: blur(12px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(145%) !important;
+}
+.card-face-front {
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+.card-face-back {
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+}
+
+/* Lower-end / mobile hardware gets an even cheaper passive background. */
+html.perf-constrained .orb-4,
+html.perf-constrained .orb-5 { display: none !important; }
+html.perf-constrained .ambient-orb {
+  animation: none !important;
+  filter: blur(38px) !important;
+  opacity: .38 !important;
+}
+html.perf-constrained .satellites-layer { display: none !important; }
+html.perf-constrained .hud-pill,
+html.perf-constrained .hud-btn,
+html.perf-constrained .hud-mode-pill,
+html.perf-constrained .card-face-front {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Modal regression fix
+   The old optimization erased most of the page before the backdrop blurred it,
+   which produced the washed-out/white background. Keep the page visible,
+   freeze passive motion, and blur/dim it through one lightweight backdrop.
+   -------------------------------------------------------------------------- */
+body.modal-open .ambient-background {
+  opacity: 1 !important;
+}
+body.modal-open .ambient-orb {
+  display: block !important;
+  animation-play-state: paused !important;
+  opacity: .34 !important;
+}
+body.modal-open .corner-characters-layer,
+body.modal-open .satellites-layer {
+  display: block !important;
+  opacity: .48;
+}
+body.modal-open .satellite-item,
+body.modal-open .corner-characters-layer * {
+  animation-play-state: paused !important;
+}
+.modal-backdrop {
+  background: rgba(15,23,42,.34) !important;
+  backdrop-filter: blur(9px) saturate(88%) !important;
+  -webkit-backdrop-filter: blur(9px) saturate(88%) !important;
+}
+.modal-container {
+  will-change: auto !important;
+  transform: scale(.97) translateY(10px);
+}
+.modal-overlay.is-active .modal-container {
+  transform: scale(1) translateY(0);
+}
+.modal-scroll-area {
+  overscroll-behavior: contain;
+}
+
+/* Let the browser skip paint/layout work for off-screen modal cards. */
+.capability-card,
+.project-showcase-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 150px;
+}
+
+/* --------------------------------------------------------------------------
+   V2 instrumentation panel
+   -------------------------------------------------------------------------- */
 .eng-v2-panel {
   position: relative;
   border: 1px solid rgba(56,189,248,.28);
@@ -24,13 +117,13 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: linear-gradient(rgba(56,189,248,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,.04) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(56,189,248,.04) 1px, transparent 1px), linear-gradient(90deg,rgba(56,189,248,.04) 1px,transparent 1px);
   background-size: 20px 20px;
-  mask-image: linear-gradient(to bottom, black, transparent 92%);
+  mask-image: linear-gradient(to bottom,black,transparent 92%);
 }
 .eng-v2-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; position:relative; }
-.eng-v2-title { font: 800 .66rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.13em; color:#7DD3FC; }
-.eng-v2-source { font: 700 .56rem/1 ui-monospace,SFMono-Regular,Menlo,monospace; color:#34D399; border:1px solid rgba(52,211,153,.28); border-radius:999px; padding:4px 7px; }
+.eng-v2-title { font:800 .66rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.13em; color:#7DD3FC; }
+.eng-v2-source { font:700 .56rem/1 ui-monospace,SFMono-Regular,Menlo,monospace; color:#34D399; border:1px solid rgba(52,211,153,.28); border-radius:999px; padding:4px 7px; }
 .eng-v2-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; position:relative; }
 .eng-v2-metric { min-width:0; padding:8px; border-radius:7px; background:rgba(2,6,23,.58); border:1px solid rgba(148,163,184,.13); }
 .eng-v2-k { display:block; font:700 .52rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.08em; color:#64748B; margin-bottom:4px; }
@@ -42,36 +135,21 @@
 .eng-v2-btn { appearance:none; border:1px solid rgba(56,189,248,.25); background:rgba(14,116,144,.12); color:#BAE6FD; border-radius:6px; padding:6px 9px; font:800 .56rem ui-monospace,SFMono-Regular,Menlo,monospace; cursor:pointer; }
 .eng-v2-btn:hover { background:rgba(14,116,144,.22); border-color:rgba(56,189,248,.5); }
 
-/* Truth labels on simulations */
+/* --------------------------------------------------------------------------
+   Simulator polish
+   -------------------------------------------------------------------------- */
 .v2-sim-note { margin:6px 0 0; font:600 .66rem/1.45 var(--font-body); color:var(--text-muted); }
 .v2-sim-note code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--color-brand-blue); }
-
-/* Hypha control-bar hardening */
-.mesh-control-bar { align-items: center; }
-.mesh-step-btn {
-  min-height: 40px;
-  max-height: 44px;
-  padding: 9px 14px;
-  line-height: 1.2;
-  overflow: hidden;
-}
-.mesh-step-btn span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mesh-step-btn svg {
-  display: block;
-  width: 16px !important;
-  height: 16px !important;
-  min-width: 16px;
-  flex: 0 0 16px;
-}
-.mesh-reset-btn { flex: 0 0 40px; padding: 0; }
+.mesh-control-bar { align-items:center; }
+.mesh-step-btn { min-height:40px; max-height:44px; padding:9px 14px; line-height:1.2; overflow:hidden; }
+.mesh-step-btn span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.mesh-step-btn svg { display:block; width:16px !important; height:16px !important; min-width:16px; flex:0 0 16px; }
+.mesh-reset-btn { flex:0 0 40px; padding:0; }
 .mesh-reset-btn svg { display:block; width:18px !important; height:18px !important; }
-
-/* Drag-capable mesh node */
 #nodeBob.v2-draggable { cursor:grab !important; touch-action:none; user-select:none; position:relative; z-index:5; transition:filter .18s ease; }
 #nodeBob.v2-draggable:active { cursor:grabbing !important; filter:drop-shadow(0 0 12px rgba(56,189,248,.45)); }
-.v2-range-ring { position:absolute; border:1px dashed rgba(56,189,248,.3); background:rgba(56,189,248,.035); border-radius:999px; pointer-events:none; transform:translate(-50%,-50%); z-index:0; }
 
-/* Core reveal choreography layered on top of the original dark/glitch/3D flip engine. */
+/* Preserve the original dark/glitch/true-3D Engineering Core transition. */
 body.is-engineering-core .card-face-back > * { animation:v2CoreIn .55s cubic-bezier(.16,1,.3,1) both; }
 body.is-engineering-core .card-face-back > *:nth-child(2) { animation-delay:.05s; }
 body.is-engineering-core .card-face-back > *:nth-child(3) { animation-delay:.09s; }
@@ -79,16 +157,18 @@ body.is-engineering-core .card-face-back > *:nth-child(4) { animation-delay:.13s
 body.is-engineering-core .card-face-back > *:nth-child(5) { animation-delay:.17s; }
 @keyframes v2CoreIn { from { opacity:0; transform:translateY(8px) translateZ(12px); } to { opacity:1; transform:none; } }
 
-/* Reduced-motion only suppresses passive/infinite decoration.
-   User-triggered 3D tilt, chromatic glitch and card flip remain intact. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto !important; }
-  .ambient-orb, .satellite-item { animation:none !important; }
+  .ambient-orb,.satellite-item,.pulse-ring { animation:none !important; }
 }
 
 @media (max-width:640px) {
   .eng-v2-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   #modeBtnEngineer .mode-text::after { font-size:.74rem; }
-  .mesh-step-btn { padding: 8px 10px; font-size: .76rem; }
+  .mesh-step-btn { padding:8px 10px; font-size:.76rem; }
   .mesh-step-btn svg { width:14px !important; height:14px !important; min-width:14px; flex-basis:14px; }
+  .modal-backdrop {
+    backdrop-filter: blur(6px) saturate(90%) !important;
+    -webkit-backdrop-filter: blur(6px) saturate(90%) !important;
+  }
 }
