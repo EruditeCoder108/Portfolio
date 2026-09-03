@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Sambhav Jain — Systems, Distributed Software &amp; AI Engineer</title>
   <meta name="description" content="Sambhav Jain — Systems, Distributed Software &amp; AI Engineer. AST infrastructure, offline mesh protocols, spaced repetition systems, and local AI workspaces.">
   <meta name="theme-color" content="#EBF3FE">
@@ -31,8 +31,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
+  <!-- Stylesheets (Loaded directly in parallel to eliminate @import network waterfall) -->
+  <link rel="stylesheet" href="css/style-core.css">
+  <link rel="stylesheet" href="css/engineering-v2.css">
 </head>
 <body class="theme-glass">
 
@@ -62,22 +63,22 @@
   <div class="corner-characters-layer" aria-hidden="true">
     <!-- Top Left: Boy coding with Web Dashboard -->
     <div class="corner-char char-top-left" data-tilt-char>
-      <img src="assets/char-dev-boy-code.webp" alt="Developer coding" class="char-img">
+      <img src="assets/char-dev-boy-code.webp" alt="Developer coding" class="char-img" decoding="async">
     </div>
 
     <!-- Top Right: Girl with Smart Assistant & Notifications -->
     <div class="corner-char char-top-right" data-tilt-char>
-      <img src="assets/char-dev-girl-smart.webp" alt="Smart workflows" class="char-img">
+      <img src="assets/char-dev-girl-smart.webp" alt="Smart workflows" class="char-img" decoding="async">
     </div>
 
     <!-- Bottom Left: Girl with WhatsApp & Workflows -->
     <div class="corner-char char-bottom-left" data-tilt-char>
-      <img src="assets/char-dev-girl-whatsapp.webp" alt="WhatsApp automation" class="char-img">
+      <img src="assets/char-dev-girl-whatsapp.webp" alt="WhatsApp automation" class="char-img" decoding="async">
     </div>
 
     <!-- Bottom Right: Boy with Robotics & Terminal -->
     <div class="corner-char char-bottom-right" data-tilt-char>
-      <img src="assets/char-dev-boy-robotics.webp" alt="Robotics and hardware" class="char-img">
+      <img src="assets/char-dev-boy-robotics.webp" alt="Robotics and hardware" class="char-img" decoding="async">
     </div>
   </div>
 
@@ -88,42 +89,42 @@
     <!-- Left Flank: Raspberry Pi IoT Board -->
     <div class="satellite-item sat-1" style="top: 24%; left: calc(50% - 350px);" data-depth="0.04">
       <div class="satellite-bubble" data-cursor="RASPBERRY PI">
-        <img src="assets/elements/elem-raspberry-pi.webp" alt="Raspberry Pi" class="satellite-img">
+        <img src="assets/elements/elem-raspberry-pi.webp" alt="Raspberry Pi" class="satellite-img" decoding="async">
       </div>
     </div>
 
     <!-- Left Flank: 3D AI Robot Assistant -->
     <div class="satellite-item sat-2" style="top: 50%; left: calc(50% - 375px);" data-depth="0.03">
       <div class="satellite-bubble" data-cursor="AI ROBOT">
-        <img src="assets/elements/elem-ai-robot.webp" alt="AI Agent" class="satellite-img">
+        <img src="assets/elements/elem-ai-robot.webp" alt="AI Agent" class="satellite-img" decoding="async">
       </div>
     </div>
 
     <!-- Left Flank: Automated Logic Workflow -->
     <div class="satellite-item sat-3" style="top: 76%; left: calc(50% - 345px);" data-depth="0.05">
       <div class="satellite-bubble" data-cursor="WORKFLOW">
-        <img src="assets/elements/elem-workflow-tree.webp" alt="Automations" class="satellite-img">
+        <img src="assets/elements/elem-workflow-tree.webp" alt="Automations" class="satellite-img" decoding="async">
       </div>
     </div>
 
     <!-- Right Flank: Spatial VR Headset -->
     <div class="satellite-item sat-4" style="top: 22%; right: calc(50% - 345px);" data-depth="0.04">
       <div class="satellite-bubble" data-cursor="SPATIAL UI">
-        <img src="assets/elements/elem-vr-headset.webp" alt="VR & Spatial Tech" class="satellite-img">
+        <img src="assets/elements/elem-vr-headset.webp" alt="VR & Spatial Tech" class="satellite-img" decoding="async">
       </div>
     </div>
 
     <!-- Right Flank: Glowing Innovation Bulb -->
     <div class="satellite-item sat-5" style="top: 48%; right: calc(50% - 375px);" data-depth="0.03">
       <div class="satellite-bubble" data-cursor="INNOVATION">
-        <img src="assets/elements/elem-3d-bulb-idea.webp" alt="Product Ideas" class="satellite-img">
+        <img src="assets/elements/elem-3d-bulb-idea.webp" alt="Product Ideas" class="satellite-img" decoding="async">
       </div>
     </div>
 
     <!-- Right Flank: Cloud Database Disks -->
     <div class="satellite-item sat-6" style="top: 74%; right: calc(50% - 350px);" data-depth="0.05">
       <div class="satellite-bubble" data-cursor="APIs & CLOUD">
-        <img src="assets/elements/elem-database-disks.webp" alt="Cloud Database" class="satellite-img">
+        <img src="assets/elements/elem-database-disks.webp" alt="Cloud Database" class="satellite-img" decoding="async">
       </div>
     </div>
   </div>
@@ -173,11 +174,11 @@
 
       <!-- Audio FX Soundscape Toggle -->
       <button class="hud-btn" id="audioToggleBtn" title="Toggle interactive UI sounds" aria-label="Toggle UI Audio" data-cursor="AUDIO">
-        <svg class="hud-icon sound-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+        <svg class="hud-icon sound-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
         </svg>
-        <svg class="hud-icon sound-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="hud-icon sound-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <line x1="23" y1="9" x2="17" y2="15"></line>
           <line x1="17" y1="9" x2="23" y2="15"></line>
@@ -221,7 +222,7 @@
             <div class="avatar-container" id="avatarMascot" data-cursor="SAMBHAV" title="Click avatar multiple times to unlock developer core">
               <div class="avatar-glow"></div>
               <div class="avatar-ring">
-                <img src="assets/profile.jpg" alt="Sambhav Jain" class="avatar-img avatar-portrait">
+                <img src="assets/profile.webp" alt="Sambhav Jain" class="avatar-img avatar-portrait" width="144" height="144" fetchpriority="high">
               </div>
             </div>
 
@@ -758,7 +759,7 @@
             <!-- 1. Business Websites & Landing Pages -->
             <div class="capability-card" data-service="Business Websites & Landing Pages">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-laptop-coding.webp" alt="Websites" class="cap-3d-thumb">
+                <img src="assets/elements/elem-laptop-coding.webp" alt="Websites" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">Business Websites, Stores &amp; Landing Pages</h3>
@@ -779,7 +780,7 @@
             <!-- 2. Mobile Apps & Portals -->
             <div class="capability-card" data-service="Mobile Apps & Customer Portals">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-phone-charts.webp" alt="Mobile Apps" class="cap-3d-thumb">
+                <img src="assets/elements/elem-phone-charts.webp" alt="Mobile Apps" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">Mobile Apps &amp; Customer Portals</h3>
@@ -799,7 +800,7 @@
             <!-- 3. Booking Systems & Custom Software -->
             <div class="capability-card" data-service="Booking Systems & Custom Software">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-workflow-tree.webp" alt="Custom Software" class="cap-3d-thumb">
+                <img src="assets/elements/elem-workflow-tree.webp" alt="Custom Software" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">Booking Systems &amp; Custom Software</h3>
@@ -819,7 +820,7 @@
             <!-- 4. AI Tools, Chatbots & AI Integration -->
             <div class="capability-card" data-service="AI Tools, Chatbots & AI Integration">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-ai-robot.webp" alt="AI Agents" class="cap-3d-thumb">
+                <img src="assets/elements/elem-ai-robot.webp" alt="AI Agents" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">AI Tools, Chatbots &amp; AI Integration</h3>
@@ -839,7 +840,7 @@
             <!-- 5. WhatsApp & Workflow Automation -->
             <div class="capability-card" data-service="WhatsApp & Workflow Automation">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-3d-whatsapp-bubble.webp" alt="WhatsApp Automation" class="cap-3d-thumb">
+                <img src="assets/elements/elem-3d-whatsapp-bubble.webp" alt="WhatsApp Automation" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">WhatsApp &amp; Workflow Automation</h3>
@@ -859,7 +860,7 @@
             <!-- 6. Dashboards, Backend Systems & APIs -->
             <div class="capability-card" data-service="Dashboards, Backend Systems & APIs">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-database-disks.webp" alt="Databases and APIs" class="cap-3d-thumb">
+                <img src="assets/elements/elem-database-disks.webp" alt="Databases and APIs" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">Dashboards, Backend Systems &amp; APIs</h3>
@@ -879,7 +880,7 @@
             <!-- 7. Branding, Logos & Graphic Design -->
             <div class="capability-card" data-service="Branding, Logos & Graphic Design">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-3d-bulb-idea.webp" alt="Branding" class="cap-3d-thumb">
+                <img src="assets/elements/elem-3d-bulb-idea.webp" alt="Branding" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">Branding, Logos &amp; Graphic Design</h3>
@@ -899,7 +900,7 @@
             <!-- 8. Social Media Creatives & Launch Assets -->
             <div class="capability-card" data-service="Social Media Creatives & Launch Assets">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-vr-headset.webp" alt="Creative Launch" class="cap-3d-thumb">
+                <img src="assets/elements/elem-vr-headset.webp" alt="Creative Launch" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">Social Media Creatives &amp; Launch Assets</h3>
@@ -919,7 +920,7 @@
             <!-- 9. IoT Solutions, Smart Devices & Prototypes -->
             <div class="capability-card" data-service="IoT Solutions, Smart Devices & Prototypes">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-raspberry-pi.webp" alt="Raspberry Pi & IoT" class="cap-3d-thumb">
+                <img src="assets/elements/elem-raspberry-pi.webp" alt="Raspberry Pi & IoT" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">IoT Solutions, Smart Devices &amp; Prototypes</h3>
@@ -940,7 +941,7 @@
             <!-- 10. End-to-End Product Development -->
             <div class="capability-card" data-service="End-to-End Product Development">
               <div class="cap-icon-box">
-                <img src="assets/elements/elem-robot-arm.webp" alt="Product Development" class="cap-3d-thumb">
+                <img src="assets/elements/elem-robot-arm.webp" alt="Product Development" class="cap-3d-thumb" width="48" height="48" loading="lazy" decoding="async">
               </div>
               <div class="cap-details">
                 <h3 class="cap-name">End-to-End Product Development</h3>
@@ -977,7 +978,7 @@
   </div>
 
   <!-- =========================================================================
-       MODAL 2: APPS & PORTFOLIO SHOWCASE (Intelligent Dual-State Expandable UI)
+       MODAL 2: APPS & PORTFOLIO SHOWCASE (Master-Detail Showcase & Case Studies)
        ========================================================================= -->
   <div class="modal-overlay" id="modalApps" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="appsModalTitle">
 
@@ -985,8 +986,8 @@
     <div class="modal-container modal-container-lg">
       <div class="modal-scroll-area custom-scrollbar" id="appsScrollArea">
 
-        <!-- Unified Sticky Frosted Header with Filter Tabs -->
-        <div class="modal-sticky-top">
+        <!-- Unified Sticky Frosted Header -->
+        <div class="modal-sticky-top" id="appsStickyTop">
           <div class="modal-header">
             <div class="modal-header-left">
               <div class="modal-icon-badge icon-violet">
@@ -999,7 +1000,7 @@
               </div>
               <div>
                 <h2 class="modal-title" id="appsModalTitle">Apps &amp; Creations</h2>
-                <p class="modal-subtitle">Production engineering, AI infrastructure, and distributed systems</p>
+                <p class="modal-subtitle" id="appsModalSubtitle">Production engineering, AI infrastructure, and distributed systems</p>
               </div>
             </div>
             <button class="modal-close-btn" data-close-modal aria-label="Close modal" data-cursor="CLOSE">
@@ -1010,8 +1011,8 @@
             </button>
           </div>
 
-          <!-- Seamlessly Integrated Filter Bar -->
-          <div class="filter-tabs-bar">
+          <!-- Filter Tabs Bar (Gallery View) -->
+          <div class="filter-tabs-bar" id="appsFilterBar">
             <button class="filter-tab is-active" data-filter="all" data-cursor="ALL">
               <span>All Projects</span>
               <span class="tab-count">8</span>
@@ -1033,69 +1034,342 @@
               <span>Dev Tools</span>
             </button>
           </div>
+
+          <!-- Detail Sub-Navigation Bar (Active inside Case Study Stage) -->
+          <div class="detail-nav-bar" id="appsDetailNavBar" style="display: none;">
+            <button type="button" class="btn-back-gallery" id="btnBackToGallery" data-cursor="BACK" title="Return to Gallery (Esc)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <span>All Projects</span>
+              <kbd class="detail-nav-kbd">Esc</kbd>
+            </button>
+            <div class="detail-nav-middle">
+              <span class="detail-project-indicator" id="detailProjectIndicator">Project 01 of 08</span>
+            </div>
+            <div class="detail-nav-pagination">
+              <button type="button" class="nav-page-btn" id="btnPrevProject" title="Previous Project (Left Arrow)" data-cursor="PREV">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <span>Prev</span>
+              </button>
+              <button type="button" class="nav-page-btn" id="btnNextProject" title="Next Project (Right Arrow)" data-cursor="NEXT">
+                <span>Next</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <!-- Scrollable Project Content -->
-        <div class="modal-content-area">
+        <!-- Modal Content Area -->
+        <div class="modal-content-area" id="appsContentArea">
 
-          <!-- Global Expand / Collapse All Quick Action Bar -->
-          <div class="portfolio-meta-bar">
-            <div class="meta-status-text">
-              <span class="live-dot"></span>
-              <span id="activeFilterLabel">Showing 8 Featured &amp; Experimental Projects</span>
-            </div>
-            <button class="btn-toggle-all" id="btnToggleAllProjects" data-cursor="TOGGLE ALL">
-              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
-              <span id="toggleAllLabel">Expand All</span>
-            </button>
-          </div>
-
-          <!-- SECTION 1: FEATURED PROJECTS (01 – 06) -->
-          <div class="projects-section-group">
-            <div class="section-badge-header">
-              <span class="group-title">Featured Projects</span>
-              <span class="group-line"></span>
+          <!-- ===================================================================
+               STAGE A: GALLERY VIEW (Master Shelf of 8 Projects)
+               =================================================================== -->
+          <div class="apps-view-gallery" id="appsGalleryView">
+            <div class="portfolio-meta-bar">
+              <div class="meta-status-text">
+                <span class="live-dot"></span>
+                <span id="activeFilterLabel">Showing 8 Featured &amp; Experimental Projects</span>
+              </div>
+              <span class="meta-hint-tag">Select any project to inspect case study</span>
             </div>
 
-            <div class="projects-list-container" id="featuredProjectsList">
+            <!-- Responsive 2-Column Showcase Grid -->
+            <div class="projects-gallery-grid" id="projectsGalleryGrid">
 
-              <!-- =================================================================
-                   PROJECT 01: UNRAVEL
-                   ================================================================= -->
-              <article class="project-showcase-card" data-category="ai tools" data-project-id="unravel">
-                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
-                  <div class="project-header-left">
-                    <div class="project-num-badge">01</div>
-                    <div class="project-thumb-box icon-ai">
-                      <img src="assets/projects/project-unravel.webp" alt="Unravel AST Engine" class="project-3d-img">
-                    </div>
-                    <div class="project-title-group">
-                      <div class="project-title-row">
-                        <h3 class="project-title">Unravel</h3>
-                        <span class="project-tag-pill pill-ai">AI Infrastructure</span>
-                        <span class="project-tag-pill pill-featured">MCP Server</span>
-                      </div>
-                      <p class="project-subtitle">Deterministic Debugging Infrastructure for AI Coding Agents</p>
-                    </div>
-                  </div>
-                  <div class="project-header-right">
-                    <div class="project-expand-btn">
-                      <span class="expand-label">Deep Dive</span>
-                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+              <!-- GALLERY CARD 01: Unravel -->
+              <div class="project-gallery-card" data-project-id="unravel" data-category="ai tools" data-cursor="INSPECT">
+                <div class="pgc-header-row">
+                  <span class="pgc-num">01</span>
+                  <div class="pgc-pills">
+                    <span class="project-tag-pill pill-ai">AI Infrastructure</span><span class="project-tag-pill pill-featured">MCP Server</span>
                   </div>
                 </div>
-
-                <!-- Tagline Banner -->
-                <div class="project-tagline-bar">
+                <div class="pgc-identity-row">
+                  <div class="pgc-thumb-box icon-ai">
+                    <img src="assets/projects/project-unravel.webp" alt="Unravel AST Engine" class="pgc-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="pgc-title-group">
+                    <h3 class="pgc-title">Unravel</h3>
+                    <p class="pgc-subtitle">Deterministic Debugging Infrastructure for AI Coding Agents</p>
+                  </div>
+                </div>
+                <div class="pgc-tagline-bar">
                   <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
                   <span>Giving AI coding agents structural evidence instead of asking them to guess.</span>
                 </div>
+                <div class="pgc-footer-row">
+                  <div class="pgc-tech-chips">
+                    <span class="pgc-chip">TypeScript</span><span class="pgc-chip">Node.js</span><span class="pgc-chip">Tree-sitter</span>
+                  </div>
+                  <button type="button" class="btn-inspect-case-study" data-open-study="unravel" data-cursor="INSPECT">
+                    <span>Case Study</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
 
-                <!-- Smooth Animated Drawer -->
-                <div class="project-drawer">
-                  <div class="project-drawer-inner">
-                    <!-- Architectural Flow Pipeline -->
+              <!-- GALLERY CARD 02: Erudite Flashcards -->
+              <div class="project-gallery-card" data-project-id="erudite-flashcards" data-category="mobile web" data-cursor="INSPECT">
+                <div class="pgc-header-row">
+                  <span class="pgc-num">02</span>
+                  <div class="pgc-pills">
+                    <span class="project-tag-pill pill-prod">Production Ready</span><span class="project-tag-pill pill-fsrs">FSRS Algorithm</span>
+                  </div>
+                </div>
+                <div class="pgc-identity-row">
+                  <div class="pgc-thumb-box icon-mobile">
+                    <img src="assets/projects/project-erudite-flashcards.webp" alt="Erudite Flashcards" class="pgc-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="pgc-title-group">
+                    <h3 class="pgc-title">Erudite Flashcards</h3>
+                    <p class="pgc-subtitle">Production-Grade Local-First Spaced Repetition Platform</p>
+                  </div>
+                </div>
+                <div class="pgc-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>A modern, production-oriented spaced repetition system built for serious students.</span>
+                </div>
+                <div class="pgc-footer-row">
+                  <div class="pgc-tech-chips">
+                    <span class="pgc-chip">JavaScript</span><span class="pgc-chip">Electron</span><span class="pgc-chip">Capacitor</span>
+                  </div>
+                  <button type="button" class="btn-inspect-case-study" data-open-study="erudite-flashcards" data-cursor="INSPECT">
+                    <span>Case Study</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- GALLERY CARD 03: Hypha &bull; Project Relay -->
+              <div class="project-gallery-card" data-project-id="hypha-relay" data-category="iot mobile" data-cursor="INSPECT">
+                <div class="pgc-header-row">
+                  <span class="pgc-num">03</span>
+                  <div class="pgc-pills">
+                    <span class="project-tag-pill pill-rust">Rust Core</span><span class="project-tag-pill pill-mesh">Delay-Tolerant Mesh</span>
+                  </div>
+                </div>
+                <div class="pgc-identity-row">
+                  <div class="pgc-thumb-box icon-iot">
+                    <img src="assets/projects/project-hypha.webp" alt="Hypha Relay" class="pgc-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="pgc-title-group">
+                    <h3 class="pgc-title">Hypha &bull; Project Relay</h3>
+                    <p class="pgc-subtitle">Offline Encrypted Delay-Tolerant Mesh Communication</p>
+                  </div>
+                </div>
+                <div class="pgc-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>Messaging designed to survive when the internet does not.</span>
+                </div>
+                <div class="pgc-footer-row">
+                  <div class="pgc-tech-chips">
+                    <span class="pgc-chip">Rust</span><span class="pgc-chip">Flutter</span><span class="pgc-chip">Dart</span>
+                  </div>
+                  <button type="button" class="btn-inspect-case-study" data-open-study="hypha-relay" data-cursor="INSPECT">
+                    <span>Case Study</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- GALLERY CARD 04: Lumium Ecosystem -->
+              <div class="project-gallery-card" data-project-id="lumium-ecosystem" data-category="ai mobile iot" data-cursor="INSPECT">
+                <div class="pgc-header-row">
+                  <span class="pgc-num">04</span>
+                  <div class="pgc-pills">
+                    <span class="project-tag-pill pill-ai">AI + Hardware</span><span class="project-tag-pill pill-prod">Multi-Platform</span>
+                  </div>
+                </div>
+                <div class="pgc-identity-row">
+                  <div class="pgc-thumb-box icon-ai">
+                    <img src="assets/projects/project-lumium.webp" alt="Lumium Ecosystem" class="pgc-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="pgc-title-group">
+                    <h3 class="pgc-title">Lumium Ecosystem</h3>
+                    <p class="pgc-subtitle">Connected Productivity Ecosystem Spanning Software, AI &amp; Hardware</p>
+                  </div>
+                </div>
+                <div class="pgc-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>A connected productivity ecosystem spanning software, AI and dedicated hardware.</span>
+                </div>
+                <div class="pgc-footer-row">
+                  <div class="pgc-tech-chips">
+                    <span class="pgc-chip">JavaScript</span><span class="pgc-chip">Capacitor</span><span class="pgc-chip">Android</span>
+                  </div>
+                  <button type="button" class="btn-inspect-case-study" data-open-study="lumium-ecosystem" data-cursor="INSPECT">
+                    <span>Case Study</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- GALLERY CARD 05: Pagevelle -->
+              <div class="project-gallery-card" data-project-id="pagevelle" data-category="mobile" data-cursor="INSPECT">
+                <div class="pgc-header-row">
+                  <span class="pgc-num">05</span>
+                  <div class="pgc-pills">
+                    <span class="project-tag-pill pill-flutter">Flutter / Dart</span><span class="project-tag-pill pill-ui">Experimental UX</span>
+                  </div>
+                </div>
+                <div class="pgc-identity-row">
+                  <div class="pgc-thumb-box icon-mobile">
+                    <img src="assets/projects/project-pagevelle.webp" alt="Pagevelle PDF" class="pgc-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="pgc-title-group">
+                    <h3 class="pgc-title">Pagevelle</h3>
+                    <p class="pgc-subtitle">Experimental Modern PDF Reading Experience</p>
+                  </div>
+                </div>
+                <div class="pgc-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>Exploring what a PDF reader could become if reading itself were treated as the product.</span>
+                </div>
+                <div class="pgc-footer-row">
+                  <div class="pgc-tech-chips">
+                    <span class="pgc-chip">Flutter</span><span class="pgc-chip">Dart</span><span class="pgc-chip">PDFium / pdfrx</span>
+                  </div>
+                  <button type="button" class="btn-inspect-case-study" data-open-study="pagevelle" data-cursor="INSPECT">
+                    <span>Case Study</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- GALLERY CARD 06: Xenon &bull; Gemma Shell -->
+              <div class="project-gallery-card" data-project-id="xenon-gemma" data-category="ai" data-cursor="INSPECT">
+                <div class="pgc-header-row">
+                  <span class="pgc-num">06</span>
+                  <div class="pgc-pills">
+                    <span class="project-tag-pill pill-ai">Local LLMs</span><span class="project-tag-pill pill-ollama">100% On-Device</span>
+                  </div>
+                </div>
+                <div class="pgc-identity-row">
+                  <div class="pgc-thumb-box icon-ai">
+                    <img src="assets/projects/project-xenon.webp" alt="Xenon AI" class="pgc-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="pgc-title-group">
+                    <h3 class="pgc-title">Xenon &bull; Gemma Shell</h3>
+                    <p class="pgc-subtitle">Local-First Personal AI Workspace &amp; Context Engine</p>
+                  </div>
+                </div>
+                <div class="pgc-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>A personal AI workspace where the model, memory and context can all stay local.</span>
+                </div>
+                <div class="pgc-footer-row">
+                  <div class="pgc-tech-chips">
+                    <span class="pgc-chip">Python</span><span class="pgc-chip">Ollama</span><span class="pgc-chip">Gemma</span>
+                  </div>
+                  <button type="button" class="btn-inspect-case-study" data-open-study="xenon-gemma" data-cursor="INSPECT">
+                    <span>Case Study</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- GALLERY CARD 07: UIQraft -->
+              <div class="project-gallery-card" data-project-id="uiqraft" data-category="tools web" data-cursor="INSPECT">
+                <div class="pgc-header-row">
+                  <span class="pgc-num">07</span>
+                  <div class="pgc-pills">
+                    <span class="project-tag-pill pill-tools">Design System</span><span class="project-tag-pill pill-featured">90+ Components</span>
+                  </div>
+                </div>
+                <div class="pgc-identity-row">
+                  <div class="pgc-thumb-box icon-ui">
+                    <img src="assets/projects/project-uiqraft.webp" alt="UIQraft" class="pgc-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="pgc-title-group">
+                    <h3 class="pgc-title">UIQraft</h3>
+                    <p class="pgc-subtitle">Reusable Multi-Framework UI Component Library</p>
+                  </div>
+                </div>
+                <div class="pgc-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>Design once, translate the interaction across frameworks.</span>
+                </div>
+                <div class="pgc-footer-row">
+                  <div class="pgc-tech-chips">
+                    <span class="pgc-chip">React</span><span class="pgc-chip">Vite</span><span class="pgc-chip">Tailwind CSS</span>
+                  </div>
+                  <button type="button" class="btn-inspect-case-study" data-open-study="uiqraft" data-cursor="INSPECT">
+                    <span>Case Study</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- GALLERY CARD 08: Productivity Toolkit -->
+              <div class="project-gallery-card" data-project-id="productivity-toolkit" data-category="tools web" data-cursor="INSPECT">
+                <div class="pgc-header-row">
+                  <span class="pgc-num">08</span>
+                  <div class="pgc-pills">
+                    <span class="project-tag-pill pill-tools">Experimental PWA</span><span class="project-tag-pill pill-prod">Foundation</span>
+                  </div>
+                </div>
+                <div class="pgc-identity-row">
+                  <div class="pgc-thumb-box icon-ai">
+                    <img src="assets/projects/project-productivity-toolkit.webp" alt="Productivity Toolkit" class="pgc-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="pgc-title-group">
+                    <h3 class="pgc-title">Productivity Toolkit</h3>
+                    <p class="pgc-subtitle">The Experimental Foundation That Became Lumium</p>
+                  </div>
+                </div>
+                <div class="pgc-tagline-bar">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>The experimentation platform from which the Lumium ecosystem evolved.</span>
+                </div>
+                <div class="pgc-footer-row">
+                  <div class="pgc-tech-chips">
+                    <span class="pgc-chip">HTML5</span><span class="pgc-chip">CSS3</span><span class="pgc-chip">JavaScript</span>
+                  </div>
+                  <button type="button" class="btn-inspect-case-study" data-open-study="productivity-toolkit" data-cursor="INSPECT">
+                    <span>Case Study</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ===================================================================
+               STAGE B: DETAIL STAGE (Focused Case Study View with Full Breathing Room)
+               =================================================================== -->
+          <div class="apps-view-detail" id="appsDetailView" style="display: none;">
+
+            <!-- =================================================================
+                 CASE STUDY PANE: 01 Unravel
+                 ================================================================= -->
+            <article class="case-study-pane" id="study-unravel" data-project-id="unravel" style="display: none;">
+              <!-- Sticky Stage Hero Banner -->
+              <header class="cs-stage-header">
+                <div class="cs-header-meta">
+                  <span class="cs-num-badge">01</span>
+                  <div class="cs-pills-row">
+                    <span class="project-tag-pill pill-ai">AI Infrastructure</span><span class="project-tag-pill pill-featured">MCP Server</span>
+                  </div>
+                </div>
+                <div class="cs-header-identity">
+                  <div class="cs-thumb-box icon-ai">
+                    <img src="assets/projects/project-unravel.webp" alt="Unravel AST Engine" class="cs-thumb-img" width="48" height="48" loading="lazy" decoding="async">
+                  </div>
+                  <div class="cs-title-group">
+                    <h2 class="cs-title">Unravel</h2>
+                    <p class="cs-subtitle">Deterministic Debugging Infrastructure for AI Coding Agents</p>
+                  </div>
+                </div>
+                <div class="cs-tagline-quote">
+                  <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
+                  <span>Giving AI coding agents structural evidence instead of asking them to guess.</span>
+                </div>
+              </header>
+
+              <!-- Complete Technical Depth & Systems Invariants -->
+              <div class="cs-content-body">
+                <!-- Architectural Flow Pipeline -->
                     <div class="arch-pipeline-box">
                       <div class="pipeline-label">3-Stage Verification Pipeline</div>
                       <div class="pipeline-steps">
@@ -1168,48 +1442,39 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </a>
                     </div>
+              </div>
+            </article>
 
+            <!-- =================================================================
+                 CASE STUDY PANE: 02 Erudite Flashcards
+                 ================================================================= -->
+            <article class="case-study-pane" id="study-erudite-flashcards" data-project-id="erudite-flashcards" style="display: none;">
+              <!-- Sticky Stage Hero Banner -->
+              <header class="cs-stage-header">
+                <div class="cs-header-meta">
+                  <span class="cs-num-badge">02</span>
+                  <div class="cs-pills-row">
+                    <span class="project-tag-pill pill-prod">Production Ready</span><span class="project-tag-pill pill-fsrs">FSRS Algorithm</span>
                   </div>
                 </div>
-              </article>
-
-              <!-- =================================================================
-                   PROJECT 02: ERUDITE FLASHCARDS
-                   ================================================================= -->
-              <article class="project-showcase-card" data-category="mobile web" data-project-id="erudite-flashcards">
-                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
-                  <div class="project-header-left">
-                    <div class="project-num-badge">02</div>
-                    <div class="project-thumb-box icon-mobile">
-                      <img src="assets/projects/project-erudite-flashcards.webp" alt="Erudite Flashcards" class="project-3d-img">
-                    </div>
-                    <div class="project-title-group">
-                      <div class="project-title-row">
-                        <h3 class="project-title">Erudite Flashcards</h3>
-                        <span class="project-tag-pill pill-prod">Production Ready</span>
-                        <span class="project-tag-pill pill-fsrs">FSRS Algorithm</span>
-                      </div>
-                      <p class="project-subtitle">Production-Grade Local-First Spaced Repetition Platform</p>
-                    </div>
+                <div class="cs-header-identity">
+                  <div class="cs-thumb-box icon-mobile">
+                    <img src="assets/projects/project-erudite-flashcards.webp" alt="Erudite Flashcards" class="cs-thumb-img" width="48" height="48" loading="lazy" decoding="async">
                   </div>
-                  <div class="project-header-right">
-                    <div class="project-expand-btn">
-                      <span class="expand-label">Deep Dive</span>
-                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+                  <div class="cs-title-group">
+                    <h2 class="cs-title">Erudite Flashcards</h2>
+                    <p class="cs-subtitle">Production-Grade Local-First Spaced Repetition Platform</p>
                   </div>
                 </div>
-
-                <!-- Tagline Banner -->
-                <div class="project-tagline-bar">
+                <div class="cs-tagline-quote">
                   <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
                   <span>A modern, production-oriented spaced repetition system built for serious students.</span>
                 </div>
+              </header>
 
-                <!-- Smooth Animated Drawer -->
-                <div class="project-drawer">
-                  <div class="project-drawer-inner">
-                    <!-- Note to Card Pipeline -->
+              <!-- Complete Technical Depth & Systems Invariants -->
+              <div class="cs-content-body">
+                <!-- Note to Card Pipeline -->
                     <div class="arch-pipeline-box">
                       <div class="pipeline-label">Knowledge Engine Architecture</div>
                       <div class="pipeline-steps">
@@ -1337,48 +1602,39 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </a>
                     </div>
+              </div>
+            </article>
 
+            <!-- =================================================================
+                 CASE STUDY PANE: 03 Hypha &bull; Project Relay
+                 ================================================================= -->
+            <article class="case-study-pane" id="study-hypha-relay" data-project-id="hypha-relay" style="display: none;">
+              <!-- Sticky Stage Hero Banner -->
+              <header class="cs-stage-header">
+                <div class="cs-header-meta">
+                  <span class="cs-num-badge">03</span>
+                  <div class="cs-pills-row">
+                    <span class="project-tag-pill pill-rust">Rust Core</span><span class="project-tag-pill pill-mesh">Delay-Tolerant Mesh</span>
                   </div>
                 </div>
-              </article>
-
-              <!-- =================================================================
-                   PROJECT 03: HYPHA (PROJECT RELAY)
-                   ================================================================= -->
-              <article class="project-showcase-card" data-category="iot mobile" data-project-id="hypha-relay">
-                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
-                  <div class="project-header-left">
-                    <div class="project-num-badge">03</div>
-                    <div class="project-thumb-box icon-iot">
-                      <img src="assets/projects/project-hypha.webp" alt="Hypha Relay" class="project-3d-img">
-                    </div>
-                    <div class="project-title-group">
-                      <div class="project-title-row">
-                        <h3 class="project-title">Hypha &bull; Project Relay</h3>
-                        <span class="project-tag-pill pill-rust">Rust Core</span>
-                        <span class="project-tag-pill pill-mesh">Delay-Tolerant Mesh</span>
-                      </div>
-                      <p class="project-subtitle">Offline Encrypted Delay-Tolerant Mesh Communication</p>
-                    </div>
+                <div class="cs-header-identity">
+                  <div class="cs-thumb-box icon-iot">
+                    <img src="assets/projects/project-hypha.webp" alt="Hypha Relay" class="cs-thumb-img" width="48" height="48" loading="lazy" decoding="async">
                   </div>
-                  <div class="project-header-right">
-                    <div class="project-expand-btn">
-                      <span class="expand-label">Deep Dive</span>
-                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+                  <div class="cs-title-group">
+                    <h2 class="cs-title">Hypha &bull; Project Relay</h2>
+                    <p class="cs-subtitle">Offline Encrypted Delay-Tolerant Mesh Communication</p>
                   </div>
                 </div>
-
-                <!-- Tagline Banner -->
-                <div class="project-tagline-bar">
+                <div class="cs-tagline-quote">
                   <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
                   <span>Messaging designed to survive when the internet does not.</span>
                 </div>
+              </header>
 
-                <!-- Smooth Animated Drawer -->
-                <div class="project-drawer">
-                  <div class="project-drawer-inner">
-                    <!-- Store and Forward Pipeline -->
+              <!-- Complete Technical Depth & Systems Invariants -->
+              <div class="cs-content-body">
+                <!-- Store and Forward Pipeline -->
                     <div class="arch-pipeline-box">
                       <div class="pipeline-label">Delay-Tolerant Propagation</div>
                       <div class="pipeline-steps">
@@ -1523,48 +1779,39 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </a>
                     </div>
+              </div>
+            </article>
 
+            <!-- =================================================================
+                 CASE STUDY PANE: 04 Lumium Ecosystem
+                 ================================================================= -->
+            <article class="case-study-pane" id="study-lumium-ecosystem" data-project-id="lumium-ecosystem" style="display: none;">
+              <!-- Sticky Stage Hero Banner -->
+              <header class="cs-stage-header">
+                <div class="cs-header-meta">
+                  <span class="cs-num-badge">04</span>
+                  <div class="cs-pills-row">
+                    <span class="project-tag-pill pill-ai">AI + Hardware</span><span class="project-tag-pill pill-prod">Multi-Platform</span>
                   </div>
                 </div>
-              </article>
-
-              <!-- =================================================================
-                   PROJECT 04: LUMIUM ECOSYSTEM
-                   ================================================================= -->
-              <article class="project-showcase-card" data-category="ai mobile iot" data-project-id="lumium-ecosystem">
-                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
-                  <div class="project-header-left">
-                    <div class="project-num-badge">04</div>
-                    <div class="project-thumb-box icon-ai">
-                      <img src="assets/projects/project-lumium.webp" alt="Lumium Ecosystem" class="project-3d-img">
-                    </div>
-                    <div class="project-title-group">
-                      <div class="project-title-row">
-                        <h3 class="project-title">Lumium Ecosystem</h3>
-                        <span class="project-tag-pill pill-ai">AI + Hardware</span>
-                        <span class="project-tag-pill pill-prod">Multi-Platform</span>
-                      </div>
-                      <p class="project-subtitle">Connected Productivity Ecosystem Spanning Software, AI &amp; Hardware</p>
-                    </div>
+                <div class="cs-header-identity">
+                  <div class="cs-thumb-box icon-ai">
+                    <img src="assets/projects/project-lumium.webp" alt="Lumium Ecosystem" class="cs-thumb-img" width="48" height="48" loading="lazy" decoding="async">
                   </div>
-                  <div class="project-header-right">
-                    <div class="project-expand-btn">
-                      <span class="expand-label">Deep Dive</span>
-                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+                  <div class="cs-title-group">
+                    <h2 class="cs-title">Lumium Ecosystem</h2>
+                    <p class="cs-subtitle">Connected Productivity Ecosystem Spanning Software, AI &amp; Hardware</p>
                   </div>
                 </div>
-
-                <!-- Tagline Banner -->
-                <div class="project-tagline-bar">
+                <div class="cs-tagline-quote">
                   <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
                   <span>A connected productivity ecosystem spanning software, AI and dedicated hardware.</span>
                 </div>
+              </header>
 
-                <!-- Smooth Animated Drawer -->
-                <div class="project-drawer">
-                  <div class="project-drawer-inner">
-                    <!-- Ecosystem Triad -->
+              <!-- Complete Technical Depth & Systems Invariants -->
+              <div class="cs-content-body">
+                <!-- Ecosystem Triad -->
                     <div class="arch-pipeline-box">
                       <div class="pipeline-label">Ecosystem Architecture</div>
                       <div class="pipeline-steps">
@@ -1626,47 +1873,39 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </a>
                     </div>
+              </div>
+            </article>
+
+            <!-- =================================================================
+                 CASE STUDY PANE: 05 Pagevelle
+                 ================================================================= -->
+            <article class="case-study-pane" id="study-pagevelle" data-project-id="pagevelle" style="display: none;">
+              <!-- Sticky Stage Hero Banner -->
+              <header class="cs-stage-header">
+                <div class="cs-header-meta">
+                  <span class="cs-num-badge">05</span>
+                  <div class="cs-pills-row">
+                    <span class="project-tag-pill pill-flutter">Flutter / Dart</span><span class="project-tag-pill pill-ui">Experimental UX</span>
                   </div>
                 </div>
-              </article>
-
-              <!-- =================================================================
-                   PROJECT 05: PAGEVELLE
-                   ================================================================= -->
-              <article class="project-showcase-card" data-category="mobile" data-project-id="pagevelle">
-                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
-                  <div class="project-header-left">
-                    <div class="project-num-badge">05</div>
-                    <div class="project-thumb-box icon-mobile">
-                      <img src="assets/projects/project-pagevelle.webp" alt="Pagevelle PDF" class="project-3d-img">
-                    </div>
-                    <div class="project-title-group">
-                      <div class="project-title-row">
-                        <h3 class="project-title">Pagevelle</h3>
-                        <span class="project-tag-pill pill-flutter">Flutter / Dart</span>
-                        <span class="project-tag-pill pill-ui">Experimental UX</span>
-                      </div>
-                      <p class="project-subtitle">Experimental Modern PDF Reading Experience</p>
-                    </div>
+                <div class="cs-header-identity">
+                  <div class="cs-thumb-box icon-mobile">
+                    <img src="assets/projects/project-pagevelle.webp" alt="Pagevelle PDF" class="cs-thumb-img" width="48" height="48" loading="lazy" decoding="async">
                   </div>
-                  <div class="project-header-right">
-                    <div class="project-expand-btn">
-                      <span class="expand-label">Deep Dive</span>
-                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+                  <div class="cs-title-group">
+                    <h2 class="cs-title">Pagevelle</h2>
+                    <p class="cs-subtitle">Experimental Modern PDF Reading Experience</p>
                   </div>
                 </div>
-
-                <!-- Tagline Banner -->
-                <div class="project-tagline-bar">
+                <div class="cs-tagline-quote">
                   <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
                   <span>Exploring what a PDF reader could become if reading itself were treated as the product.</span>
                 </div>
+              </header>
 
-                <!-- Smooth Animated Drawer -->
-                <div class="project-drawer">
-                  <div class="project-drawer-inner">
-                    <!-- Reading Modes Pipeline -->
+              <!-- Complete Technical Depth & Systems Invariants -->
+              <div class="cs-content-body">
+                <!-- Reading Modes Pipeline -->
                     <div class="arch-pipeline-box">
                       <div class="pipeline-label">Multi-Modal Reading Engines</div>
                       <div class="pipeline-steps">
@@ -1724,48 +1963,39 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </a>
                     </div>
+              </div>
+            </article>
 
+            <!-- =================================================================
+                 CASE STUDY PANE: 06 Xenon &bull; Gemma Shell
+                 ================================================================= -->
+            <article class="case-study-pane" id="study-xenon-gemma" data-project-id="xenon-gemma" style="display: none;">
+              <!-- Sticky Stage Hero Banner -->
+              <header class="cs-stage-header">
+                <div class="cs-header-meta">
+                  <span class="cs-num-badge">06</span>
+                  <div class="cs-pills-row">
+                    <span class="project-tag-pill pill-ai">Local LLMs</span><span class="project-tag-pill pill-ollama">100% On-Device</span>
                   </div>
                 </div>
-              </article>
-
-              <!-- =================================================================
-                   PROJECT 06: XENON / GEMMA SHELL
-                   ================================================================= -->
-              <article class="project-showcase-card" data-category="ai" data-project-id="xenon-gemma">
-                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
-                  <div class="project-header-left">
-                    <div class="project-num-badge">06</div>
-                    <div class="project-thumb-box icon-ai">
-                      <img src="assets/projects/project-xenon.webp" alt="Xenon AI" class="project-3d-img">
-                    </div>
-                    <div class="project-title-group">
-                      <div class="project-title-row">
-                        <h3 class="project-title">Xenon &bull; Gemma Shell</h3>
-                        <span class="project-tag-pill pill-ai">Local LLMs</span>
-                        <span class="project-tag-pill pill-ollama">100% On-Device</span>
-                      </div>
-                      <p class="project-subtitle">Local-First Personal AI Workspace &amp; Context Engine</p>
-                    </div>
+                <div class="cs-header-identity">
+                  <div class="cs-thumb-box icon-ai">
+                    <img src="assets/projects/project-xenon.webp" alt="Xenon AI" class="cs-thumb-img" width="48" height="48" loading="lazy" decoding="async">
                   </div>
-                  <div class="project-header-right">
-                    <div class="project-expand-btn">
-                      <span class="expand-label">Deep Dive</span>
-                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+                  <div class="cs-title-group">
+                    <h2 class="cs-title">Xenon &bull; Gemma Shell</h2>
+                    <p class="cs-subtitle">Local-First Personal AI Workspace &amp; Context Engine</p>
                   </div>
                 </div>
-
-                <!-- Tagline Banner -->
-                <div class="project-tagline-bar">
+                <div class="cs-tagline-quote">
                   <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
                   <span>A personal AI workspace where the model, memory and context can all stay local.</span>
                 </div>
+              </header>
 
-                <!-- Smooth Animated Drawer -->
-                <div class="project-drawer">
-                  <div class="project-drawer-inner">
-                    <!-- Local AI Paradigm -->
+              <!-- Complete Technical Depth & Systems Invariants -->
+              <div class="cs-content-body">
+                <!-- Local AI Paradigm -->
                     <div class="arch-pipeline-box">
                       <div class="pipeline-label">Privacy-Preserving Local Pipeline</div>
                       <div class="pipeline-steps">
@@ -1823,59 +2053,39 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </a>
                     </div>
+              </div>
+            </article>
+
+            <!-- =================================================================
+                 CASE STUDY PANE: 07 UIQraft
+                 ================================================================= -->
+            <article class="case-study-pane" id="study-uiqraft" data-project-id="uiqraft" style="display: none;">
+              <!-- Sticky Stage Hero Banner -->
+              <header class="cs-stage-header">
+                <div class="cs-header-meta">
+                  <span class="cs-num-badge">07</span>
+                  <div class="cs-pills-row">
+                    <span class="project-tag-pill pill-tools">Design System</span><span class="project-tag-pill pill-featured">90+ Components</span>
                   </div>
                 </div>
-              </article>
-
-            </div>
-          </div>
-
-          <!-- SECTION 2: MORE THINGS I'VE BUILT (07 – 08) -->
-          <div class="projects-section-group">
-            <div class="section-badge-header">
-              <span class="group-title">More Systems &amp; Libraries</span>
-              <span class="group-line"></span>
-            </div>
-
-            <div class="projects-list-container" id="moreProjectsList">
-
-              <!-- =================================================================
-                   PROJECT 07: UIQRAFT
-                   ================================================================= -->
-              <article class="project-showcase-card" data-category="tools web" data-project-id="uiqraft">
-                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
-                  <div class="project-header-left">
-                    <div class="project-num-badge">07</div>
-                    <div class="project-thumb-box icon-ui">
-                      <img src="assets/projects/project-uiqraft.webp" alt="UIQraft" class="project-3d-img">
-                    </div>
-                    <div class="project-title-group">
-                      <div class="project-title-row">
-                        <h3 class="project-title">UIQraft</h3>
-                        <span class="project-tag-pill pill-tools">Design System</span>
-                        <span class="project-tag-pill pill-featured">90+ Components</span>
-                      </div>
-                      <p class="project-subtitle">Reusable Multi-Framework UI Component Library</p>
-                    </div>
+                <div class="cs-header-identity">
+                  <div class="cs-thumb-box icon-ui">
+                    <img src="assets/projects/project-uiqraft.webp" alt="UIQraft" class="cs-thumb-img" width="48" height="48" loading="lazy" decoding="async">
                   </div>
-                  <div class="project-header-right">
-                    <div class="project-expand-btn">
-                      <span class="expand-label">Deep Dive</span>
-                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+                  <div class="cs-title-group">
+                    <h2 class="cs-title">UIQraft</h2>
+                    <p class="cs-subtitle">Reusable Multi-Framework UI Component Library</p>
                   </div>
                 </div>
-
-                <!-- Tagline Banner -->
-                <div class="project-tagline-bar">
+                <div class="cs-tagline-quote">
                   <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
                   <span>Design once, translate the interaction across frameworks.</span>
                 </div>
+              </header>
 
-                <!-- Smooth Animated Drawer -->
-                <div class="project-drawer">
-                  <div class="project-drawer-inner">
-                    <div class="project-section-block">
+              <!-- Complete Technical Depth & Systems Invariants -->
+              <div class="cs-content-body">
+                <div class="project-section-block">
                       <h4 class="section-heading">
                         <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                         Multi-Framework Architecture
@@ -1904,47 +2114,39 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </a>
                     </div>
+              </div>
+            </article>
+
+            <!-- =================================================================
+                 CASE STUDY PANE: 08 Productivity Toolkit
+                 ================================================================= -->
+            <article class="case-study-pane" id="study-productivity-toolkit" data-project-id="productivity-toolkit" style="display: none;">
+              <!-- Sticky Stage Hero Banner -->
+              <header class="cs-stage-header">
+                <div class="cs-header-meta">
+                  <span class="cs-num-badge">08</span>
+                  <div class="cs-pills-row">
+                    <span class="project-tag-pill pill-tools">Experimental PWA</span><span class="project-tag-pill pill-prod">Foundation</span>
                   </div>
                 </div>
-              </article>
-
-              <!-- =================================================================
-                   PROJECT 08: PRODUCTIVITY TOOLKIT
-                   ================================================================= -->
-              <article class="project-showcase-card" data-category="tools web" data-project-id="productivity-toolkit">
-                <div class="project-card-header" role="button" tabindex="0" aria-expanded="false" data-cursor="EXPAND">
-                  <div class="project-header-left">
-                    <div class="project-num-badge">08</div>
-                    <div class="project-thumb-box icon-ai">
-                      <img src="assets/projects/project-productivity-toolkit.webp" alt="Productivity Toolkit" class="project-3d-img">
-                    </div>
-                    <div class="project-title-group">
-                      <div class="project-title-row">
-                        <h3 class="project-title">Productivity Toolkit</h3>
-                        <span class="project-tag-pill pill-tools">Experimental PWA</span>
-                        <span class="project-tag-pill pill-prod">Foundation</span>
-                      </div>
-                      <p class="project-subtitle">The Experimental Foundation That Became Lumium</p>
-                    </div>
+                <div class="cs-header-identity">
+                  <div class="cs-thumb-box icon-ai">
+                    <img src="assets/projects/project-productivity-toolkit.webp" alt="Productivity Toolkit" class="cs-thumb-img" width="48" height="48" loading="lazy" decoding="async">
                   </div>
-                  <div class="project-header-right">
-                    <div class="project-expand-btn">
-                      <span class="expand-label">Deep Dive</span>
-                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+                  <div class="cs-title-group">
+                    <h2 class="cs-title">Productivity Toolkit</h2>
+                    <p class="cs-subtitle">The Experimental Foundation That Became Lumium</p>
                   </div>
                 </div>
-
-                <!-- Tagline Banner -->
-                <div class="project-tagline-bar">
+                <div class="cs-tagline-quote">
                   <svg class="quote-mini-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path></svg>
                   <span>The experimentation platform from which the Lumium ecosystem evolved.</span>
                 </div>
+              </header>
 
-                <!-- Smooth Animated Drawer -->
-                <div class="project-drawer">
-                  <div class="project-drawer-inner">
-                    <div class="project-section-block">
+              <!-- Complete Technical Depth & Systems Invariants -->
+              <div class="cs-content-body">
+                <div class="project-section-block">
                       <h4 class="section-heading">
                         <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                         The Prototyping Laboratory
@@ -1971,12 +2173,9 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                       </a>
                     </div>
+              </div>
+            </article>
 
-                  </div>
-                </div>
-              </article>
-
-            </div>
           </div>
 
         </div>
@@ -1996,8 +2195,6 @@
       </div>
     </div>
   </div>
-
-
 
   <!-- =========================================================================
        MODAL 4: SHARE / QR CODE MODAL
@@ -2199,9 +2396,10 @@
 
 
   <!-- =========================================================================
-       SCRIPTS
+       SCRIPTS (Deferred execution: zero parser blocking, no document.write)
        ========================================================================= -->
-  <script src="js/app.js"></script>
+  <script defer src="js/app-core.js"></script>
+  <script defer src="js/engineering-v2.js"></script>
 </body>
 </html>
 

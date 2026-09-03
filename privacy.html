@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Privacy Policy — Sambhav Jain | Apps &amp; Digital Solutions</title>
   <meta name="description" content="Privacy Policy for applications, software, and digital solutions developed by Sambhav Jain.">
   <meta name="author" content="Sambhav Jain">
@@ -18,8 +18,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
+  <!-- Main Stylesheets (Parallel loaded) -->
+  <link rel="stylesheet" href="css/style-core.css">
+  <link rel="stylesheet" href="css/engineering-v2.css">
 </head>
 <body class="privacy-page-body theme-glass">
 
@@ -268,8 +269,9 @@
     </article>
   </main>
 
-  <!-- Interactive App Engine & Cursor -->
-  <script src="js/app.js"></script>
+  <!-- Interactive App Engine & Diagnostics (Deferred execution) -->
+  <script defer src="js/app-core.js"></script>
+  <script defer src="js/engineering-v2.js"></script>
 </body>
 </html>
 

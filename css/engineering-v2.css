@@ -172,3 +172,696 @@ body.is-engineering-core .card-face-back > *:nth-child(5) { animation-delay:.17s
     -webkit-backdrop-filter: blur(6px) saturate(90%) !important;
   }
 }
+
+/* ==========================================================================
+   Master-Detail Project Showcase & Case Study Engine
+   ========================================================================== */
+
+/* Expand modal container for spacious 2-column showcase */
+.modal-container-lg {
+  max-width: 960px !important;
+}
+
+/* Detail Navigation Bar inside Sticky Header */
+.detail-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 24px 12px;
+  background: rgba(255, 255, 255, 0.98);
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.btn-back-gallery {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: rgba(241, 245, 249, 0.9);
+  border: 1.5px solid rgba(203, 213, 225, 0.9);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.btn-back-gallery:hover {
+  background: var(--color-brand-indigo);
+  color: #FFFFFF;
+  border-color: var(--color-brand-indigo);
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+}
+
+.detail-nav-kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: rgba(226, 232, 240, 0.8);
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  color: var(--text-secondary);
+}
+
+.btn-back-gallery:hover .detail-nav-kbd {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
+}
+
+.detail-nav-middle {
+  display: flex;
+  align-items: center;
+}
+
+.detail-project-indicator {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-brand-indigo);
+  background: rgba(238, 242, 255, 0.8);
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(199, 210, 254, 0.8);
+}
+
+.detail-nav-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  font-family: var(--font-heading);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.nav-page-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.nav-page-btn:hover {
+  background: #FFFFFF;
+  color: var(--color-brand-blue);
+  border-color: rgba(147, 197, 253, 0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.1);
+}
+
+/* Gallery View & Responsive Grid */
+.apps-view-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.meta-hint-tag {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-brand-indigo);
+  background: rgba(238, 242, 255, 0.6);
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid rgba(199, 210, 254, 0.5);
+}
+
+.projects-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Gallery Project Card */
+.project-gallery-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1.5px solid rgba(226, 232, 240, 0.95);
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.04);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.24s ease,
+              background 0.2s ease;
+  user-select: none;
+}
+
+.project-gallery-card:hover {
+  background: #FFFFFF;
+  border-color: rgba(99, 102, 241, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(37, 99, 235, 0.12);
+}
+
+.project-gallery-card.is-hidden {
+  display: none !important;
+}
+
+.pgc-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pgc-num {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-brand-indigo);
+  background: rgba(238, 242, 255, 0.9);
+  border: 1px solid rgba(199, 210, 254, 0.8);
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.pgc-pills {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pgc-identity-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pgc-thumb-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: linear-gradient(135deg, #F0F6FF 0%, #E0F2FE 100%);
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 4px 12px rgba(37, 99, 235, 0.06);
+  overflow: hidden;
+}
+
+.pgc-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.pgc-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pgc-title {
+  font-family: var(--font-heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.pgc-subtitle {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pgc-tagline-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: linear-gradient(135deg, rgba(238, 242, 255, 0.7) 0%, rgba(240, 249, 255, 0.7) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(199, 210, 254, 0.5);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #3730A3;
+  line-height: 1.35;
+}
+
+.pgc-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.pgc-tech-chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.pgc-chip {
+  font-size: 0.66rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+}
+
+.btn-inspect-case-study {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: rgba(238, 242, 255, 0.9);
+  border: 1px solid rgba(199, 210, 254, 0.8);
+  border-radius: 7px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-brand-indigo);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.project-gallery-card:hover .btn-inspect-case-study {
+  background: var(--color-brand-indigo);
+  color: #FFFFFF;
+  border-color: var(--color-brand-indigo);
+  transform: translateX(2px);
+}
+
+/* Detail Case Study Pane */
+.apps-view-detail {
+  position: relative;
+}
+
+.case-study-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: csFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes csFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cs-stage-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 20px;
+  background: rgba(248, 250, 252, 0.92);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 12px;
+}
+
+.cs-header-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cs-num-badge {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--color-brand-indigo);
+  background: rgba(238, 242, 255, 0.95);
+  border: 1px solid rgba(199, 210, 254, 0.8);
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+}
+
+.cs-pills-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cs-header-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cs-thumb-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: linear-gradient(135deg, #F0F6FF 0%, #E0F2FE 100%);
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+}
+
+.cs-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cs-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cs-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.cs-subtitle {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.cs-tagline-quote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(238, 242, 255, 0.85) 0%, rgba(240, 249, 255, 0.85) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(199, 210, 254, 0.6);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3730A3;
+}
+
+.cs-content-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .projects-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  .detail-nav-bar {
+    padding: 8px 14px 10px;
+  }
+  .btn-back-gallery {
+    padding: 5px 10px;
+    font-size: 0.74rem;
+  }
+  .detail-nav-kbd {
+    display: none;
+  }
+  .detail-project-indicator {
+    font-size: 0.74rem;
+    padding: 3px 8px;
+  }
+  .nav-page-btn {
+    padding: 5px 8px;
+    font-size: 0.7rem;
+  }
+}
+
+/* ==========================================================================
+   Step 3: Native Mobile Bottom-Sheet & 44px Touch Ergonomics (WCAG 2.5.5)
+   ========================================================================== */
+
+/* Universal elimination of mobile 300ms touch delay */
+button,
+a,
+input,
+select,
+textarea,
+.action-card,
+.connect-chip,
+.contact-pill,
+.proof-chip,
+.filter-tab,
+.project-gallery-card {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Tablet & Mobile Showcase Grid (max-width: 768px) */
+@media (max-width: 768px) {
+  .projects-gallery-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* Native Mobile Bottom-Sheet (max-width: 640px) */
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 0 !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+  }
+
+  .modal-container,
+  .modal-container-lg,
+  .modal-container-sm,
+  .modal-container-cmd {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 92vh !important;
+    height: 92dvh !important;
+    max-height: 92vh !important;
+    max-height: 92dvh !important;
+    margin: 0 !important;
+    border-radius: 22px 22px 0 0 !important;
+    border: none !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 -12px 40px rgba(15, 23, 42, 0.28) !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .modal-overlay.is-active .modal-container,
+  .modal-overlay.is-active .modal-container-lg,
+  .modal-overlay.is-active .modal-container-sm,
+  .modal-overlay.is-active .modal-container-cmd {
+    transform: translateY(0) !important;
+  }
+
+  .modal-scroll-area {
+    height: 100% !important;
+    max-height: calc(92dvh - 60px) !important;
+    overscroll-behavior-y: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Tactile pull-to-dismiss handle at top of modal */
+  .modal-sticky-top::before {
+    content: '' !important;
+    display: block !important;
+    width: 42px !important;
+    height: 5px !important;
+    background: #CBD5E1 !important;
+    border-radius: 999px !important;
+    margin: 10px auto 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .modal-header {
+    padding: 8px 16px 10px !important;
+  }
+
+  .modal-title {
+    font-size: 1.18rem !important;
+  }
+
+  .modal-subtitle {
+    font-size: 0.76rem !important;
+  }
+
+  /* Touch-target minimum 44px */
+  .modal-close-btn {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  .hud-btn {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  /* Filter Tabs Bar: high-comfort swipeable tabs */
+  .filter-tabs-bar {
+    padding: 6px 16px 12px !important;
+    gap: 8px !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .filter-tab {
+    min-height: 42px !important;
+    padding: 8px 16px !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* Case study detail navigation */
+  .detail-nav-bar {
+    padding: 8px 14px 10px !important;
+    gap: 8px !important;
+  }
+  .btn-back-gallery {
+    min-height: 42px !important;
+    padding: 8px 14px !important;
+    font-size: 0.8rem !important;
+  }
+  .nav-page-btn {
+    min-height: 42px !important;
+    min-width: 42px !important;
+    padding: 8px 12px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .modal-content-area {
+    padding: 14px 16px 24px !important;
+  }
+
+  .portfolio-meta-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+  }
+
+  /* Gallery Cards on mobile */
+  .project-gallery-card {
+    padding: 14px 16px !important;
+    gap: 10px !important;
+  }
+  .btn-inspect-case-study {
+    min-height: 40px !important;
+    padding: 8px 14px !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* Case Study Stage on mobile */
+  .cs-stage-header {
+    padding: 14px 16px !important;
+  }
+  .cs-title {
+    font-size: 1.22rem !important;
+  }
+  .cs-subtitle {
+    font-size: 0.8rem !important;
+  }
+  .cs-content-body .built-features-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* Simulator controls on mobile */
+  .fsrs-grade-btn {
+    min-height: 48px !important;
+    padding: 10px 6px !important;
+  }
+  .mesh-step-btn {
+    min-height: 44px !important;
+  }
+  .mesh-reset-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  /* Bottom sheet sticky footer */
+  .modal-footer {
+    padding: 12px 16px max(16px, env(safe-area-inset-bottom, 16px)) !important;
+  }
+  .modal-action-btn {
+    min-height: 48px !important;
+  }
+}
+
+/* Small Smartphone Ergonomics (max-width: 480px) */
+@media (max-width: 480px) {
+  .page-stage {
+    padding: 62px 10px 20px !important;
+  }
+
+  .card-face-front {
+    padding: 22px 14px 18px !important;
+    gap: 16px !important;
+  }
+
+  .hero-name {
+    font-size: 1.75rem !important;
+  }
+
+  .hero-tagline {
+    font-size: 0.85rem !important;
+  }
+
+  .engineering-proof-row {
+    gap: 6px !important;
+  }
+  .proof-chip {
+    padding: 6px 10px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .action-card {
+    padding: 12px 14px !important;
+    min-height: 64px !important;
+  }
+
+  .connect-chip {
+    padding: 12px 14px !important;
+    min-height: 64px !important;
+  }
+
+  .contact-pill {
+    min-height: 48px !important;
+  }
+}

@@ -3,6 +3,8 @@
  * Zero-Reflow GPU Magnetic Cursor, 3D Tilt, Web Audio Synth & Smooth Modals
  */
 
+window.__appCoreLoaded = true;
+
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
@@ -12,76 +14,80 @@ document.addEventListener('DOMContentLoaded', () => {
   class SoundEngine {
     constructor() {
       this.ctx = null;
-      this.enabled = localStorage.getItem('sj_audio_enabled') === 'true';
+      // Default to armed/enabled unless visitor explicitly clicked mute ('false')
+      this.enabled = localStorage.getItem('sj_audio_enabled') !== 'false';
       this.initOnInteraction = this.initOnInteraction.bind(this);
       window.addEventListener('click', this.initOnInteraction, { passive: true });
       window.addEventListener('touchstart', this.initOnInteraction, { passive: true });
       window.addEventListener('keydown', this.initOnInteraction, { passive: true });
     }
 
-
-    initOnInteraction() {
-      this.ensureContext();
+    async initOnInteraction() {
+      await this.ensureContext();
     }
 
-    ensureContext() {
-      if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        this.ctx = new AudioCtx();
-      }
-      if (this.ctx && this.ctx.state === 'suspended') {
-        this.ctx.resume();
-      }
+    async ensureContext() {
+      try {
+        if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          await this.ctx.resume();
+        }
+      } catch (e) {}
+      return this.ctx;
     }
 
-    toggle() {
+    async toggle() {
       this.enabled = !this.enabled;
-      localStorage.setItem('sj_audio_enabled', this.enabled);
+      localStorage.setItem('sj_audio_enabled', this.enabled ? 'true' : 'false');
       if (this.enabled) {
+        await this.ensureContext();
         this.playChime();
       }
       return this.enabled;
     }
 
-    playClick() {
+    async playClick() {
       if (!this.enabled) return;
-      this.ensureContext();
-      if (!this.ctx) return;
+      await this.ensureContext();
+      if (!this.ctx || this.ctx.state === 'suspended') return;
       try {
         const now = this.ctx.currentTime;
 
-        // High crisp transient click
+        // High crisp tactile mechanical click
         const osc1 = this.ctx.createOscillator();
         const gain1 = this.ctx.createGain();
         osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(1200, now);
-        osc1.frequency.exponentialRampToValueAtTime(320, now + 0.05);
-        gain1.gain.setValueAtTime(0.28, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+        osc1.frequency.setValueAtTime(1400, now);
+        osc1.frequency.exponentialRampToValueAtTime(360, now + 0.07);
+        gain1.gain.setValueAtTime(0.35, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
         osc1.connect(gain1);
         gain1.connect(this.ctx.destination);
         osc1.start(now);
-        osc1.stop(now + 0.05);
+        osc1.stop(now + 0.07);
 
         // Warm harmonic sub-tone for punch
         const osc2 = this.ctx.createOscillator();
         const gain2 = this.ctx.createGain();
         osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(540, now);
-        osc2.frequency.exponentialRampToValueAtTime(180, now + 0.06);
-        gain2.gain.setValueAtTime(0.18, now);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+        osc2.frequency.setValueAtTime(580, now);
+        osc2.frequency.exponentialRampToValueAtTime(180, now + 0.08);
+        gain2.gain.setValueAtTime(0.24, now);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
         osc2.connect(gain2);
         gain2.connect(this.ctx.destination);
         osc2.start(now);
-        osc2.stop(now + 0.06);
+        osc2.stop(now + 0.08);
       } catch (e) {}
     }
 
-    playModalOpen() {
+    async playModalOpen() {
       if (!this.enabled) return;
-      this.ensureContext();
-      if (!this.ctx) return;
+      await this.ensureContext();
+      if (!this.ctx || this.ctx.state === 'suspended') return;
       try {
         const now = this.ctx.currentTime;
 
@@ -92,21 +98,21 @@ document.addEventListener('DOMContentLoaded', () => {
           const gain = this.ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(freq * 0.95, now + idx * 0.03);
-          osc.frequency.exponentialRampToValueAtTime(freq, now + idx * 0.03 + 0.08);
-          gain.gain.setValueAtTime(0.22, now + idx * 0.03);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.03 + 0.28);
+          osc.frequency.exponentialRampToValueAtTime(freq, now + idx * 0.03 + 0.09);
+          gain.gain.setValueAtTime(0.28, now + idx * 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.03 + 0.32);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
           osc.start(now + idx * 0.03);
-          osc.stop(now + idx * 0.03 + 0.28);
+          osc.stop(now + idx * 0.03 + 0.32);
         });
       } catch (e) {}
     }
 
-    playChime() {
+    async playChime() {
       if (!this.enabled) return;
-      this.ensureContext();
-      if (!this.ctx) return;
+      await this.ensureContext();
+      if (!this.ctx || this.ctx.state === 'suspended') return;
       try {
         const now = this.ctx.currentTime;
         // Resonant C Major glass arpeggio (C5 -> E5 -> G5 -> C6)
@@ -116,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const gain = this.ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(freq, now + i * 0.07);
-          gain.gain.setValueAtTime(0.25, now + i * 0.07);
+          gain.gain.setValueAtTime(0.30, now + i * 0.07);
           gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.45);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -126,10 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) {}
     }
 
-    playCyberUnlock() {
+    async playCyberUnlock() {
       if (!this.enabled) return;
-      this.ensureContext();
-      if (!this.ctx) return;
+      await this.ensureContext();
+      if (!this.ctx || this.ctx.state === 'suspended') return;
       try {
         const now = this.ctx.currentTime;
 
@@ -153,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const gain = this.ctx.createGain();
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(freq, now + 0.05 + idx * 0.045);
-          gain.gain.setValueAtTime(0.14, now + 0.05 + idx * 0.045);
+          gain.gain.setValueAtTime(0.16, now + 0.05 + idx * 0.045);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05 + idx * 0.045 + 0.16);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -168,10 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) {}
     }
 
-    playDataBlip() {
+    async playDataBlip() {
       if (!this.enabled) return;
-      this.ensureContext();
-      if (!this.ctx) return;
+      await this.ensureContext();
+      if (!this.ctx || this.ctx.state === 'suspended') return;
       try {
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
@@ -179,12 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
         osc.type = 'sine';
         osc.frequency.setValueAtTime(1800, now);
         osc.frequency.setValueAtTime(2400, now + 0.02);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.06);
+        osc.stop(now + 0.07);
       } catch (e) {}
     }
   }
@@ -310,12 +316,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Single Unified 120FPS GPU Animation Loop
   function animationTick() {
     if (isMouseActive && isPageVisible) {
-      // 1. Fluid trailing ring physics (lerp 0.18 for instant, snappy follow latency)
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
+      // 1. Snappy, responsive trailing ring physics (zero perceptible lag, fluid organic follow)
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      const distSq = dx * dx + dy * dy;
+
+      if (distSq < 0.25) {
+        ringX = mouseX;
+        ringY = mouseY;
+      } else {
+        const lerpFactor = document.body.classList.contains('cursor-hovering') ? 0.58 : 0.46;
+        ringX += dx * lerpFactor;
+        ringY += dy * lerpFactor;
+      }
 
       if (cursorRing) {
-        cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+        cursorRing.style.transform = `translate3d(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px, 0) translate(-50%, -50%)`;
       }
 
       // 2. 3D Card Parallax Tilt & Specular Light Tracking (Unconditional on desktop homepage)
@@ -441,13 +457,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.documentElement.classList.remove('modal-open');
     document.body.classList.remove('modal-open');
+
+    if (window.location.hash.startsWith('#apps') || window.location.hash.startsWith('#capabilities') || window.location.hash.startsWith('#share')) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
   }
 
 
   // Buttons that open modals
-  document.getElementById('btnOpenCapabilities')?.addEventListener('click', () => openModal(modals.capabilities));
-  document.getElementById('btnOpenApps')?.addEventListener('click', () => openModal(modals.apps));
-  
+  document.getElementById('btnOpenCapabilities')?.addEventListener('click', () => {
+    openModal(modals.capabilities);
+    history.replaceState(null, '', '#capabilities');
+  });
+
+  document.getElementById('btnOpenApps')?.addEventListener('click', () => {
+    openModal(modals.apps);
+    showProjectGallery();
+  });
+
   // Direct Project Deep-Dive Opener from Hero Proof Chips
   document.querySelectorAll('[data-open-project]').forEach((chip) => {
     chip.addEventListener('click', () => {
@@ -455,18 +482,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const projId = chip.getAttribute('data-open-project');
       openModal(modals.apps);
       if (projId) {
-        setTimeout(() => {
-          const targetCard = document.querySelector(`.project-showcase-card[data-project-id="${projId}"]`);
-          if (targetCard) {
-            // Un-hide if filtered
-            targetCard.classList.remove('is-hidden');
-            targetCard.classList.add('is-expanded');
-            targetCard.querySelector('.project-card-header')?.setAttribute('aria-expanded', 'true');
-            const expandLabel = targetCard.querySelector('.expand-label');
-            if (expandLabel) expandLabel.textContent = 'Collapse';
-            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        }, 160);
+        showProjectDetail(projId);
+      } else {
+        showProjectGallery();
       }
     });
   });
@@ -754,7 +772,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if (e.key === 'Escape' && isAnyModalOpen) {
+      if (modals.apps?.classList.contains('is-active') && activeView === 'detail') {
+        showProjectGallery();
+        return;
+      }
       closeAllModals();
+    }
+    if (modals.apps?.classList.contains('is-active') && activeView === 'detail') {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateProject(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateProject(1);
+      }
     }
   });
 
@@ -764,22 +795,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (cleanCmd.startsWith('trace unravel')) {
       closeAllModals();
-      document.querySelector('[data-open-project="unravel"]')?.click();
+      openModal(modals.apps);
+      showProjectDetail('unravel');
       return;
     }
     if (cleanCmd.startsWith('trace hypha')) {
       closeAllModals();
-      document.querySelector('[data-open-project="hypha-relay"]')?.click();
+      openModal(modals.apps);
+      showProjectDetail('hypha-relay');
       return;
     }
     if (cleanCmd.startsWith('trace erudite')) {
       closeAllModals();
-      document.querySelector('[data-open-project="erudite-flashcards"]')?.click();
+      openModal(modals.apps);
+      showProjectDetail('erudite-flashcards');
       return;
     }
     if (cleanCmd.startsWith('projects')) {
       closeAllModals();
       openModal(modals.apps);
+      showProjectGallery();
       return;
     }
     if (cleanCmd.startsWith('mode')) {
@@ -872,13 +907,46 @@ Command not recognized. Available commands:
 
 
   // --------------------------------------------------------------------------
-  // 4. Apps Portfolio System: Expandable Drawers, Filter Tabs & Global Toggle
+  // 4. Apps Portfolio Showcase: Master-Detail Engine & Case Study Stage
   // --------------------------------------------------------------------------
-  const projectCards = document.querySelectorAll('.project-showcase-card');
+  const appsGalleryView = document.getElementById('appsGalleryView');
+  const appsDetailView = document.getElementById('appsDetailView');
+  const appsFilterBar = document.getElementById('appsFilterBar');
+  const appsDetailNavBar = document.getElementById('appsDetailNavBar');
+  const appsModalTitle = document.getElementById('appsModalTitle');
+  const appsModalSubtitle = document.getElementById('appsModalSubtitle');
+  const appsScrollArea = document.getElementById('appsScrollArea');
+  const btnBackToGallery = document.getElementById('btnBackToGallery');
+  const btnPrevProject = document.getElementById('btnPrevProject');
+  const btnNextProject = document.getElementById('btnNextProject');
+  const detailProjectIndicator = document.getElementById('detailProjectIndicator');
+
+  const galleryCards = Array.from(document.querySelectorAll('.project-gallery-card'));
+  const caseStudyPanes = Array.from(document.querySelectorAll('.case-study-pane'));
   const filterTabs = document.querySelectorAll('.filter-tab');
-  const btnToggleAll = document.getElementById('btnToggleAllProjects');
-  const toggleAllLabel = document.getElementById('toggleAllLabel');
   const activeFilterLabel = document.getElementById('activeFilterLabel');
+
+  const projectOrder = [
+    'unravel',
+    'erudite-flashcards',
+    'hypha-relay',
+    'lumium-ecosystem',
+    'pagevelle',
+    'xenon-gemma',
+    'uiqraft',
+    'productivity-toolkit',
+  ];
+
+  const projectNames = {
+    'unravel': 'Unravel',
+    'erudite-flashcards': 'Erudite Flashcards',
+    'hypha-relay': 'Hypha • Project Relay',
+    'lumium-ecosystem': 'Lumium Ecosystem',
+    'pagevelle': 'Pagevelle',
+    'xenon-gemma': 'Xenon • Gemma Shell',
+    'uiqraft': 'UIQraft',
+    'productivity-toolkit': 'Productivity Toolkit',
+  };
 
   const filterNames = {
     all: 'Featured & Experimental Projects',
@@ -888,64 +956,100 @@ Command not recognized. Available commands:
     tools: 'Developer Tools & UI Systems',
   };
 
-  function updateToggleAllState() {
-    const visibleCards = Array.from(projectCards).filter((c) => !c.classList.contains('is-hidden'));
-    const allExpanded = visibleCards.length > 0 && visibleCards.every((c) => c.classList.contains('is-expanded'));
-    if (btnToggleAll && toggleAllLabel) {
-      if (allExpanded) {
-        btnToggleAll.classList.add('is-expanded');
-        toggleAllLabel.textContent = 'Collapse All';
-      } else {
-        btnToggleAll.classList.remove('is-expanded');
-        toggleAllLabel.textContent = 'Expand All';
-      }
+  let activeView = 'gallery'; // 'gallery' | 'detail'
+  let currentProjectId = 'unravel';
+
+  function showProjectGallery(updateHash = true) {
+    activeView = 'gallery';
+    if (appsGalleryView) appsGalleryView.style.display = 'block';
+    if (appsDetailView) appsDetailView.style.display = 'none';
+    if (appsFilterBar) appsFilterBar.style.display = 'flex';
+    if (appsDetailNavBar) appsDetailNavBar.style.display = 'none';
+
+    if (appsModalTitle) appsModalTitle.textContent = 'Apps & Creations';
+    if (appsModalSubtitle) appsModalSubtitle.textContent = 'Production engineering, AI infrastructure, and distributed systems';
+
+    caseStudyPanes.forEach((p) => (p.style.display = 'none'));
+    if (appsScrollArea) appsScrollArea.scrollTop = 0;
+
+    if (updateHash && window.location.hash.startsWith('#apps')) {
+      history.replaceState(null, '', '#apps');
     }
   }
 
-  // Individual Project Card Click to Expand / Collapse
-  projectCards.forEach((card) => {
-    const header = card.querySelector('.project-card-header');
-    header?.addEventListener('click', () => {
-      sound.playClick();
-      const isExpanded = card.classList.toggle('is-expanded');
-      header.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-      const expandLabel = card.querySelector('.expand-label');
-      if (expandLabel) {
-        expandLabel.textContent = isExpanded ? 'Collapse' : 'Deep Dive';
-      }
-      updateToggleAllState();
+  function showProjectDetail(projectId, updateHash = true) {
+    if (!projectOrder.includes(projectId)) {
+      projectId = projectOrder[0];
+    }
+    activeView = 'detail';
+    currentProjectId = projectId;
+
+    if (appsGalleryView) appsGalleryView.style.display = 'none';
+    if (appsDetailView) appsDetailView.style.display = 'block';
+    if (appsFilterBar) appsFilterBar.style.display = 'none';
+    if (appsDetailNavBar) appsDetailNavBar.style.display = 'flex';
+
+    caseStudyPanes.forEach((p) => {
+      const match = p.getAttribute('data-project-id') === projectId;
+      p.style.display = match ? 'flex' : 'none';
     });
 
-    // Keyboard Accessibility (Enter / Space)
-    header?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        header.click();
-      }
-    });
-  });
+    const currentIndex = projectOrder.indexOf(projectId);
+    const numStr = String(currentIndex + 1).padStart(2, '0');
+    const name = projectNames[projectId] || projectId;
 
-  // Global Expand All / Collapse All Toggle Button
-  btnToggleAll?.addEventListener('click', () => {
+    if (detailProjectIndicator) {
+      detailProjectIndicator.textContent = `Project ${numStr} of 08 • ${name}`;
+    }
+
+    if (appsModalTitle) appsModalTitle.textContent = name;
+    if (appsModalSubtitle) appsModalSubtitle.textContent = 'Architecture & Implementation Case Study';
+
+    if (appsScrollArea) appsScrollArea.scrollTop = 0;
+
+    if (updateHash) {
+      history.replaceState(null, '', `#apps/${projectId}`);
+    }
     sound.playClick();
-    const visibleCards = Array.from(projectCards).filter((c) => !c.classList.contains('is-hidden'));
-    const shouldExpand = !visibleCards.every((c) => c.classList.contains('is-expanded'));
+  }
 
-    visibleCards.forEach((card) => {
-      if (shouldExpand) {
-        card.classList.add('is-expanded');
-        card.querySelector('.project-card-header')?.setAttribute('aria-expanded', 'true');
-        const expandLabel = card.querySelector('.expand-label');
-        if (expandLabel) expandLabel.textContent = 'Collapse';
-      } else {
-        card.classList.remove('is-expanded');
-        card.querySelector('.project-card-header')?.setAttribute('aria-expanded', 'false');
-        const expandLabel = card.querySelector('.expand-label');
-        if (expandLabel) expandLabel.textContent = 'Deep Dive';
+  function navigateProject(direction) {
+    const currentIndex = projectOrder.indexOf(currentProjectId);
+    let nextIndex = currentIndex + direction;
+    if (nextIndex < 0) nextIndex = projectOrder.length - 1;
+    if (nextIndex >= projectOrder.length) nextIndex = 0;
+    showProjectDetail(projectOrder[nextIndex]);
+  }
+
+  // Click handler on gallery cards
+  galleryCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const pid = card.getAttribute('data-project-id');
+      if (pid) {
+        showProjectDetail(pid);
       }
     });
-    updateToggleAllState();
   });
+
+  // Buttons inside gallery cards
+  document.querySelectorAll('[data-open-study]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const pid = btn.getAttribute('data-open-study');
+      if (pid) {
+        showProjectDetail(pid);
+      }
+    });
+  });
+
+  // Navigation Bar buttons
+  btnBackToGallery?.addEventListener('click', () => {
+    sound.playClick();
+    showProjectGallery();
+  });
+
+  btnPrevProject?.addEventListener('click', () => navigateProject(-1));
+  btnNextProject?.addEventListener('click', () => navigateProject(1));
 
   // Category Filter Tabs
   filterTabs.forEach((tab) => {
@@ -957,7 +1061,7 @@ Command not recognized. Available commands:
       const filter = tab.getAttribute('data-filter') || 'all';
       let visibleCount = 0;
 
-      projectCards.forEach((card) => {
+      galleryCards.forEach((card) => {
         const cat = card.getAttribute('data-category') || '';
         if (filter === 'all' || cat.includes(filter)) {
           card.classList.remove('is-hidden');
@@ -971,9 +1075,28 @@ Command not recognized. Available commands:
         const labelText = filterNames[filter] || 'Projects';
         activeFilterLabel.textContent = `Showing ${visibleCount} ${labelText}`;
       }
-      updateToggleAllState();
     });
   });
+
+  // URL Hash Deep-Linking Routing
+  function handleUrlHash() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#apps/')) {
+      const pid = hash.replace('#apps/', '');
+      openModal(modals.apps);
+      showProjectDetail(pid, false);
+    } else if (hash === '#apps') {
+      openModal(modals.apps);
+      showProjectGallery(false);
+    } else if (hash === '#capabilities') {
+      openModal(modals.capabilities);
+    } else if (hash === '#share') {
+      openModal(modals.share);
+    }
+  }
+
+  window.addEventListener('hashchange', handleUrlHash);
+  setTimeout(handleUrlHash, 100);
 
   // --------------------------------------------------------------------------
   // 5. 1-Tap vCard (.vcf) Contact Exporter
