@@ -1,0 +1,14 @@
+{
+  "name": "sambhav-showreel",
+  "private": true,
+  "description": "15-second procedural motion-graphics showreel, rendered frame-by-frame in headless Chromium",
+  "type": "module",
+  "scripts": {
+    "render": "node tools/render.mjs",
+    "stills": "node tools/render.mjs --stills",
+    "preview": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}

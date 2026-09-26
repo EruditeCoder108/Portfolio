@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sambhav Jain — Showreel</title>
+  <style>
+    html, body { margin: 0; background: #05070F; overflow: hidden; }
+    #scene { display: none; }
+    #out { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    body.preview #out { width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    #bar { position: fixed; left: 0; bottom: 0; height: 3px; background: #38BDF8; width: 0; display: none; }
+    body.preview #bar { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="scene" width="1920" height="1080"></canvas>
+  <canvas id="out" width="1920" height="1080"></canvas>
+  <div id="bar"></div>
+  <script src="src/cues.js"></script>
+  <script src="src/lib.js"></script>
+  <script src="src/post.js"></script>
+  <script src="src/scenes-open.js"></script>
+  <script src="src/scenes-work.js"></script>
+  <script src="src/scenes-close.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
