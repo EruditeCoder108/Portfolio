@@ -18,7 +18,7 @@ const SCENES = [
   ...(typeof CLOSE_SCENES !== 'undefined' ? CLOSE_SCENES : []),
 ];
 
-const LIGHT = [[T.build, T.automate], [T.pagevelle + 0.15, T.xenon], [T.uiqraft + 0.2, T.wall + 0.12]];
+const LIGHT = [[T.build, T.automate], [T.pagevelle + 0.15, T.xenon], [T.uiqraft + 0.2, T.staysecure], [T.end, DUR + 1]];
 
 function fxAt(t) {
   const fx = { aberr: 0.0024, glitch: 0, flash: 0, flashCol: [1, 1, 1], sx: 0, sy: 0, zoom: 1, bloom: 0.32, bloomThr: 0.72, vig: 0.42, grain: 0.024 };
@@ -42,6 +42,13 @@ function fxAt(t) {
   for (const [beat, dur, amp] of CUES.flashes) {
     const ft = bt(beat);
     if (t >= ft && t < ft + dur) fx.flash = Math.max(fx.flash, amp * Math.pow(1 - (t - ft) / dur, 2));
+  }
+  for (const [b0, bPeak, b1, amp] of CUES.flutes) {
+    const t0 = bt(b0), tp = bt(bPeak), t1 = bt(b1);
+    if (t >= t0 && t < t1) {
+      fx.flute = amp * (t < tp ? Ez.inCubic(inv(t0, tp, t)) : 1 - Ez.outCubic(inv(tp, t1, t)));
+      fx.flutePh = (t - t0) * 3.5;
+    }
   }
   for (const [a, b] of LIGHT) {
     if (t >= a && t < b) { fx.bloom = 0.18; fx.bloomThr = 0.95; fx.vig = 0.16; }
@@ -112,7 +119,7 @@ async function loadFonts() {
 window.REEL = {
   W, H, FPS, DUR,
   frames: Math.round(DUR * FPS),
-  ready: loadFonts(),
+  ready: Promise.all([loadFonts(), IMG.ready]),
   renderFrame,
 };
 

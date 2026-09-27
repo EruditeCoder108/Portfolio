@@ -334,3 +334,30 @@ function odometer(ctx, value, x, y, size, o = {}) {
   ctx.fillText(suf, cx + digits * dw, y);
   return totalW;
 }
+
+/* ---------- bitmap assets (project artwork supplied by Sambhav) ---------- */
+const IMG = (() => {
+  const files = {
+    eruditeIcon: 'assets/erudite-icon.png',
+    eruditeLibrary: 'assets/erudite-library.webp',
+    eruditeOcclusion: 'assets/erudite-occlusion.webp',
+    pagevelleLogo: 'assets/pagevelle-logo.png',
+    glass: 'assets/glass-reeded.jpg',
+    hyphaTrail: 'assets/hypha-trail.jpg',
+  };
+  const out = {};
+  out.ready = Promise.all(Object.entries(files).map(([k, src]) => {
+    const im = new Image();
+    im.src = src;
+    out[k] = im;
+    return im.decode();
+  }));
+  return out;
+})();
+
+/** draw an image scaled to cover a rect (object-fit: cover) */
+function drawCover(ctx, im, x, y, w, h, zoom = 1, ox = 0, oy = 0) {
+  const s = Math.max(w / im.naturalWidth, h / im.naturalHeight) * zoom;
+  const dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+  ctx.drawImage(im, x + (w - dw) / 2 + ox, y + (h - dh) / 2 + oy, dw, dh);
+}

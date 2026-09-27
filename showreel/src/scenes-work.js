@@ -19,12 +19,13 @@ function darkBg(ctx, th, lt, gx = W * 0.62, gy = H * 0.45) {
   dotGrid(ctx, 48, 0.045, '#FFFFFF', 0, -lt * 24);
 }
 
-function titleBlock(ctx, lt, idx, name, sub, th, t0 = 0.1) {
+/** project title lockup; `icon(ctx, x, y, size, k)` optionally draws the project's own mark before the name */
+function titleBlock(ctx, lt, idx, name, sub, th, t0 = 0.1, icon = null) {
   const x = 120, p = A(lt, t0, t0 + 0.35);
   setFont(ctx, 600, 20, MONO);
   ctx.fillStyle = th.mute;
   ctx.globalAlpha = p;
-  ctx.fillText(`${idx} / 07`, x, 842);
+  ctx.fillText(`${idx} / 08`, x, 842);
   ctx.globalAlpha = 1;
   ctx.fillStyle = th.accent;
   ctx.fillRect(x + 100, 835, 60 * p, 3);
@@ -36,9 +37,32 @@ function titleBlock(ctx, lt, idx, name, sub, th, t0 = 0.1) {
   ctx.clip();
   ctx.fillText(sub, x + 180, 842);
   ctx.restore();
+  let nx = x - 6;
+  if (icon) {
+    const k = spring(lt - t0, 1.9, 6.5);
+    if (k > 0) {
+      ctx.save();
+      about(ctx, x + 50, 925, k, (1 - k) * -0.5);
+      icon(ctx, x, 875, 100, k);
+      ctx.restore();
+    }
+    nx = x + 128;
+  }
   setFont(ctx, 800, 124, DISP);
   ctx.fillStyle = th.fg;
-  riseText(ctx, name, x - 6, 972, 124, { t: lt - t0, stagger: 0.022, dur: 0.42, track: -1 });
+  riseText(ctx, name, nx, 972, 124, { t: lt - t0, stagger: 0.022, dur: 0.42, track: -1 });
+}
+
+/** rounded app-icon tile from a bitmap */
+function iconTile(im, radius = 0.22, pad = 0) {
+  return (ctx, x, y, s) => {
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(x, y, s, s, s * radius);
+    ctx.clip();
+    ctx.drawImage(im, x - pad * s, y - pad * s, s * (1 + 2 * pad), s * (1 + 2 * pad));
+    ctx.restore();
+  };
 }
 
 function tagPills(ctx, lt, list, th, t0 = 0.16) {
@@ -88,7 +112,8 @@ const UNR = (() => {
     }
     strands.push({ fin, knot, acc: polyLength(fin), col: mixHex('#6366F1', '#38BDF8', i / 7) });
   }
-  const edge = (c, p) => { const mx = (c[0] + p[0]) / 2; return [c, [mx, c[1]], [mx, p[1]], p]; };
+  // smooth S-curve branches (no hard elbows)
+  const edge = (c, p) => { const mx = (c[0] + p[0]) / 2; return bezier(c, [mx + 18, c[1]], [mx - 18, p[1]], p, 28); };
   const edges = [
     ...leaves.map((c, i) => [edge(c, l2[i >> 1]), 0]),
     ...l2.map((c, i) => [edge(c, l1[i >> 1]), 1]),

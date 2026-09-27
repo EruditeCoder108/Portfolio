@@ -18,7 +18,7 @@ const Post = (() => {
 
   const FS_ACC = HEAD + `
   uniform sampler2D src, prev;
-  uniform float w, ab, gAmt, tm, flash, first;
+  uniform float w, ab, gAmt, tm, flash, first, flute, fluteN, flutePh;
   uniform vec3 flashCol;
   vec3 lin(vec3 c){ return pow(max(c, 0.0), vec3(2.2)); }
   void main(){
@@ -29,11 +29,24 @@ const Post = (() => {
       if (h(vec2(b1, tt)) < gAmt * 0.6) q.x += (h(vec2(b1, tt + 1.7)) - 0.5) * 0.18 * gAmt;
       if (h(vec2(b2, tt + 4.1)) < gAmt * 0.4) q.x += (h(vec2(b2, tt + 2.3)) - 0.5) * 0.06 * gAmt;
     }
+    // fluted (reeded) glass: every rib shows a magnified, slightly swept slice of what is behind it
+    float rib = 0.0;
+    if (flute > 0.001) {
+      float x = q.x * fluteN + flutePh;
+      float f = fract(x) - 0.5;
+      rib = f;
+      q.x -= f * (flute * 1.35) / fluteN;
+      q.y += (f * f - 0.083) * flute * 0.035;
+    }
     vec2 d = (q - 0.5) * vec2(1.0, 0.5625);
-    float a = ab + gAmt * 0.02;
+    float a = ab + gAmt * 0.02 + flute * 0.006;
     vec2 off = d * a + vec2(gAmt * 0.004, 0.0);
     vec3 c = vec3(texture(src, q + off).r, texture(src, q).g, texture(src, q - off).b);
     c = lin(mix(c, flashCol, clamp(flash, 0.0, 1.0)));
+    if (flute > 0.001) {
+      float spec = exp(-pow((rib + 0.28) * 9.0, 2.0)) * 0.55 + exp(-pow((rib - 0.47) * 22.0, 2.0)) * 0.35;
+      c = c * (1.0 - flute * 0.18 * (rib * rib * 4.0)) + vec3(spec) * flute * 0.22;
+    }
     vec3 pr = first > 0.5 ? vec3(0.0) : texture(prev, uv).rgb;
     o = vec4(pr + c * w, 1.0);
   }`;
@@ -176,6 +189,7 @@ const Post = (() => {
     const out = acc[ping ^ 1], prev = acc[ping];
     draw(progs.acc, out, { src, prev: prev.t }, {
       w: 1 / N, ab: fx.aberr, gAmt: fx.glitch, tm: t, flash: fx.flash, flashCol: fx.flashCol, first: sampleIdx === 0 ? 1 : 0,
+      flute: fx.flute || 0, fluteN: 46, flutePh: fx.flutePh || 0,
     });
     ping ^= 1;
     sampleIdx++;
