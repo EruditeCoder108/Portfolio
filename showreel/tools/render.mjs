@@ -24,7 +24,8 @@ const opt = (name, def) => {
   return v === undefined || v.startsWith('--') ? true : v;
 };
 
-const FPS = 60, DUR = 15, TOTAL = FPS * DUR;
+const CUES = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/cues.js'), 'utf8').match(/=\s*(\{[\s\S]*\})\s*;/)[1]);
+const FPS = 60, DUR = (CUES.beats * 60) / CUES.bpm, TOTAL = Math.round(FPS * DUR);
 const workers = Number(opt('workers', 3));
 const samples = Number(opt('samples', 6));
 const shutter = Number(opt('shutter', 0.6));

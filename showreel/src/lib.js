@@ -1,8 +1,9 @@
 /* Showreel toolkit: timing, easing, springs, deterministic noise, text + path helpers.
    Everything is a pure function of time so any frame can be rendered in isolation. */
 
-const W = 1920, H = 1080, FPS = 60, DUR = 15;
-const BPM = 128, BEAT = 60 / BPM, BAR = BEAT * 4;
+const W = 1920, H = 1080, FPS = 60;
+const BPM = window.CUES.bpm, BEAT = 60 / BPM, BAR = BEAT * 4;
+const DUR = window.CUES.beats * BEAT;
 const bt = n => n * BEAT;
 const TAU = Math.PI * 2, D2R = Math.PI / 180;
 

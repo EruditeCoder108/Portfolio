@@ -12,13 +12,13 @@ const SCENES = [
   [T.imagine, T.design, sImagine],
   [T.design, T.build, sDesign],
   [T.build, T.automate, sBuild],
-  [T.automate, T.mark, sAutomate],
-  [T.mark, T.unravel, sMark],
+  [T.automate, T.matrix, sAutomate],
+  [T.matrix, T.unravel, sMatrix],
   ...(typeof WORK_SCENES !== 'undefined' ? WORK_SCENES : []),
   ...(typeof CLOSE_SCENES !== 'undefined' ? CLOSE_SCENES : []),
 ];
 
-const LIGHT = [[T.build, T.automate], [T.pagevelle + 0.15, T.xenon], [T.uiqraft + 0.2, T.staysecure], [T.end, DUR + 1]];
+const LIGHT = [[T.build, T.automate], [T.pagevelle + 0.15, T.xenon], [T.uiqraft + 0.2, T.staysecure], [T.finale, DUR + 1]];
 
 function fxAt(t) {
   const fx = { aberr: 0.0024, glitch: 0, flash: 0, flashCol: [1, 1, 1], sx: 0, sy: 0, zoom: 1, bloom: 0.32, bloomThr: 0.72, vig: 0.42, grain: 0.024 };
@@ -50,6 +50,7 @@ function fxAt(t) {
       fx.flutePh = (t - t0) * 3.5;
     }
   }
+  if (t >= T.staysecure && t < T.wall) { fx.bloom = 0.16; fx.bloomThr = 0.8; }
   for (const [a, b] of LIGHT) {
     if (t >= a && t < b) { fx.bloom = 0.18; fx.bloomThr = 0.95; fx.vig = 0.16; }
   }
@@ -119,7 +120,7 @@ async function loadFonts() {
 window.REEL = {
   W, H, FPS, DUR,
   frames: Math.round(DUR * FPS),
-  ready: Promise.all([loadFonts(), IMG.ready]),
+  ready: Promise.all([loadFonts(), IMG.ready]).then(() => { initParticles(); endNameShape(); }),
   renderFrame,
 };
 

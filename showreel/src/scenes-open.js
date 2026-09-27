@@ -1,45 +1,8 @@
 /* Act I — "If you can imagine it, we can design it, build it and automate it."
-   Beats 0–8: laser line → IMAGINE → DESIGN → BUILD → AUTOMATE (drop) → mark → zoom-through. */
+   Beats 0–6: laser line → IMAGINE → DESIGN → BUILD → AUTOMATE (drop), which collapses into the dot matrix. */
 
 const T = {};
 for (const [k, v] of Object.entries(window.CUES.sections)) T[k] = bt(v);
-
-/* ---------- shared: the mark (two interlocking arcs), drawn as vectors ---------- */
-const Mark = (() => {
-  const N = 90;
-  const upper = [];
-  const a0 = 144 * D2R, a1 = 410 * D2R;
-  for (let i = 0; i <= N; i++) {
-    const s = i / N, a = lerp(a0, a1, s);
-    const r = s < 0.7 ? 1 : 1 - 0.28 * Ez.inOutCubic((s - 0.7) / 0.3);
-    upper.push([-0.3 + Math.cos(a) * r, -0.24 + Math.sin(a) * r]);
-  }
-  const lower = upper.map(([x, y]) => [-x, -y]);
-  const accU = polyLength(upper), accL = polyLength(lower);
-  /** draw at (cx, cy) with mid-radius R; p = draw-on progress */
-  function draw(ctx, cx, cy, R, p, colU, colL, wMul = 1) {
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.scale(R, R);
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.lineWidth = 0.46 * wMul;
-    ctx.strokeStyle = colL;
-    strokePartial(ctx, lower, 0, p, accL);
-    ctx.strokeStyle = colU;
-    strokePartial(ctx, upper, 0, p, accU);
-    ctx.restore();
-  }
-  return { draw, upper, lower };
-})();
-
-function markGradient(ctx, cx, cy, R) {
-  const g = ctx.createLinearGradient(cx - R * 1.4, cy - R * 1.4, cx + R * 1.4, cy + R * 1.4);
-  g.addColorStop(0, '#60A5FA');
-  g.addColorStop(0.5, '#2563EB');
-  g.addColorStop(1, '#38BDF8');
-  return g;
-}
 
 /** deterministic burst of streak particles */
 function sparks(ctx, cx, cy, lt, n, seed, o = {}) {
@@ -330,49 +293,5 @@ function sAutomate(ctx, t) {
   if (suck > 0) {
     glow(ctx, W / 2, H / 2, 260, '#93C5FD', 0.9 * suck);
     circle(ctx, W / 2, H / 2, 10 * suck, '#FFFFFF');
-  }
-}
-
-/* ---------- beats 6–7: the mark + tagline, then zoom-through ---------- */
-const TAGLINE = 'if you can imagine it, we can design it, build it and automate it.';
-const TAG_HI = new Set();
-for (const wd of ['imagine', 'design', 'build', 'automate']) {
-  const i = TAGLINE.indexOf(wd);
-  for (let k = i; k < i + wd.length; k++) TAG_HI.add(k);
-}
-
-function sMark(ctx, t) {
-  const lt = t - T.mark;
-  fillBg(ctx, PAL.ink);
-  const zp = A(lt, 0.6, BEAT * 2, Ez.inExpo);
-  const Z = Math.exp(zp * Math.log(42));
-  const mx = W / 2, my = H / 2 - 70;
-  glow(ctx, mx, my, 760, '#1D4ED8', 0.38 * (1 - zp));
-  dotGrid(ctx, 48, 0.05 * (1 - zp));
-  const r1 = A(lt, 0, 0.6);
-  if (r1 < 1) ring(ctx, mx, my, 1100 * r1, 3, '#93C5FD', 0.7 * (1 - r1));
-  const r2 = A(lt, BEAT, BEAT + 0.5);
-  if (lt > BEAT && r2 < 1) ring(ctx, mx, my, 180 + 700 * r2, 2, '#FFFFFF', 0.5 * (1 - r2));
-  ctx.save();
-  about(ctx, mx, my, Z);
-  sparks(ctx, mx, my, lt, 60, 7);
-  const R = 120;
-  const sc = (0.45 + 0.55 * spring(lt, 1.7, 5.5)) * (1 + 0.07 * pulse(lt, BEAT, 9));
-  about(ctx, mx, my, sc, -1.3 * Math.PI * (1 - A(lt, 0, 0.55)));
-  Mark.draw(ctx, mx, my, R, A(lt, 0, 0.4), '#F8FAFC', markGradient(ctx, mx, my, R));
-  ctx.restore();
-  // tagline
-  const ta = 1 - A(lt, 0.58, 0.7);
-  if (ta > 0) {
-    ctx.save();
-    ctx.globalAlpha = ta;
-    setFont(ctx, 500, 34, SANS);
-    const tw = ctx.measureText(TAGLINE).width;
-    const x0 = W / 2 - tw / 2, y0 = my + 300;
-    typeText(ctx, TAGLINE, x0, y0, lt, 0.1, 150, {
-      caret: true, caretSize: 34,
-      colorFn: i => (TAG_HI.has(i) ? '#7DD3FC' : '#CBD5E1'),
-    });
-    ctx.restore();
   }
 }

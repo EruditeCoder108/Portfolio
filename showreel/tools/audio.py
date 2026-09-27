@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CUES = json.loads(re.search(r"=\s*(\{.*\})\s*;", (ROOT / "src/cues.js").read_text(), re.S).group(1))
 BPM = CUES["bpm"]
 BEAT = 60.0 / BPM
-DUR = CUES["duration"]
+DUR = CUES["beats"] * BEAT
 N = int(SR * DUR) + SR  # one second of tail room, trimmed at the end
 rs = np.random.default_rng(108)
 
@@ -255,8 +255,57 @@ CH = {
     "C": dict(root=36, pad=[55, 60, 64, 67], arp=[55, 60, 64, 67, 72, 76]),
     "G": dict(root=31, pad=[55, 59, 62, 67], arp=[55, 59, 62, 67, 71, 74]),
 }
-BARS = ["Am", "Am", "F", "C", "G", "Am", "F", "Am"]
 ARP = [0, 2, 4, 5, 3, 1, 4, 2, 0, 3, 5, 4, 2, 1, 3, 5]
+
+
+def lock(t, g=1.0):
+    """mechanical interlock: a bright latch click, a resonant ring and a low thunk"""
+    n = int(0.9 * SR)
+    tt = np.arange(n) / SR
+    click = filt(noise(n), "bandpass", [2500, 9000]) * env(n, 0, 0.004)
+    ring_ = (np.sin(2 * np.pi * 1870 * tt) * 0.5 + np.sin(2 * np.pi * 2830 * tt) * 0.3) * env(n, 0, 0.09)
+    thunk = np.sin(2 * np.pi * (70 + 60 * np.exp(-tt / 0.02)) * tt) * env(n, 0, 0.12)
+    s = click * 0.9 + ring_ * 0.35 + thunk * 0.9
+    put(dry, s, t, 0, 0.55 * g)
+    put(send, s, t, 0, 0.35 * g)
+
+
+CHIME = [[81, 88], [79, 86], [84, 91], [76, 83], [81, 88, 93]]
+
+
+def chime(t, k):
+    """glassy bell as each dot sculpture locks into shape"""
+    n = int(1.6 * SR)
+    tt = np.arange(n) / SR
+    s = np.zeros(n)
+    for m in CHIME[k]:
+        f = midi(m)
+        for h_, a in [(1, 1.0), (2.76, 0.35), (5.4, 0.12)]:
+            s += a * np.sin(2 * np.pi * f * h_ * tt) * np.exp(-tt * (2.2 + h_ * 1.4))
+    s *= env(n, 0.002, 1.0) / len(CHIME[k])
+    put(dry, s, t, 0.3 if k % 2 else -0.3, 0.16)
+    put(send, s, t, 0, 0.3)
+
+
+def groove(bar, name, cutoff, drums=True, claps=True, arp_up=False, g=1.0):
+    c = CH[name]
+    t0 = bt(bar * 4)
+    pad(t0, t0 + bt(4), c["pad"], g=1.0 * g, cutoff=cutoff)
+    for b in range(4):
+        tb = t0 + bt(b)
+        if drums:
+            kick(tb)
+            if claps and b in (1, 3):
+                clap(tb)
+            hat(tb + bt(0.5), 1.0, open_=(b == 3), pan=0.25)
+            hat(tb + bt(0.25), 0.45, pan=-0.35)
+            hat(tb + bt(0.75), 0.45, pan=-0.35)
+        bass(tb + bt(0.5), c["root"], bt(0.45))
+        bass(tb + bt(0.75), c["root"] + (12 if b == 3 else 0), bt(0.22), 0.8)
+    for s16 in range(16):
+        pluck(t0 + bt(s16 / 4), c["arp"][ARP[s16]] + (12 if arp_up and s16 >= 8 else 0),
+              g=(0.9 if s16 % 4 == 0 else 0.65) * g, pan=0.45 if s16 % 2 else -0.45)
+
 
 # bar 0 — intro: ticking hats build, three hits (IMAGINE / DESIGN / BUILD), gap before the drop
 pad(0, bt(3.75), CH["Am"]["pad"], g=0.6, cutoff=900, attack=0.6)
@@ -267,27 +316,34 @@ for b in (1, 2, 3):
     stab(bt(b), [c + 12 for c in CH["Am"]["pad"][:3]], g=0.8)
     clap(bt(b), 0.5)
 
-# bars 1–5 — groove
-for bar in range(1, 6):
-    c = CH[BARS[bar]]
-    t0 = bt(bar * 4)
-    pad(t0, t0 + bt(4), c["pad"], g=1.0, cutoff=2000 + bar * 250)
-    for b in range(4):
-        tb = t0 + bt(b)
-        kick(tb)
-        if b in (1, 3):
-            clap(tb)
-        hat(tb + bt(0.5), 1.0, open_=(b == 3), pan=0.25)
-        hat(tb + bt(0.25), 0.45, pan=-0.35)
-        hat(tb + bt(0.75), 0.45, pan=-0.35)
-        bass(tb + bt(0.5), c["root"], bt(0.45))
-        bass(tb + bt(0.75), c["root"] + (12 if b == 3 else 0), bt(0.22), 0.8)
-    for s16 in range(16):
-        pluck(t0 + bt(s16 / 4), c["arp"][ARP[s16]], g=0.9 if s16 % 4 == 0 else 0.65, pan=0.45 if s16 % 2 else -0.45)
+# bars 1–5 — drop, dot matrix, and seven projects
+for bar, name in zip(range(1, 6), ["Am", "F", "C", "G", "Am"]):
+    groove(bar, name, cutoff=2000 + bar * 250)
 
-# bar 6 — telemetry build: 16th hats, snare roll, filter opens
+# bar 6 — StaySecure: doors on a half-time pulse, full groove from the interlock (beat 26)
 c = CH["F"]
 t0 = bt(24)
+pad(t0, t0 + bt(4), c["pad"], g=2.4, cutoff=3000)
+kick(t0)
+bass(t0 + bt(0.5), c["root"], bt(1.45), 0.9)  # held root under the doors instead of the pumping bass
+for s16 in range(8):  # no kick yet: plucks and ticking hats hold the tension until the lock
+    pluck(t0 + bt(s16 / 4), c["arp"][ARP[s16]], g=0.8 if s16 % 4 == 0 else 0.6, pan=0.45 if s16 % 2 else -0.45)
+    hat(t0 + bt(s16 / 4), 0.35 + 0.05 * s16, pan=0.3 if s16 % 2 else -0.3)
+for b in range(4):
+    tb = t0 + bt(b)
+    hat(tb + bt(0.5), 0.8, pan=0.25)
+    if b >= 2:
+        bass(tb + bt(0.5), c["root"], bt(0.45))
+        kick(tb)
+        clap(tb, 0.8 if b == 3 else 0.0001)
+        hat(tb + bt(0.25), 0.45, pan=-0.35)
+        hat(tb + bt(0.75), 0.45, pan=-0.35)
+for s16 in range(8, 16):
+    pluck(t0 + bt(s16 / 4), c["arp"][ARP[s16]], g=0.7, pan=0.45 if s16 % 2 else -0.45)
+
+# bar 7 — the wall: 16th hats, snare roll, filter opens into the glass
+c = CH["G"]
+t0 = bt(28)
 pad(t0, t0 + bt(4), c["pad"], g=1.1, cutoff=3800)
 for b in range(4):
     tb = t0 + bt(b)
@@ -300,14 +356,23 @@ for s16 in range(16):
 for k in range(12):
     clap(t0 + bt(2 + k / 6), 0.25 + 0.06 * k)
 
-# bar 7 — resolve on the end card
+# bar 8 — particle marks: the drop returns, brighter
+groove(8, "Am", cutoff=3400, arp_up=True, g=0.95)
+
+# bars 9–10 — end card: drums fall away, pad and bells resolve
+c = CH["F"]
+t0 = bt(36)
+kick(t0, 1.0)
+bass(t0, c["root"], bt(3.5), 1.0)
+pad(t0, bt(40), c["pad"], g=1.2, cutoff=2400, attack=0.05)
+for k, m in enumerate([65, 69, 72, 77, 76, 72, 69, 72]):
+    pluck(t0 + bt(0.5 + k * 0.5), m, g=0.62 - k * 0.03, pan=0.5 if k % 2 else -0.5, dec=0.3)
 c = CH["Am"]
-t0 = bt(28)
-kick(t0, 1.1)
-bass(t0, c["root"], bt(2.5), 1.1)
-pad(t0, DUR - 0.35, c["pad"] + [76], g=1.3, cutoff=2600, attack=0.05)
+t0 = bt(40)
+bass(t0, c["root"], bt(3.6), 0.9)
+pad(t0, DUR - 0.25, c["pad"] + [76], g=1.3, cutoff=2600, attack=0.3)
 for k, m in enumerate([69, 72, 76, 79, 81, 76, 72, 84]):
-    pluck(t0 + bt(0.5 + k * 0.5), m, g=0.7 - k * 0.05, pan=0.5 if k % 2 else -0.5, dec=0.35)
+    pluck(t0 + bt(k * 0.5), m, g=0.62 - k * 0.05, pan=0.5 if k % 2 else -0.5, dec=0.35)
 
 # ---------------------------------------------------------------- sound design from the shared cue sheet
 for b, a in CUES["booms"]:
@@ -322,6 +387,10 @@ for b0, b1 in CUES["typing"]:
     typing(bt(b0), bt(b1))
 for b0, b1, a in CUES["glitches"]:
     glitch(bt(b0), bt(b1), a)
+for b, a in CUES.get("locks", []):
+    lock(bt(b), a)
+for b, k in CUES.get("chimes", []):
+    chime(bt(b), k)
 
 # ---------------------------------------------------------------- mix
 ir_n = int(1.8 * SR)

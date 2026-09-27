@@ -6,9 +6,9 @@
 const TH = {
   unravel: { bg: '#050A1A', glow: '#1E3A8A', accent: '#38BDF8', fg: '#FFFFFF', mute: '#7C8DB5' },
   hypha: { bg: '#03110F', glow: '#0F766E', accent: '#2DD4BF', fg: '#FFFFFF', mute: '#6B9E97' },
-  erudite: { bg: '#0B0820', glow: '#5B21B6', accent: '#A78BFA', fg: '#FFFFFF', mute: '#8B84B8' },
+  erudite: { bg: '#0D0E12', glow: '#1E3A8A', accent: '#818CF8', fg: '#FFFFFF', mute: '#8B8FA3' },
   lumium: { bg: '#04120D', glow: '#065F46', accent: '#34D399', fg: '#FFFFFF', mute: '#6EA38E' },
-  pagevelle: { bg: '#F4EFE6', accent: '#E11D48', fg: '#1C1917', mute: '#8A8178' },
+  pagevelle: { bg: '#F7EFE3', accent: '#C8702E', fg: '#2A1D17', mute: '#8A7A6E' },
   xenon: { bg: '#07030F', glow: '#6D28D9', accent: '#C084FC', fg: '#FFFFFF', mute: '#8E7FB0' },
   uiqraft: { bg: '#EEF3FC', accent: '#2563EB', fg: '#0F172A', mute: '#64748B' },
 };
@@ -147,7 +147,7 @@ function sUnravel(ctx, lt) {
   codeSkeleton(ctx, lt, 130, 150, th, 4, 0.62);
   const zp = A(lt, 0, 0.45);
   ctx.save();
-  const s = lerp(3.4, 1, zp);
+  const s = lerp(KNOT_SCALE, 1, zp); // picks up exactly where the particle knot left off
   ctx.translate(W / 2, H / 2);
   ctx.scale(s, s);
   ctx.translate(-lerp(UNR.KC[0], W / 2, zp), -lerp(UNR.KC[1], H / 2, zp));
@@ -241,6 +241,11 @@ const HY = (() => {
   const pos = [];
   for (let row = 0; row < 3; row++)
     for (let c = 0; c < 5; c++) pos.push([290 + c * 335 + (r() - 0.5) * 150, 200 + row * 245 + (r() - 0.5) * 100]);
+  // anchor the story to the photo: Alice is the hiker on the trail, Charlie the node strapped to the tree
+  const byX = pos.map((p, i) => [p[0], i]).sort((a, b) => a[0] - b[0]);
+  const alice = byX[1][1], charlie = byX[byX.length - 3][1];
+  pos[alice] = [576, 612];
+  pos[charlie] = [1250, 560];
   const edges = [], seen = new Set(), adj = pos.map(() => []);
   pos.forEach((p, i) => {
     pos.map((q, j) => [Math.hypot(q[0] - p[0], q[1] - p[1]), j]).filter(([, j]) => j !== i)
@@ -248,29 +253,72 @@ const HY = (() => {
         const k = `${Math.min(i, j)}-${Math.max(i, j)}`;
         if (seen.has(k)) return;
         seen.add(k);
-        edges.push([i, j]);
+        edges.push([Math.min(i, j), Math.max(i, j)]);
         adj[i].push(j);
         adj[j].push(i);
       });
   });
-  const byX = pos.map((p, i) => [p[0], i]).sort((a, b) => a[0] - b[0]);
-  const alice = byX[0][1], charlie = byX[byX.length - 1][1];
   const prev = new Map([[alice, -1]]), q = [alice];
   while (q.length) { const u = q.shift(); for (const v of adj[u]) if (!prev.has(v)) { prev.set(v, u); q.push(v); } }
   const route = [];
   for (let v = charlie; v !== -1; v = prev.get(v)) route.unshift(v);
   const bob = route[Math.floor(route.length / 2)];
   const perm = [3, 11, 7, 0, 14, 5, 9, 1, 12, 6, 2, 13, 8, 4, 10]; // mesh node k starts at tree node perm[k]
-  const routePts = route.map(i => pos[i]);
+  const routePts = [];
+  route.slice(1).forEach((v, i) => {
+    const seg = hyEdge(pos, route[i], v);
+    routePts.push(...(i ? seg.slice(1) : seg));
+  });
   const acc = polyLength(routePts);
-  const frac = acc.map(a => a / acc[acc.length - 1]);
+  const frac = route.map(k => {
+    let best = 0, bd = 1e9;
+    routePts.forEach((p, j) => { const d = Math.hypot(p[0] - pos[k][0], p[1] - pos[k][1]); if (d < bd) { bd = d; best = j; } });
+    return acc[best] / acc[acc.length - 1];
+  });
   const routeEdges = new Set(route.slice(1).map((v, i) => `${Math.min(v, route[i])}-${Math.max(v, route[i])}`));
   return { pos, edges, route, routePts, acc, frac, alice, bob, charlie, perm, routeEdges };
 })();
 
+/** gently bowed link between mesh nodes a → b (hyphae, not rulers) */
+function hyEdge(P, a, b, n = 20) {
+  const [x0, y0] = P[a], [x1, y1] = P[b];
+  const dx = x1 - x0, dy = y1 - y0, len = Math.hypot(dx, dy) || 1;
+  const bend = (hash2(Math.min(a, b), Math.max(a, b)) - 0.5) * 0.36 * len;
+  const sgn = a < b ? 1 : -1;
+  const c = [(x0 + x1) / 2 - (dy / len) * bend * sgn, (y0 + y1) / 2 + (dx / len) * bend * sgn];
+  const out = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n, u = 1 - t;
+    out.push([u * u * x0 + 2 * u * t * c[0] + t * t * x1, u * u * y0 + 2 * u * t * c[1] + t * t * y1]);
+  }
+  return out;
+}
+
+const hyphaIcon = (ctx, x, y, s) => {
+  ctx.fillStyle = '#F7F7F4';
+  ctx.beginPath(); ctx.roundRect(x, y, s, s, s * 0.24); ctx.fill();
+  markHypha(ctx, x + s / 2, y + s / 2, s * 1.35, '#111111');
+};
+
 function sHypha(ctx, lt) {
   const th = TH.hypha;
-  darkBg(ctx, th, lt, 1000, 470);
+  fillBg(ctx, th.bg);
+  // the trail photo fades up behind the mesh, graded into the scene's teal night
+  const z = 1.0 + 0.055 * lt;
+  const pa = A(lt, 0.04, 0.4, Ez.outCubic);
+  ctx.save();
+  about(ctx, W / 2, H / 2, z);
+  if (pa > 0) {
+    ctx.globalAlpha = pa;
+    drawCover(ctx, IMG.hyphaTrail, 0, 0, W, H);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = `rgba(2,16,14,${lerp(1, 0.5, pa)})`;
+    ctx.fillRect(-W, -H, W * 3, H * 3);
+    const vg = ctx.createRadialGradient(W * 0.55, H * 0.45, 200, W * 0.55, H * 0.45, 1200);
+    vg.addColorStop(0, 'rgba(3,17,15,0)'); vg.addColorStop(1, 'rgba(3,17,15,0.85)');
+    ctx.fillStyle = vg;
+    ctx.fillRect(-W, -H, W * 3, H * 3);
+  } else darkBg(ctx, th, lt, 1000, 470);
   const P = HY.pos.map((p, k) => {
     const u = Ez.inOutExpo(inv(0.0 + k * 0.01, 0.34 + k * 0.01, lt));
     const s = UNR.nodes[HY.perm[k]];
@@ -283,25 +331,21 @@ function sHypha(ctx, lt) {
     if (lt > t0 && rp < 1) ring(ctx, P[HY.alice][0], P[HY.alice][1], 30 + 260 * rp, 2, th.accent, 0.55 * (1 - rp));
   }
   // links
-  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
   HY.edges.forEach(([a, b], e) => {
     const p = A(lt, 0.18 + e * 0.008, 0.42 + e * 0.008, Ez.outCubic);
     if (p <= 0) return;
-    const key = `${Math.min(a, b)}-${Math.max(a, b)}`;
-    const hot = HY.routeEdges.has(key);
+    const hot = HY.routeEdges.has(`${a}-${b}`);
     let lit = 0;
     if (hot) {
       const ia = HY.route.indexOf(a), ib = HY.route.indexOf(b);
       lit = prog >= Math.max(HY.frac[ia], HY.frac[ib]) ? 1 : 0;
     }
-    ctx.strokeStyle = lit ? rgba('#6EE7B7', 0.95) : rgba(th.accent, 0.38);
+    ctx.strokeStyle = lit ? rgba('#6EE7B7', 0.95) : rgba(th.accent, 0.42);
     ctx.lineWidth = lit ? 3 : 2;
     ctx.setLineDash(lit ? [] : [7, 9]);
     ctx.lineDashOffset = -lt * 90;
-    ctx.beginPath();
-    ctx.moveTo(P[a][0], P[a][1]);
-    ctx.lineTo(lerp(P[a][0], P[b][0], p), lerp(P[a][1], P[b][1], p));
-    ctx.stroke();
+    strokePartial(ctx, hyEdge(P, a, b), 0, p);
   });
   ctx.setLineDash([]);
   // nodes
@@ -310,7 +354,7 @@ function sHypha(ctx, lt) {
     const ri = HY.route.indexOf(k);
     const heat = ri >= 0 ? Math.max(0, 1 - Math.abs(prog - HY.frac[ri]) * 10) : 0;
     const r = special ? 13 : 8;
-    circle(ctx, x, y, r + 3, '#0B2F2A');
+    circle(ctx, x, y, r + 3, 'rgba(6,40,36,0.9)');
     ctx.strokeStyle = heat > 0 ? '#FFFFFF' : th.accent;
     ctx.lineWidth = 2.5;
     ctx.beginPath(); ctx.arc(x, y, r + 3, 0, TAU); ctx.stroke();
@@ -324,29 +368,27 @@ function sHypha(ctx, lt) {
     setFont(ctx, 600, 16, MONO);
     ctx.fillStyle = '#D1FAE5';
     const lab = (k, s) => ctx.fillText(s, P[k][0] + 24, P[k][1] - 20);
-    lab(HY.alice, 'ALICE');
+    lab(HY.alice, 'ALICE · hiker');
     lab(HY.bob, 'BOB · carrier');
-    lab(HY.charlie, 'CHARLIE');
+    lab(HY.charlie, 'HYPHA NODE');
     ctx.globalAlpha = 1;
   }
   // hop chips
   const chip = (i, s, a) => {
     if (a <= 0) return;
-    const p0 = P[HY.route[i]], p1 = P[HY.route[i + 1]];
-    const mx = (p0[0] + p1[0]) / 2, my = (p0[1] + p1[1]) / 2;
+    const [mx, my] = pointAt(hyEdge(P, HY.route[i], HY.route[i + 1]), 0.5);
     setFont(ctx, 700, 14, MONO);
     const w = ctx.measureText(s).width + 20;
     ctx.globalAlpha = a;
-    pill(ctx, mx - w / 2, my + 14, w, 28, '#052E2B', rgba('#6EE7B7', 0.8));
+    pill(ctx, mx - w / 2, my + 14, w, 28, 'rgba(5,46,43,0.9)', rgba('#6EE7B7', 0.8));
     ctx.fillStyle = '#6EE7B7';
     ctx.fillText(s, mx - w / 2 + 10, my + 33);
     ctx.globalAlpha = 1;
   };
   chip(0, 'BLE', A(lt, 0.34, 0.44));
   chip(HY.route.length - 2, 'WI-FI DIRECT', A(lt, 0.66, 0.76));
-  // packet
+  // packet with a comet tail along the curved route
   if (lt > 0.3) {
-    ctx.lineCap = 'round';
     for (let k = 0; k < 6; k++) {
       ctx.strokeStyle = rgba('#A7F3D0', (k + 1) / 7);
       ctx.lineWidth = 2 + k;
@@ -364,15 +406,17 @@ function sHypha(ctx, lt) {
   const ap = A(lt, 0.84, 1.0);
   if (ap > 0) {
     const [cx, cy] = P[HY.charlie];
-    ring(ctx, cx, cy, 24 + 8 * ap, 3, '#6EE7B7', ap);
+    ring(ctx, cx, cy, 24 + 10 * ap, 3, '#6EE7B7', ap);
+    glow(ctx, cx, cy, 120, '#34D399', 0.45 * ap);
     checkMark(ctx, cx + 44, cy + 30, 16, ap, '#6EE7B7', 3);
   }
-  titleBlock(ctx, lt, '02', 'HYPHA', 'offline mesh · no towers · 0 bytes cellular', th);
+  ctx.restore();
+  titleBlock(ctx, lt, '02', 'HYPHA', 'offline mesh · no towers · 0 bytes cellular', th, 0.1, hyphaIcon);
   tagPills(ctx, lt, ['Rust', 'Noise XX', 'ChaCha20'], th);
 }
 
 /* =====================================================================================
-   03 ERUDITE — 3D flashcards + an FSRS retention curve
+   03 ERUDITE — the real app, on two store screens swung into 3D
    ===================================================================================== */
 function roundRectPts(w, h, r, n = 5) {
   const pts = [];
@@ -384,169 +428,92 @@ function roundRectPts(w, h, r, n = 5) {
     }
   return pts;
 }
-const CARD_PTS = roundRectPts(360, 470, 28);
 
-function card3D(ctx, cx, cy, w, h, ry, rz, s, face, alpha = 1) {
+/**
+ * Draw a bitmap as a card rotated about its vertical axis with true perspective: the image is cut into
+ * vertical strips, each scaled by its own depth. Returns a projector for points in image pixels.
+ */
+function screen3D(ctx, im, cx, cy, w, h, ry, o = {}) {
   const P = 1700, c = Math.cos(ry), sn = Math.sin(ry);
-  const proj = (x, y) => { const Z = x * sn, f = P / (P + Z); return [x * c * f * s, y * f * s]; };
+  const proj = (x, y) => { const f = P / (P + x * sn); return [cx + x * c * f, cy + y * f, f]; };
+  const outline = roundRectPts(w, h, o.radius || 38, 6).map(([x, y]) => proj(x, y));
+  const path = () => { ctx.beginPath(); outline.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); };
   ctx.save();
-  ctx.globalAlpha = alpha;
-  ctx.translate(cx, cy);
-  ctx.rotate(rz);
-  glow(ctx, 18 * s, 40 * s, 330 * s, '#000000', 0.45);
-  ctx.beginPath();
-  CARD_PTS.forEach((p, i) => { const q = proj(p[0], p[1]); if (i) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]); });
-  ctx.closePath();
-  const front = c >= 0;
-  ctx.fillStyle = front ? '#E8EAF3' : '#E9E5F7';
-  ctx.fill();
+  ctx.globalAlpha = o.alpha ?? 1;
+  glow(ctx, cx + 24, cy + h * 0.18, w * 0.95, '#000000', 0.55);
+  glow(ctx, cx, cy + h * 0.5, w * 0.8, o.glow || '#3B82F6', 0.16);
+  path();
   ctx.save();
   ctx.clip();
-  const tl = proj(-w / 2, -h / 2), tr = proj(w / 2, -h / 2), bl = proj(-w / 2, h / 2), br = proj(w / 2, h / 2);
-  if (front) ctx.transform((tr[0] - tl[0]) / w, (tr[1] - tl[1]) / w, (bl[0] - tl[0]) / h, (bl[1] - tl[1]) / h, tl[0], tl[1]);
-  else ctx.transform((tl[0] - tr[0]) / w, (tl[1] - tr[1]) / w, (br[0] - tr[0]) / h, (br[1] - tr[1]) / h, tr[0], tr[1]);
-  face(ctx, front);
+  const N = 64, iw = im.naturalWidth, ih = im.naturalHeight;
+  for (let i = 0; i < N; i++) {
+    const [x0, , f0] = proj((i / N - 0.5) * w, 0), [x1, , f1] = proj(((i + 1) / N - 0.5) * w, 0);
+    const fm = (f0 + f1) / 2;
+    ctx.drawImage(im, (i / N) * iw, 0, iw / N, ih, Math.min(x0, x1), cy - (h / 2) * fm, Math.abs(x1 - x0) + 0.7, h * fm);
+  }
+  // glass sheen sliding across the screen
+  const sx = lerp(-w, w * 1.5, o.sheen ?? 0.5);
+  const g = ctx.createLinearGradient(cx + sx - 160, cy - h / 2, cx + sx + 160, cy + h / 2);
+  g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(0.5, 'rgba(255,255,255,0.09)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(cx - w, cy - h, w * 2, h * 2);
   ctx.restore();
-  const shade = (1 - Math.abs(c)) * 0.35;
-  if (shade > 0.01) { ctx.fillStyle = `rgba(30,27,75,${shade})`; ctx.fill(); }
+  path();
+  ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
   ctx.restore();
+  return (px, py) => proj((px / iw - 0.5) * w, (py / ih - 0.5) * h);
 }
 
-const CARD_FACES = [
-  (ctx, front) => {
-    setFont(ctx, 700, 15, MONO);
-    ctx.fillStyle = '#7C3AED';
-    ctx.fillText(front ? 'QUESTION' : 'ANSWER', 30, 52);
-    ctx.textAlign = 'center';
-    if (front) { setFont(ctx, 400, 70, SERIF, 'italic'); ctx.fillStyle = '#1E1B4B'; ctx.fillText('d/dx sin x', 180, 262); }
-    else { setFont(ctx, 400, 104, SERIF, 'italic'); ctx.fillStyle = '#6D28D9'; ctx.fillText('cos x', 180, 272); }
-    ctx.textAlign = 'left';
-    setFont(ctx, 500, 13, MONO);
-    ctx.fillStyle = '#94A3B8';
-    ctx.fillText(front ? 'CALCULUS · 01/24' : 'S 14.0d -> 34.8d', 30, 438);
-  },
-  ctx => {
-    setFont(ctx, 700, 15, MONO); ctx.fillStyle = '#7C3AED'; ctx.fillText('QUESTION', 30, 52);
-    ctx.textAlign = 'center';
-    setFont(ctx, 400, 64, SERIF, 'italic'); ctx.fillStyle = '#1E1B4B'; ctx.fillText("Ohm's law", 180, 258);
-    ctx.textAlign = 'left';
-    setFont(ctx, 500, 13, MONO); ctx.fillStyle = '#94A3B8'; ctx.fillText('PHYSICS · 02/24', 30, 438);
-  },
-  ctx => { setFont(ctx, 700, 15, MONO); ctx.fillStyle = '#7C3AED'; ctx.fillText('QUESTION', 30, 52); },
-  ctx => { setFont(ctx, 700, 15, MONO); ctx.fillStyle = '#7C3AED'; ctx.fillText('QUESTION', 30, 52); },
-];
-
-const FSRS = (() => {
-  const rev = [0, 2, 8, 22, 56.8], S = [2, 6, 14, 34.8, 80];
-  const X0 = 1060, X1 = 1780, Y0 = 250, Y1 = 640;
-  const x = d => X0 + (d / 60) * (X1 - X0), y = r => Y1 - ((r - 0.55) / 0.45) * (Y1 - Y0);
-  const pts = [];
-  for (let k = 0; k < rev.length; k++) {
-    const d0 = rev[k], d1 = k + 1 < rev.length ? rev[k + 1] : 60;
-    for (let i = 0; i <= 40; i++) {
-      const d = lerp(d0, d1, i / 40);
-      pts.push([x(d), y(1 / (1 + (d - d0) / (9 * S[k])))]);
-    }
-  }
-  return { rev, S, X0, X1, Y0, Y1, x, y, pts, acc: polyLength(pts) };
-})();
+const eruditeIcon = (ctx, x, y, s) => markErudite(ctx, x + s / 2, y + s / 2, s);
 
 function sErudite(ctx, lt) {
   const th = TH.erudite;
-  darkBg(ctx, th, lt, 700, 420);
-  // --- chart
-  const F = FSRS, cp = A(lt, 0.1, 0.88, Ez.inOutCubic);
-  const ca = A(lt, 0.02, 0.2);
-  ctx.globalAlpha = ca;
-  setFont(ctx, 600, 17, MONO);
-  ctx.fillStyle = th.accent;
-  ctx.fillText('FSRS · memory retention', F.X0, F.Y0 - 74);
-  ctx.strokeStyle = rgba('#FFFFFF', 0.14);
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  for (const r of [0.6, 0.7, 0.8, 1.0]) { ctx.moveTo(F.X0, F.y(r)); ctx.lineTo(F.X1, F.y(r)); }
-  ctx.stroke();
-  ctx.strokeStyle = rgba('#F59E0B', 0.85);
-  ctx.setLineDash([8, 8]);
-  ctx.beginPath(); ctx.moveTo(F.X0, F.y(0.9)); ctx.lineTo(F.X0 + (F.X1 - F.X0) * A(lt, 0.05, 0.4), F.y(0.9)); ctx.stroke();
-  ctx.setLineDash([]);
-  setFont(ctx, 600, 14, MONO);
-  ctx.fillStyle = '#FCD34D';
-  ctx.fillText('R 90%', F.X1 + 14, F.y(0.9) + 5);
-  ctx.fillStyle = rgba('#FFFFFF', 0.4);
-  ctx.fillText('days ->', F.X1 - 60, F.Y1 + 34);
-  ctx.globalAlpha = 1;
-  const headX = F.X0 + (F.X1 - F.X0) * cp;
-  ctx.save();
-  ctx.beginPath(); ctx.rect(F.X0, 0, headX - F.X0, H); ctx.clip();
-  const ag = ctx.createLinearGradient(0, F.Y0, 0, F.Y1);
-  ag.addColorStop(0, rgba('#8B5CF6', 0.32)); ag.addColorStop(1, rgba('#8B5CF6', 0));
-  ctx.fillStyle = ag;
-  ctx.beginPath(); ctx.moveTo(F.X0, F.Y1);
-  for (const p of F.pts) ctx.lineTo(p[0], p[1]);
-  ctx.lineTo(F.X1, F.Y1); ctx.closePath(); ctx.fill();
-  const lg = ctx.createLinearGradient(F.X0, 0, F.X1, 0);
-  lg.addColorStop(0, '#A78BFA'); lg.addColorStop(1, '#38BDF8');
-  ctx.strokeStyle = lg; ctx.lineWidth = 4; ctx.lineJoin = 'round';
-  strokePartial(ctx, F.pts, 0, 1, F.acc);
-  ctx.restore();
-  F.rev.slice(1).forEach((d, k) => {
-    const x = F.x(d);
-    if (headX < x) return;
-    const pp = spring(lt - (0.1 + (0.78 * (x - F.X0)) / (F.X1 - F.X0) * 0.9), 2.4, 7);
-    circle(ctx, x, F.y(1), 8 * pp, '#FFFFFF');
-    ring(ctx, x, F.y(1), 13 * pp, 2, '#A78BFA', 1);
-    setFont(ctx, 600, 14, MONO);
-    ctx.fillStyle = rgba('#E9D5FF', pp);
-    ctx.fillText(`S ${F.S[k + 1].toFixed(1)}d`, x - 30, F.y(1) - 24);
+  fillBg(ctx, th.bg);
+  glow(ctx, 260, 1080, 1100, '#1E3A8A', 0.45);
+  glow(ctx, 1500, 200, 900, '#312E81', 0.25);
+  dotGrid(ctx, 48, 0.035, '#FFFFFF', 0, -lt * 20);
+  // headline, in the app's own words
+  setFont(ctx, 600, 18, MONO);
+  ctx.letterSpacing = '5px';
+  ctx.fillStyle = rgba('#818CF8', A(lt, 0.08, 0.3));
+  ctx.fillText('ERUDITE FLASHCARDS', 124, 262);
+  ctx.letterSpacing = '0px';
+  setFont(ctx, 800, 92, SANS);
+  ctx.fillStyle = '#F4F4F5';
+  riseText(ctx, 'Remember what', 118, 372, 92, { t: lt - 0.1, stagger: 0.012, dur: 0.42, track: -3 });
+  riseText(ctx, 'you study.', 118, 470, 92, { t: lt - 0.16, stagger: 0.014, dur: 0.42, track: -3 });
+  setFont(ctx, 500, 25, SANS);
+  ctx.fillStyle = rgba('#A1A1AA', A(lt, 0.3, 0.55));
+  ctx.fillText('Spaced repetition, image occlusion, and', 122, 546);
+  ctx.fillText('decks built from your notes.', 122, 582);
+  // the two store screens swing in on springs
+  const screens = [
+    { im: IMG.eruditeLibrary, x: 1165, y: 468, ry: 0.3, d: 0.0, glow: '#3B82F6' },
+    { im: IMG.eruditeOcclusion, x: 1595, y: 512, ry: 0.4, d: 0.08, glow: '#F59E0B' },
+  ];
+  const proj = screens.map((sc, k) => {
+    const sp = spring(lt - 0.02 - sc.d, 1.25, 5.2);
+    const ry = lerp(1.25, sc.ry, sp) + Math.sin(lt * 1.6 + k) * 0.025;
+    const y = sc.y + (1 - sp) * 140 + Math.sin(lt * 2.2 + k * 1.7) * 7;
+    return screen3D(ctx, sc.im, sc.x, y, 430, 764, ry, { sheen: A(lt, 0.25 + k * 0.1, 0.95 + k * 0.1, Ez.inOutCubic), glow: sc.glow, alpha: clamp(sp * 1.4) });
   });
-  // --- cards
-  const base = [600, 390];
-  const fly = A(lt, 0.64, 0.88, Ez.inCubic);
-  const shift = spring(lt - 0.7, 1.8, 7);
-  for (let k = 3; k >= 0; k--) {
-    const ent = spring(lt - 0.02 - k * 0.035, 1.5, 6.5);
-    let slot = k;
-    if (k > 0) slot = k - shift;
-    const cx = base[0] + slot * 16 + 280 * (1 - ent), cy = base[1] + slot * 14;
-    let rz = (-2.5 + slot * 2.4) * D2R + (1 - ent) * 12 * D2R;
-    let ry = 0, s = 1, a = 1, dx = 0;
-    if (k === 0) {
-      const fp = A(lt, 0.12, 0.4, Ez.inOutCubic);
-      ry = Math.PI * fp;
-      s = 1 + 0.08 * Math.sin(Math.PI * fp);
-      dx = 1150 * fly;
-      rz += 26 * D2R * fly;
-      a = 1 - A(lt, 0.78, 0.9);
-    }
-    if (a > 0) card3D(ctx, cx + dx, cy - 60 * fly * (k === 0), 360, 470, ry, rz, s, CARD_FACES[k], a);
+  // a tap on the first deck's play button
+  const tp = A(lt, 0.52, 0.85, Ez.outCubic);
+  if (lt > 0.5) {
+    const [bx, by, f] = proj[0](828, 1356);
+    circle(ctx, bx, by, 16 * f * (1 - 0.3 * pulse(lt, 0.52, 14)), rgba('#FFFFFF', 0.5 * (1 - tp)));
+    ring(ctx, bx, by, (20 + 70 * tp) * f, 3, '#FFFFFF', 0.7 * (1 - tp));
   }
-  // --- rating buttons
-  const labels = [['Again', '10m', '#F43F5E'], ['Hard', '4d', '#F59E0B'], ['Good', '31d', '#10B981'], ['Easy', '58d', '#38BDF8']];
-  const bw = 150, gap = 12, bx0 = base[0] - (bw * 4 + gap * 3) / 2 + 24, by = 700;
-  labels.forEach(([l, d, c], i) => {
-    const p = A(lt, 0.36 + i * 0.035, 0.56 + i * 0.035);
-    if (p <= 0) return;
-    const pressed = i === 2 && lt > 0.6;
-    const ps = pressed ? 1 - 0.1 * pulse(lt, 0.6, 14) : 1;
-    const x = bx0 + i * (bw + gap);
-    ctx.save();
-    ctx.globalAlpha = p;
-    about(ctx, x + bw / 2, by + 28, ps);
-    ctx.translate(0, (1 - p) * 30);
-    pill(ctx, x, by, bw, 56, pressed ? c : rgba(c, 0.12), rgba(c, 0.6));
-    setFont(ctx, 700, 20, SANS);
-    ctx.fillStyle = pressed ? '#FFFFFF' : c;
-    ctx.fillText(l, x + 22, by + 36);
-    setFont(ctx, 500, 15, MONO);
-    ctx.fillStyle = pressed ? '#FFFFFF' : rgba(c, 0.8);
-    ctx.textAlign = 'right';
-    ctx.fillText(d, x + bw - 22, by + 35);
-    ctx.textAlign = 'left';
-    ctx.restore();
-    if (pressed) { const rp = A(lt, 0.6, 0.9); ring(ctx, x + bw / 2, by + 28, 40 + 90 * rp, 2, c, 1 - rp); }
-  });
-  titleBlock(ctx, lt, '03', 'ERUDITE', 'local-first spaced repetition · FSRS', th);
+  // the hidden label on the occlusion card breathes
+  if (lt > 0.4) {
+    const [qx, qy, f] = proj[1](808, 1391);
+    const pp = 0.5 + 0.5 * Math.sin((lt - 0.4) * 11);
+    glow(ctx, qx, qy, 90 * f, '#F59E0B', 0.35 + 0.25 * pp);
+    ring(ctx, qx, qy, (40 + 26 * A(lt, 0.4, 0.9)) * f, 2, '#FBBF24', 0.7 * (1 - A(lt, 0.4, 0.9)));
+  }
+  titleBlock(ctx, lt, '03', 'ERUDITE', 'local-first spaced repetition · FSRS', th, 0.1, eruditeIcon);
   tagPills(ctx, lt, ['Electron', 'SQLite', 'Shadow DOM'], th);
 }
 
@@ -691,16 +658,16 @@ const RSVP = ['Reading', 'itself', 'is', 'the', 'product.'];
 function sPagevelle(ctx, lt) {
   const th = TH.pagevelle;
   fillBg(ctx, th.bg);
-  dotGrid(ctx, 48, 0.07, '#78716C');
+  dotGrid(ctx, 48, 0.07, '#8A6F58');
   // page
   const px = 150, py = 110, pw = 640, ph = 650;
-  ctx.fillStyle = 'rgba(28,25,23,0.06)';
+  ctx.fillStyle = 'rgba(42,29,23,0.07)';
   ctx.fillRect(px + 10, py + 14, pw, ph);
-  ctx.fillStyle = '#FFFDF8';
+  ctx.fillStyle = '#FFFBF4';
   ctx.fillRect(px, py, pw, ph);
-  ctx.strokeStyle = 'rgba(28,25,23,0.08)';
+  ctx.strokeStyle = 'rgba(42,29,23,0.1)';
   ctx.strokeRect(px + 0.5, py + 0.5, pw, ph);
-  ctx.fillStyle = '#1C1917';
+  ctx.fillStyle = th.fg;
   ctx.fillRect(px + 56, py + 60, 330, 22);
   let ly = py + 130, line = 0;
   const cur = Math.floor(clamp((lt - 0.3) / 0.117, 0, 4.99));
@@ -708,13 +675,13 @@ function sPagevelle(ctx, lt) {
     const n = [6, 5, 4][para];
     for (let i = 0; i < n; i++) {
       const w = (i === n - 1 ? 0.45 + hash(line) * 0.3 : 0.92 + hash(line) * 0.08) * (pw - 112);
-      ctx.fillStyle = '#D6D3D1';
+      ctx.fillStyle = '#E3D6C4';
       ctx.fillRect(px + 56, ly, w, 10);
       if (line === 4 && lt > 0.28) {
         const wx = px + 56 + (cur / 5) * (pw - 112);
-        ctx.fillStyle = rgba('#E11D48', 0.2);
+        ctx.fillStyle = rgba(th.accent, 0.2);
         ctx.fillRect(wx - 6, ly - 8, (pw - 112) / 5, 26);
-        ctx.fillStyle = '#E11D48';
+        ctx.fillStyle = th.accent;
         ctx.fillRect(wx - 6, ly + 18, (pw - 112) / 5, 3);
       }
       ly += 28; line++;
@@ -727,13 +694,13 @@ function sPagevelle(ctx, lt) {
   // RSVP reticle
   const ox = 1300, top = 350, bot = 530;
   const rp = A(lt, 0.12, 0.4);
-  ctx.strokeStyle = '#1C1917';
+  ctx.strokeStyle = th.fg;
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(ox - 290 * rp, top); ctx.lineTo(ox + 390 * rp, top);
   ctx.moveTo(ox - 290 * rp, bot); ctx.lineTo(ox + 390 * rp, bot);
   ctx.stroke();
-  ctx.strokeStyle = '#E11D48';
+  ctx.strokeStyle = th.accent;
   ctx.lineWidth = 3;
   ctx.beginPath();
   ctx.moveTo(ox, top); ctx.lineTo(ox, top + 24 * rp);
@@ -751,16 +718,16 @@ function sPagevelle(ctx, lt) {
     const pop = 1 + 0.05 * pulse(lt, 0.3 + i * 0.117, 30);
     ctx.save();
     about(ctx, ox, y - 36, pop);
-    ctx.fillStyle = '#1C1917';
+    ctx.fillStyle = th.fg;
     ctx.fillText(wd.slice(0, orp), x, y);
-    ctx.fillStyle = '#E11D48';
+    ctx.fillStyle = th.accent;
     ctx.fillText(wd[orp], x + pre, y);
-    ctx.fillStyle = '#1C1917';
+    ctx.fillStyle = th.fg;
     ctx.fillText(wd.slice(orp + 1), x + pre + ow, y);
     ctx.restore();
-    for (let k = 0; k < RSVP.length; k++) circle(ctx, ox - 290 + k * 22, bot + 34, 5, k <= i ? '#E11D48' : '#D6D3D1');
+    for (let k = 0; k < RSVP.length; k++) circle(ctx, ox - 290 + k * 22, bot + 34, 5, k <= i ? th.accent : '#E3D6C4');
   }
-  titleBlock(ctx, lt, '05', 'PAGEVELLE', 'a reader where reading is the product', th);
+  titleBlock(ctx, lt, '05', 'PAGEVELLE', 'a reader where reading is the product', th, 0.1, iconTile(IMG.pagevelleLogo));
   tagPills(ctx, lt, ['Flutter', 'PDFium', 'RSVP'], th);
 }
 
@@ -1002,11 +969,28 @@ function sUiqraft(ctx, lt) {
     label('Weekly focus', x + 28, y + 42);
     pill(ctx, x + 470, y + 22, 96, 30, rgba('#10B981', 0.14));
     setFont(ctx, 700, 15, SANS); ctx.fillStyle = '#059669'; ctx.fillText('+18%', x + 496, y + 43);
-    for (let i = 0; i < 10; i++) {
-      const hgt = (0.3 + hash(i * 4.7) * 0.7) * 100 * spring(lt - 0.28 - i * 0.025, 1.8, 6);
-      ctx.fillStyle = i === 7 ? '#2563EB' : '#BFDBFE';
-      ctx.beginPath(); ctx.roundRect(x + 36 + i * 54, y + 176 - hgt, 34, hgt, 8); ctx.fill();
+    // smooth area chart: each point springs up with a little overshoot, the curve is a Catmull-Rom spline
+    const vals = [0.32, 0.44, 0.38, 0.58, 0.52, 0.71, 0.63, 0.86, 0.78, 0.94];
+    const pts = vals.map((v, i) => [x + 34 + i * 58, y + 178 - v * 112 * spring(lt - 0.26 - i * 0.03, 1.6, 5.2)]);
+    const curve = [];
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+      for (let k = 0; k < 12; k++) {
+        const t = k / 12, t2 = t * t, t3 = t2 * t;
+        curve.push([0, 1].map(d => 0.5 * (2 * p1[d] + (-p0[d] + p2[d]) * t + (2 * p0[d] - 5 * p1[d] + 4 * p2[d] - p3[d]) * t2 + (-p0[d] + 3 * p1[d] - 3 * p2[d] + p3[d]) * t3)));
+      }
     }
+    curve.push(pts[pts.length - 1]);
+    const ag = ctx.createLinearGradient(0, y + 60, 0, y + 180);
+    ag.addColorStop(0, 'rgba(37,99,235,0.28)'); ag.addColorStop(1, 'rgba(37,99,235,0)');
+    ctx.fillStyle = ag;
+    ctx.beginPath(); ctx.moveTo(curve[0][0], y + 180);
+    for (const [cx_, cy_] of curve) ctx.lineTo(cx_, cy_);
+    ctx.lineTo(curve[curve.length - 1][0], y + 180); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#2563EB'; ctx.lineWidth = 3.5; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    strokePartial(ctx, curve, 0, A(lt, 0.24, 0.7, Ez.inOutCubic));
+    const hp = A(lt, 0.24, 0.7, Ez.inOutCubic);
+    if (hp > 0) { const [hx, hy] = pointAt(curve, hp); circle(ctx, hx, hy, 7, '#FFFFFF'); ring(ctx, hx, hy, 7, 3, '#2563EB'); }
   });
   // F: checklist
   place(5, (x, y) => {
@@ -1051,34 +1035,6 @@ function sUiqraft(ctx, lt) {
   ctx.fillText('Sambhav', cx + 39, cy + 62);
   titleBlock(ctx, lt, '07', 'UIQRAFT', 'one design system · every framework', th);
   tagPills(ctx, lt, ['React', 'Vite', 'Tailwind'], th);
-}
-
-/* ---------- the eighth tile on the wall ---------- */
-function sYourIdea(ctx, lt) {
-  fillBg(ctx, '#0B1224');
-  glow(ctx, W / 2, H / 2, 900, '#1D4ED8', 0.35);
-  dotGrid(ctx, 48, 0.06);
-  ctx.strokeStyle = rgba('#38BDF8', 0.6);
-  ctx.lineWidth = 4;
-  ctx.setLineDash([24, 18]);
-  ctx.lineDashOffset = -lt * 120;
-  ctx.beginPath(); ctx.roundRect(120, 110, W - 240, H - 220, 48); ctx.stroke();
-  ctx.setLineDash([]);
-  const s = 1 + 0.06 * Math.sin(lt * 8);
-  ctx.save();
-  about(ctx, W / 2, 440, s, lt * 0.6);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(W / 2 - 90, 440 - 14, 180, 28);
-  ctx.fillRect(W / 2 - 14, 440 - 90, 28, 180);
-  ctx.restore();
-  setFont(ctx, 800, 130, DISP);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.textAlign = 'center';
-  ctx.fillText('YOUR IDEA', W / 2, 740);
-  setFont(ctx, 500, 34, MONO);
-  ctx.fillStyle = '#7DD3FC';
-  ctx.fillText('if you can imagine it —', W / 2, 820);
-  ctx.textAlign = 'left';
 }
 
 /* ---------- transitions ---------- */
@@ -1150,7 +1106,7 @@ function withCurl(ctx, t) {
   ctx.lineTo(L0[0] - tx * big - n[0] * big, L0[1] - ty * big - n[1] * big); ctx.lineTo(L0[0] + tx * big - n[0] * big, L0[1] + ty * big - n[1] * big);
   ctx.closePath(); ctx.clip();
   const fg = ctx.createLinearGradient(L0[0], L0[1], L0[0] - n[0] * 900, L0[1] - n[1] * 900);
-  fg.addColorStop(0, '#9CA3AF'); fg.addColorStop(0.18, '#F1F5F9'); fg.addColorStop(0.5, '#E2E8F0'); fg.addColorStop(1, '#CBD5E1');
+  fg.addColorStop(0, '#B8A48A'); fg.addColorStop(0.18, '#FBF4E8'); fg.addColorStop(0.5, '#F1E6D4'); fg.addColorStop(1, '#E2D2BA');
   ctx.fillStyle = fg;
   ctx.fillRect(-W, -H, W * 3, H * 3);
   ctx.restore();
@@ -1174,14 +1130,14 @@ function withSlices(ctx, t) {
 }
 
 const PROJECTS = [
-  { name: 'UIQRAFT', fn: sUiqraft, t0: T.uiqraft },
-  { name: 'UNRAVEL', fn: sUnravel },
-  { name: 'HYPHA', fn: sHypha },
-  { name: 'ERUDITE', fn: sErudite },
-  { name: 'LUMIUM', fn: sLumium },
-  { name: 'PAGEVELLE', fn: sPagevelle },
-  { name: 'XENON', fn: sXenon },
-  { name: 'YOUR IDEA', fn: sYourIdea },
+  { key: 'staysecure', name: 'STAYSECURE', fn: sStaySecure, idx: 8 },
+  { key: 'unravel', name: 'UNRAVEL', fn: sUnravel, idx: 1 },
+  { key: 'hypha', name: 'HYPHA', fn: sHypha, idx: 2 },
+  { key: 'erudite', name: 'ERUDITE', fn: sErudite, idx: 3 },
+  { key: 'lumium', name: 'LUMIUM', fn: sLumium, idx: 4 },
+  { key: 'pagevelle', name: 'PAGEVELLE', fn: sPagevelle, idx: 5 },
+  { key: 'xenon', name: 'XENON', fn: sXenon, idx: 6 },
+  { key: 'uiqraft', name: 'UIQRAFT', fn: sUiqraft, idx: 7 },
 ];
 
 const WORK_SCENES = [
@@ -1191,5 +1147,6 @@ const WORK_SCENES = [
   [T.lumium, T.pagevelle, withIris],
   [T.pagevelle, T.xenon, withCurl],
   [T.xenon, T.uiqraft, (ctx, t) => sXenon(ctx, t - T.xenon)],
-  [T.uiqraft, T.wall, withSlices],
+  [T.uiqraft, T.staysecure, withSlices],
+  [T.staysecure, T.wall, (ctx, t) => sStaySecure(ctx, t - T.staysecure)],
 ];
