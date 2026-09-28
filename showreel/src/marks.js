@@ -217,7 +217,12 @@ const MARKS = {
   erudite: (ctx, x, y, s) => markErudite(ctx, x, y, s * 0.8),
   pagevelle: (ctx, x, y, s) => markPagevelle(ctx, x, y, s * 0.8),
   unravel: (ctx, x, y, s, t) => markUnravel(ctx, x, y, s * 1.3, t),
-  lumium: (ctx, x, y, s) => markLumium(ctx, x, y, s),
+  lumium: (ctx, x, y, s) => {
+    ctx.save();
+    ctx.beginPath(); ctx.roundRect(x - s * 0.42, y - s * 0.42, s * 0.84, s * 0.84, s * 0.2); ctx.clip();
+    ctx.drawImage(IMG.lumiumIcon, x - s * 0.42, y - s * 0.42, s * 0.84, s * 0.84);
+    ctx.restore();
+  },
   xenon: (ctx, x, y, s, t) => markXenon(ctx, x, y, s, t),
   uiqraft: (ctx, x, y, s) => markUIQraft(ctx, x, y, s),
 };

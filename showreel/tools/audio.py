@@ -270,6 +270,18 @@ def lock(t, g=1.0):
     put(send, s, t, 0, 0.35 * g)
 
 
+def click(t, g=1.0):
+    """a desk-lamp switch: two tiny plastic transients and a filament tick"""
+    n = int(0.25 * SR)
+    tt = np.arange(n) / SR
+    s = filt(noise(n), "bandpass", [1800, 7000]) * env(n, 0, 0.003)
+    j = int(0.018 * SR)
+    s[j:] += filt(noise(n - j), "bandpass", [900, 4000]) * env(n - j, 0, 0.005) * 0.7
+    s += np.sin(2 * np.pi * 120 * tt) * env(n, 0.01, 0.12) * 0.08
+    put(dry, s, t, 0.1, 0.5 * g)
+    put(send, s, t, 0, 0.25 * g)
+
+
 CHIME = [[81, 88], [79, 86], [84, 91], [76, 83], [81, 88, 93]]
 
 
@@ -316,17 +328,40 @@ for b in (1, 2, 3):
     stab(bt(b), [c + 12 for c in CH["Am"]["pad"][:3]], g=0.8)
     clap(bt(b), 0.5)
 
-# bars 1–5 — drop, dot matrix, and seven projects
-for bar, name in zip(range(1, 6), ["Am", "F", "C", "G", "Am"]):
+# bars 1–3 — drop, dot matrix, Unravel (+ MCP), Hypha
+for bar, name in zip(range(1, 4), ["Am", "F", "C"]):
     groove(bar, name, cutoff=2000 + bar * 250)
 
-# bar 6 — StaySecure: doors on a half-time pulse, full groove from the interlock (beat 26)
+# bar 4 — Erudite, then the room goes dark for Lumium's lamp: one beat of hush, the click, groove returns
+c = CH["G"]
+t0 = bt(16)
+pad(t0, t0 + bt(4), c["pad"], g=1.2, cutoff=2900)
+for b in range(4):
+    tb = t0 + bt(b)
+    if b == 2:
+        continue
+    kick(tb)
+    if b in (1, 3):
+        clap(tb)
+    hat(tb + bt(0.5), 1.0, open_=(b == 3), pan=0.25)
+    hat(tb + bt(0.25), 0.45, pan=-0.35)
+    hat(tb + bt(0.75), 0.45, pan=-0.35)
+    bass(tb + bt(0.5), c["root"], bt(0.45))
+    bass(tb + bt(0.75), c["root"] + (12 if b == 3 else 0), bt(0.22), 0.8)
+for s16 in list(range(0, 8)) + list(range(12, 16)):
+    pluck(t0 + bt(s16 / 4), c["arp"][ARP[s16]], g=0.9 if s16 % 4 == 0 else 0.65, pan=0.45 if s16 % 2 else -0.45)
+
+# bars 5–6 — Lumium's world, Pagevelle, Xenon, UIQraft
+for bar, name in zip(range(5, 7), ["Am", "F"]):
+    groove(bar, name, cutoff=2000 + bar * 250)
+
+# bar 7 — StaySecure: doors over a held root, full groove from the interlock (beat 30)
 c = CH["F"]
-t0 = bt(24)
+t0 = bt(28)
 pad(t0, t0 + bt(4), c["pad"], g=2.4, cutoff=3000)
 kick(t0)
-bass(t0 + bt(0.5), c["root"], bt(1.45), 0.9)  # held root under the doors instead of the pumping bass
-for s16 in range(8):  # no kick yet: plucks and ticking hats hold the tension until the lock
+bass(t0 + bt(0.5), c["root"], bt(1.45), 0.9)
+for s16 in range(8):
     pluck(t0 + bt(s16 / 4), c["arp"][ARP[s16]], g=0.8 if s16 % 4 == 0 else 0.6, pan=0.45 if s16 % 2 else -0.45)
     hat(t0 + bt(s16 / 4), 0.35 + 0.05 * s16, pan=0.3 if s16 % 2 else -0.3)
 for b in range(4):
@@ -335,15 +370,16 @@ for b in range(4):
     if b >= 2:
         bass(tb + bt(0.5), c["root"], bt(0.45))
         kick(tb)
-        clap(tb, 0.8 if b == 3 else 0.0001)
+        if b == 3:
+            clap(tb, 0.8)
         hat(tb + bt(0.25), 0.45, pan=-0.35)
         hat(tb + bt(0.75), 0.45, pan=-0.35)
 for s16 in range(8, 16):
     pluck(t0 + bt(s16 / 4), c["arp"][ARP[s16]], g=0.7, pan=0.45 if s16 % 2 else -0.45)
 
-# bar 7 — the wall: 16th hats, snare roll, filter opens into the glass
+# bar 8 — the wall: 16th hats, snare roll, filter opens into the glass
 c = CH["G"]
-t0 = bt(28)
+t0 = bt(32)
 pad(t0, t0 + bt(4), c["pad"], g=1.1, cutoff=3800)
 for b in range(4):
     tb = t0 + bt(b)
@@ -356,19 +392,19 @@ for s16 in range(16):
 for k in range(12):
     clap(t0 + bt(2 + k / 6), 0.25 + 0.06 * k)
 
-# bar 8 — particle marks: the drop returns, brighter
-groove(8, "Am", cutoff=3400, arp_up=True, g=0.95)
+# bar 9 — particle marks: the drop returns, brighter
+groove(9, "Am", cutoff=3400, arp_up=True, g=0.95)
 
-# bars 9–10 — end card: drums fall away, pad and bells resolve
+# bars 10–11 — end card: drums fall away, pad and bells resolve
 c = CH["F"]
-t0 = bt(36)
+t0 = bt(40)
 kick(t0, 1.0)
 bass(t0, c["root"], bt(3.5), 1.0)
-pad(t0, bt(40), c["pad"], g=1.2, cutoff=2400, attack=0.05)
+pad(t0, bt(44), c["pad"], g=1.2, cutoff=2400, attack=0.05)
 for k, m in enumerate([65, 69, 72, 77, 76, 72, 69, 72]):
     pluck(t0 + bt(0.5 + k * 0.5), m, g=0.62 - k * 0.03, pan=0.5 if k % 2 else -0.5, dec=0.3)
 c = CH["Am"]
-t0 = bt(40)
+t0 = bt(44)
 bass(t0, c["root"], bt(3.6), 0.9)
 pad(t0, DUR - 0.25, c["pad"] + [76], g=1.3, cutoff=2600, attack=0.3)
 for k, m in enumerate([69, 72, 76, 79, 81, 76, 72, 84]):
@@ -391,6 +427,8 @@ for b, a in CUES.get("locks", []):
     lock(bt(b), a)
 for b, k in CUES.get("chimes", []):
     chime(bt(b), k)
+for b, a in CUES.get("clicks", []):
+    click(bt(b), a)
 
 # ---------------------------------------------------------------- mix
 ir_n = int(1.8 * SR)

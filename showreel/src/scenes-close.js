@@ -8,7 +8,7 @@ const TILE_CANVAS = PROJECTS.map(() => {
   return c;
 });
 
-function tileTime(k, lt) { return k === 0 ? BEAT * 4 + lt : 0.62 + lt * 0.4; }
+function tileTime(k, lt) { return k === 0 ? BEAT * 4 + lt : (PROJECTS[k].tile ?? 0.62) + lt * 0.4; }
 
 function tileLabel(ctx, pr, x, y) {
   setFont(ctx, 700, 13, MONO);
@@ -230,6 +230,7 @@ function sEnd(ctx, t) {
       y[i] = lerp(ay, by, u) + (dx / len) * bow;
       s[i] = lerp(3.4 * af, 3.2, u);
       a[i] = 0.92 * fade;
+      PSYS.b[i] = Math.min(18, Math.abs(af - 1) * 26) * (1 - u);
       const ca = PSYS.shapes.pagevelle.col[i];
       cols[i] = `rgb(${Math.round(lerp(ca[0], 15, u))},${Math.round(lerp(ca[1], 23, u))},${Math.round(lerp(ca[2], 42, u))})`;
     }

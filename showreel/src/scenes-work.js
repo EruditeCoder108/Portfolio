@@ -122,9 +122,9 @@ const UNR = (() => {
   return { KC, KS, M, nodes, leaves, l2, l1, root, strands, edges };
 })();
 
-function codeSkeleton(ctx, lt, x, y, th, hi = -1, hiT = 9) {
+function codeSkeleton(ctx, lt, x, y, th, hi = -1, hiT = 9, fade = 1) {
   for (let k = 0; k < 9; k++) {
-    const p = A(lt, 0.05 + k * 0.025, 0.3 + k * 0.025);
+    const p = A(lt, 0.05 + k * 0.025, 0.3 + k * 0.025) * fade;
     if (p <= 0) continue;
     ctx.globalAlpha = p;
     setFont(ctx, 500, 14, MONO);
@@ -142,15 +142,23 @@ function codeSkeleton(ctx, lt, x, y, th, hi = -1, hiT = 9) {
 }
 
 function sUnravel(ctx, lt) {
+  camDrift(ctx, lt, 1);
   const th = TH.unravel;
   darkBg(ctx, th, lt, 820, 460);
-  codeSkeleton(ctx, lt, 130, 150, th, 4, 0.62);
+  codeSkeleton(ctx, lt, 130, 150, th, 4, 0.62, 1 - A(lt, 0.9, 1.1));
   const zp = A(lt, 0, 0.45);
   ctx.save();
   const s = lerp(KNOT_SCALE, 1, zp); // picks up exactly where the particle knot left off
   ctx.translate(W / 2, H / 2);
   ctx.scale(s, s);
   ctx.translate(-lerp(UNR.KC[0], W / 2, zp), -lerp(UNR.KC[1], H / 2, zp));
+  // second half: the whole code → AST picture shrinks into the "codebase" end of the MCP diagram
+  const gB = Ez.inOutCubic(inv(0.92, 1.28, lt));
+  if (gB > 0) {
+    ctx.translate(lerp(UNR_G.cx, UNR_G.tx, gB), lerp(UNR_G.cy, UNR_G.ty, gB));
+    ctx.scale(lerp(1, UNR_G.s, gB), lerp(1, UNR_G.s, gB));
+    ctx.translate(-UNR_G.cx, -UNR_G.cy);
+  }
   const ry = 0.5 + lt * 1.7, rx = 0.45;
   const cy_ = Math.cos(ry), sy_ = Math.sin(ry), cx_ = Math.cos(rx), sx_ = Math.sin(rx);
   const order = [];
@@ -229,8 +237,125 @@ function sUnravel(ctx, lt) {
     ctx.globalAlpha = 1;
   }
   ctx.restore();
+  if (lt > 0.95) unravelMCP(ctx, lt, th);
   titleBlock(ctx, lt, '01', 'UNRAVEL', 'tangled code -> verified AST evidence', th);
-  tagPills(ctx, lt, ['TypeScript', 'Tree-sitter', 'MCP'], th);
+  tagPills(ctx, lt, ['TypeScript', 'Tree-sitter', 'MCP server'], th);
+}
+
+/* Unravel, part two: served over MCP to AI agents, and what it measurably changes */
+const UNR_G = { cx: 1030, cy: 500, tx: 470, ty: 450, s: 0.52 };
+function unravelMCP(ctx, lt, th) {
+  const rootX = UNR_G.tx + (UNR.root[0] - UNR_G.cx) * UNR_G.s, rootY = UNR_G.ty + (UNR.root[1] - UNR_G.cy) * UNR_G.s;
+  const hub = [1170, 450], agent = [1600, 450];
+  const ga = A(lt, 1.0, 1.2);
+  setFont(ctx, 600, 15, MONO);
+  ctx.fillStyle = rgba(th.mute, ga);
+  ctx.textAlign = 'center';
+  ctx.fillText('CODEBASE -> AST', UNR_G.tx + 40, 640);
+  ctx.textAlign = 'left';
+  // links: root → hub, then two arcs hub ⇄ agent (evidence out, claims back)
+  const l1 = bezier([rootX + 22, rootY], [rootX + 140, rootY], [hub[0] - 200, hub[1]], [hub[0] - 80, hub[1]], 40);
+  const up = bezier([hub[0] + 80, hub[1] - 26], [hub[0] + 200, hub[1] - 150], [agent[0] - 200, agent[1] - 150], [agent[0] - 62, agent[1] - 26], 50);
+  const dn = bezier([agent[0] - 62, agent[1] + 26], [agent[0] - 200, agent[1] + 150], [hub[0] + 200, hub[1] + 150], [hub[0] + 80, hub[1] + 26], 50);
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = rgba('#22D3EE', 0.75);
+  strokePartial(ctx, l1, 0, A(lt, 1.02, 1.2, Ez.inOutCubic));
+  ctx.strokeStyle = rgba('#7DD3FC', 0.6);
+  strokePartial(ctx, up, 0, A(lt, 1.1, 1.3, Ez.inOutCubic));
+  ctx.strokeStyle = rgba('#FBBF24', 0.55);
+  strokePartial(ctx, dn, 0, A(lt, 1.16, 1.36, Ez.inOutCubic));
+  // packets
+  const pk = (path, t0, rate, col, n) => {
+    if (lt < t0) return;
+    for (let k = 0; k < n; k++) {
+      const u = ((lt - t0) * rate + k / n) % 1;
+      const [x, y] = pointAt(path, Ez.inOutSine(u));
+      glow(ctx, x, y, 22, col, 0.8);
+      circle(ctx, x, y, 4.5, '#FFFFFF');
+    }
+  };
+  pk(l1, 1.2, 1.8, '#22D3EE', 2);
+  pk(up, 1.3, 1.6, '#7DD3FC', 2);
+  pk(dn, 1.36, 1.6, '#FBBF24', 2);
+  setFont(ctx, 500, 15, MONO);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = rgba('#BAE6FD', A(lt, 1.25, 1.4));
+  ctx.fillText('structural evidence ->', (hub[0] + agent[0]) / 2, hub[1] - 128);
+  ctx.fillStyle = rgba('#FDE68A', A(lt, 1.3, 1.45));
+  ctx.fillText('<- claims, checked against source', (hub[0] + agent[0]) / 2, hub[1] + 150);
+  ctx.textAlign = 'left';
+  // the MCP hub
+  const hs = spring(lt - 1.0, 1.8, 6.5);
+  if (hs > 0) {
+    ctx.save();
+    about(ctx, hub[0], hub[1], hs);
+    glow(ctx, hub[0], hub[1], 190, '#0EA5E9', 0.35 + 0.15 * Math.sin(lt * 7));
+    ctx.fillStyle = '#081A33';
+    ctx.beginPath(); ctx.roundRect(hub[0] - 80, hub[1] - 80, 160, 160, 34); ctx.fill();
+    ctx.strokeStyle = '#22D3EE'; ctx.lineWidth = 3; ctx.stroke();
+    setFont(ctx, 600, 15, MONO); ctx.fillStyle = '#7DD3FC'; ctx.textAlign = 'center';
+    ctx.fillText('unravel', hub[0], hub[1] - 22);
+    setFont(ctx, 800, 50, DISP); ctx.fillStyle = '#FFFFFF';
+    ctx.fillText('MCP', hub[0], hub[1] + 30);
+    ctx.textAlign = 'left';
+    ctx.restore();
+    const rp = A(lt, 1.02, 1.5);
+    if (rp < 1) ring(ctx, hub[0], hub[1], 90 + 120 * rp, 2, '#22D3EE', 0.7 * (1 - rp));
+  }
+  setFont(ctx, 500, 14, MONO);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = rgba(th.mute, A(lt, 1.2, 1.4));
+  ctx.fillText('symbols · call graph · mutation chains · claim checks', hub[0], hub[1] + 116);
+  ctx.textAlign = 'left';
+  // the agent
+  const as = spring(lt - 1.08, 1.8, 6.5);
+  if (as > 0) {
+    ctx.save();
+    about(ctx, agent[0], agent[1], as);
+    circle(ctx, agent[0], agent[1], 62, '#1E1B4B');
+    ring(ctx, agent[0], agent[1], 62, 3, '#A5B4FC', 1);
+    ctx.fillStyle = '#E0E7FF';
+    ctx.beginPath();
+    for (let k = 0; k < 8; k++) { const a = (k * Math.PI) / 4 - Math.PI / 2, r = k % 2 ? 9 : 28; ctx.lineTo(agent[0] + Math.cos(a) * r, agent[1] + Math.sin(a) * r); }
+    ctx.fill();
+    setFont(ctx, 600, 15, MONO); ctx.fillStyle = '#C7D2FE'; ctx.textAlign = 'center';
+    ctx.fillText('AI agent', agent[0], agent[1] + 96);
+    ctx.textAlign = 'left';
+    ctx.restore();
+  }
+  // measured, not claimed: internal benchmark card
+  const bp = spring(lt - 1.22, 1.5, 6.5);
+  if (bp <= 0) return;
+  const cx = 1080, cy = 660 + (1 - bp) * 60, cw = 720, ch = 250;
+  ctx.save();
+  ctx.globalAlpha = clamp(bp * 1.3);
+  ctx.fillStyle = 'rgba(8,20,44,0.88)';
+  ctx.beginPath(); ctx.roundRect(cx, cy, cw, ch, 22); ctx.fill();
+  ctx.strokeStyle = 'rgba(56,189,248,0.35)'; ctx.lineWidth = 1.5; ctx.stroke();
+  setFont(ctx, 700, 14, MONO); ctx.fillStyle = '#7DD3FC';
+  ctx.letterSpacing = '3px';
+  ctx.fillText('INTERNAL BENCHMARK · MEASURED', cx + 30, cy + 40);
+  ctx.letterSpacing = '0px';
+  const rows = [
+    { label: 'context sent to the model', raw: 1.0, unr: 0.2, cr: '#64748B', cu: '#22D3EE', note: 'a fraction of raw' },
+    { label: 'hallucinated references', raw: 0.66, unr: 0.018, cr: '#FB7185', cu: '#34D399', note: 'near zero' },
+  ];
+  rows.forEach((r, k) => {
+    const y = cy + 84 + k * 88, bx = cx + 30, bw = 440;
+    setFont(ctx, 500, 16, SANS); ctx.fillStyle = '#CBD5E1';
+    ctx.fillText(r.label, bx, y);
+    const g1 = spring(lt - 1.32 - k * 0.08, 1.7, 6), g2 = spring(lt - 1.42 - k * 0.08, 1.7, 6);
+    setFont(ctx, 500, 13, MONO);
+    ctx.fillStyle = '#94A3B8'; ctx.fillText('raw files', bx, y + 28);
+    ctx.fillText('unravel', bx, y + 52);
+    pill(ctx, bx + 96, y + 16, Math.max(12, bw * r.raw * g1), 14, r.cr);
+    pill(ctx, bx + 96, y + 40, Math.max(12, bw * r.unr * g2), 14, r.cu);
+    const na = A(lt, 1.52 + k * 0.08, 1.7 + k * 0.08);
+    setFont(ctx, 700, 15, MONO); ctx.fillStyle = rgba(r.cu, na);
+    ctx.fillText(r.note, bx + 96 + Math.max(12, bw * r.unr * g2) + 14, y + 53);
+  });
+  ctx.restore();
 }
 
 /* =====================================================================================
@@ -301,6 +426,7 @@ const hyphaIcon = (ctx, x, y, s) => {
 };
 
 function sHypha(ctx, lt) {
+  camDrift(ctx, lt, 2);
   const th = TH.hypha;
   fillBg(ctx, th.bg);
   // the trail photo fades up behind the mesh, graded into the scene's teal night
@@ -469,6 +595,7 @@ function screen3D(ctx, im, cx, cy, w, h, ry, o = {}) {
 const eruditeIcon = (ctx, x, y, s) => markErudite(ctx, x + s / 2, y + s / 2, s);
 
 function sErudite(ctx, lt) {
+  camDrift(ctx, lt, 3);
   const th = TH.erudite;
   fillBg(ctx, th.bg);
   glow(ctx, 260, 1080, 1100, '#1E3A8A', 0.45);
@@ -518,144 +645,11 @@ function sErudite(ctx, lt) {
 }
 
 /* =====================================================================================
-   04 LUMIUM — focus timer ring, odometer digits, a growing sprout, a device lease
-   ===================================================================================== */
-function rollDigit(ctx, cont, base, x, y, size, cw, snapW = 0) {
-  let d = Math.floor(cont), f = cont - d;
-  d = ((d % base) + base) % base;
-  if (snapW > 0) f = Ez.smooth(clamp((f - (1 - snapW)) / snapW));
-  const nd = (d + 1) % base;
-  ctx.save();
-  ctx.beginPath();
-  ctx.rect(x - 6, y - size * 0.88, cw + 12, size * 1.0);
-  ctx.clip();
-  const lh = size * 1.02;
-  ctx.fillText(String(d), x + (cw - ctx.measureText(String(d)).width) / 2, y - f * lh);
-  if (f > 0.001) ctx.fillText(String(nd), x + (cw - ctx.measureText(String(nd)).width) / 2, y + lh - f * lh);
-  ctx.restore();
-}
-
-function deviceIcon(ctx, kind, x, y, c, a) {
-  ctx.save();
-  ctx.globalAlpha = a;
-  ctx.strokeStyle = c;
-  ctx.lineWidth = 3;
-  ctx.lineJoin = 'round';
-  ctx.beginPath();
-  if (kind === 'phone') { ctx.roundRect(x - 22, y - 38, 44, 76, 9); ctx.moveTo(x - 7, y - 30); ctx.lineTo(x + 7, y - 30); }
-  else if (kind === 'web') { ctx.roundRect(x - 44, y - 30, 88, 56, 6); ctx.moveTo(x - 56, y + 34); ctx.lineTo(x + 56, y + 34); }
-  else { ctx.roundRect(x - 42, y - 28, 84, 56, 6); for (let i = 0; i < 6; i++) ctx.rect(x - 30 + i * 11, y - 20, 4, 4); ctx.rect(x - 8, y - 2, 26, 20); }
-  ctx.stroke();
-  ctx.restore();
-}
-
-function sLumium(ctx, lt) {
-  const th = TH.lumium;
-  darkBg(ctx, th, lt, 960, 450);
-  const cx = 960, cy = 450, R = 236;
-  // orbiting devices + lease links
-  const devs = [['phone', 160, 'PHONE'], ['web', 18, 'WEB · owner'], ['kiosk', 296, 'KIOSK · RPi']];
-  devs.forEach(([kind, ang, label], i) => {
-    const a = (ang + lt * 9) * D2R;
-    const x = cx + Math.cos(a) * 520, y = cy + Math.sin(a) * 330;
-    const p = A(lt, 0.18 + i * 0.05, 0.45 + i * 0.05);
-    if (p <= 0) return;
-    const owner = kind === 'web';
-    const lease = owner ? A(lt, 0.5, 0.62) : 0;
-    ctx.strokeStyle = rgba(owner && lease > 0 ? '#6EE7B7' : th.accent, owner ? 0.35 + 0.5 * lease : 0.22);
-    ctx.lineWidth = owner ? 2 + lease : 1.5;
-    ctx.setLineDash([6, 8]);
-    ctx.lineDashOffset = -lt * 60;
-    const ex = cx + Math.cos(a) * (R + 50), ey = cy + Math.sin(a) * (R + 50);
-    ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(lerp(ex, x, p), lerp(ey, y, p)); ctx.stroke();
-    ctx.setLineDash([]);
-    if (owner && lease > 0) glow(ctx, x, y, 110, '#10B981', 0.35 * lease);
-    deviceIcon(ctx, kind, x, y, owner && lease > 0 ? '#A7F3D0' : th.accent, p * (owner ? 1 : 0.6));
-    setFont(ctx, 600, 14, MONO);
-    ctx.fillStyle = rgba(owner ? '#D1FAE5' : '#6EA38E', p);
-    ctx.textAlign = 'center';
-    ctx.fillText(label, x, y + 66);
-    ctx.textAlign = 'left';
-  });
-  // ring + ticks
-  const prog = 0.06 + 0.66 * A(lt, 0.08, 0.92, Ez.outCubic);
-  const rin = spring(lt - 0.02, 1.4, 6);
-  ctx.save();
-  about(ctx, cx, cy, 0.7 + 0.3 * rin);
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = rgba('#FFFFFF', 0.08);
-  ctx.lineWidth = 18;
-  ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.stroke();
-  const cg = ctx.createConicGradient(-Math.PI / 2, cx, cy);
-  cg.addColorStop(0, '#10B981'); cg.addColorStop(0.5, '#2DD4BF'); cg.addColorStop(1, '#FBBF24');
-  ctx.strokeStyle = cg;
-  ctx.beginPath(); ctx.arc(cx, cy, R, -Math.PI / 2, -Math.PI / 2 + TAU * prog); ctx.stroke();
-  const ha = -Math.PI / 2 + TAU * prog;
-  circle(ctx, cx + Math.cos(ha) * R, cy + Math.sin(ha) * R, 14, '#FFFFFF');
-  for (let i = 0; i < 60; i++) {
-    const a = -Math.PI / 2 + (i / 60) * TAU, on = i / 60 < prog;
-    const r0 = R + 30, r1 = R + (i % 5 === 0 ? 50 : 40);
-    ctx.strokeStyle = on ? rgba('#6EE7B7', 0.9) : rgba('#FFFFFF', 0.12);
-    ctx.lineWidth = i % 5 === 0 ? 3 : 2;
-    ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0); ctx.lineTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1); ctx.stroke();
-  }
-  // sprout
-  const g1 = A(lt, 0.15, 0.55, Ez.outCubic);
-  ctx.strokeStyle = '#34D399'; ctx.lineWidth = 5;
-  ctx.beginPath(); ctx.moveTo(cx, cy - 96); ctx.lineTo(cx, cy - 96 - 58 * g1); ctx.stroke();
-  const lf = Ez.outBack(inv(0.38, 0.72, lt));
-  if (lf > 0) {
-    for (const s of [-1, 1]) {
-      ctx.save();
-      ctx.translate(cx, cy - 96 - 52 * g1);
-      ctx.rotate(s * (0.9 - 0.25 * lf));
-      ctx.scale(lf, lf);
-      ctx.fillStyle = s < 0 ? '#34D399' : '#6EE7B7';
-      ctx.beginPath(); ctx.ellipse(0, -22, 12, 24, 0, 0, TAU); ctx.fill();
-      ctx.restore();
-    }
-  }
-  // countdown digits
-  const tk = Math.max(0, lt - 0.1) * 13, Tm = 1500 - (Math.floor(tk) + Ez.inOutCubic(clamp((tk % 1 - 0.35) / 0.65)));
-  setFont(ctx, 700, 136, DISP);
-  ctx.fillStyle = '#FFFFFF';
-  const cw = 80, y = cy + 58, x0 = cx - (cw * 4 + 40) / 2;
-  const sec = ((Tm % 60) + 60) % 60, ones = sec % 10;
-  rollDigit(ctx, Math.floor(Tm / 600), 10, x0, y, 136, cw);
-  rollDigit(ctx, Math.floor(Tm / 60) + Ez.smooth(clamp(sec - 59)), 10, x0 + cw, y, 136, cw);
-  ctx.fillText(':', x0 + cw * 2 + 10, y - 8);
-  rollDigit(ctx, Math.floor(sec / 10) + Ez.smooth(clamp(ones - 9)), 6, x0 + cw * 2 + 40, y, 136, cw);
-  rollDigit(ctx, ones, 10, x0 + cw * 3 + 40, y, 136, cw);
-  setFont(ctx, 600, 18, MONO);
-  ctx.fillStyle = th.accent;
-  ctx.textAlign = 'center';
-  ctx.letterSpacing = '6px';
-  ctx.fillText('DEEP FOCUS', cx + 3, cy + 120);
-  ctx.letterSpacing = '0px';
-  ctx.textAlign = 'left';
-  ctx.restore();
-  // lease chip
-  const lp = A(lt, 0.52, 0.66);
-  if (lp > 0) {
-    ctx.globalAlpha = lp;
-    setFont(ctx, 600, 15, MONO);
-    const s = 'ActiveTimerLease · ttl 15s';
-    const w = ctx.measureText(s).width + 44;
-    pill(ctx, 1320, 820, w, 36, rgba('#10B981', 0.14), rgba('#34D399', 0.6));
-    circle(ctx, 1340, 838, 5 * (0.7 + 0.3 * Math.sin(lt * 20)), '#6EE7B7');
-    ctx.fillStyle = '#D1FAE5';
-    ctx.fillText(s, 1354, 843);
-    ctx.globalAlpha = 1;
-  }
-  titleBlock(ctx, lt, '04', 'LUMIUM', 'focus ecosystem · software × AI × hardware', th);
-  tagPills(ctx, lt, ['Capacitor', 'Firestore', 'Raspberry Pi'], th);
-}
-
-/* =====================================================================================
    05 PAGEVELLE — paper page + RSVP speed reading with ORP highlight
    ===================================================================================== */
 const RSVP = ['Reading', 'itself', 'is', 'the', 'product.'];
 function sPagevelle(ctx, lt) {
+  camDrift(ctx, lt, 5);
   const th = TH.pagevelle;
   fillBg(ctx, th.bg);
   dotGrid(ctx, 48, 0.07, '#8A6F58');
@@ -758,6 +752,7 @@ const XLINES = [
 ];
 
 function sXenon(ctx, lt) {
+  camDrift(ctx, lt, 6);
   const th = TH.xenon;
   darkBg(ctx, th, lt, 1400, 440);
   // sphere
@@ -880,6 +875,7 @@ function toggle(ctx, x, y, on) {
 }
 
 function sUiqraft(ctx, lt) {
+  camDrift(ctx, lt, 7);
   const th = TH.uiqraft;
   fillBg(ctx, th.bg);
   glow(ctx, 1500 + Math.sin(lt * 2) * 40, 220, 700, '#A5B4FC', 0.55);
@@ -1039,7 +1035,6 @@ function sUiqraft(ctx, lt) {
 
 /* ---------- transitions ---------- */
 const WHIP = [T.erudite - 0.13, T.erudite + 0.13];
-const IRIS = [T.lumium, T.lumium + 0.3];
 const CURL = [T.pagevelle, T.pagevelle + 0.36];
 const SLICE = [T.uiqraft, T.uiqraft + 0.3];
 
@@ -1054,17 +1049,6 @@ function withWhip(ctx, t) {
   };
   if (t < WHIP[1]) panel(-W * 1.05 * w, () => sHypha(ctx, t - T.hypha));
   panel(W * 1.05 * (1 - w), () => sErudite(ctx, t - T.erudite));
-}
-
-function withIris(ctx, t) {
-  if (t >= IRIS[1]) return sLumium(ctx, t - T.lumium);
-  sErudite(ctx, t - T.erudite);
-  const r = 1200 * Ez.inOutExpo(inv(IRIS[0], IRIS[1], t));
-  ctx.save();
-  ctx.beginPath(); ctx.arc(960, 450, r, 0, TAU); ctx.clip();
-  sLumium(ctx, t - T.lumium);
-  ctx.restore();
-  ring(ctx, 960, 450, r, 10, '#34D399', 1);
 }
 
 function withCurl(ctx, t) {
@@ -1131,10 +1115,10 @@ function withSlices(ctx, t) {
 
 const PROJECTS = [
   { key: 'staysecure', name: 'STAYSECURE', fn: sStaySecure, idx: 8 },
-  { key: 'unravel', name: 'UNRAVEL', fn: sUnravel, idx: 1 },
+  { key: 'unravel', name: 'UNRAVEL', fn: sUnravel, idx: 1, tile: 1.55 },
   { key: 'hypha', name: 'HYPHA', fn: sHypha, idx: 2 },
   { key: 'erudite', name: 'ERUDITE', fn: sErudite, idx: 3 },
-  { key: 'lumium', name: 'LUMIUM', fn: sLumium, idx: 4 },
+  { key: 'lumium', name: 'LUMIUM', fn: sLumium, idx: 4, tile: 1.62 },
   { key: 'pagevelle', name: 'PAGEVELLE', fn: sPagevelle, idx: 5 },
   { key: 'xenon', name: 'XENON', fn: sXenon, idx: 6 },
   { key: 'uiqraft', name: 'UIQRAFT', fn: sUiqraft, idx: 7 },
@@ -1144,7 +1128,7 @@ const WORK_SCENES = [
   [T.unravel, T.hypha, (ctx, t) => sUnravel(ctx, t - T.unravel)],
   [T.hypha, WHIP[0], (ctx, t) => sHypha(ctx, t - T.hypha)],
   [WHIP[0], T.lumium, withWhip],
-  [T.lumium, T.pagevelle, withIris],
+  [T.lumium, T.pagevelle, (ctx, t) => sLumium(ctx, t - T.lumium)],
   [T.pagevelle, T.xenon, withCurl],
   [T.xenon, T.uiqraft, (ctx, t) => sXenon(ctx, t - T.xenon)],
   [T.uiqraft, T.staysecure, withSlices],

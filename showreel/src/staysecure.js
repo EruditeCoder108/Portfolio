@@ -123,6 +123,7 @@ function lerpGeom(a, b, m, tr) {
 }
 
 function sStaySecure(ctx, lt) {
+  camDrift(ctx, lt * 0.6, 8);
   const th = TH_SS;
   fillBg(ctx, th.bg);
   glow(ctx, W / 2, H / 2, 1200, th.glow, 0.32 + 0.12 * A(lt, 0.7, 1.0));

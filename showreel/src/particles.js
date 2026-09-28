@@ -14,6 +14,7 @@ const PSYS = {
   shapes: {},
   // per-frame scratch (screen space)
   x: new Float32Array(PN), y: new Float32Array(PN), s: new Float32Array(PN), a: new Float32Array(PN),
+  b: new Float32Array(PN), // defocus radius (px): 0 = sharp square, >0 = soft bokeh disc
   ready: false,
 };
 
@@ -82,13 +83,20 @@ function initParticles() {
 
 /* ---------- rendering ---------- */
 function drawDots(ctx, n, colorOf) {
-  const { x, y, s, a } = PSYS;
+  const { x, y, s, a, b } = PSYS;
   for (let i = 0; i < n; i++) {
     if (a[i] <= 0.01 || s[i] <= 0.05) continue;
-    ctx.globalAlpha = a[i];
+    const d = s[i], blur = b[i];
     ctx.fillStyle = colorOf(i);
-    const d = s[i];
-    ctx.fillRect(x[i] - d / 2, y[i] - d / 2, d, d);
+    if (blur > 0.7) {
+      // defocused: spread the dot's energy over a disc (dimmer as it grows)
+      const r = d / 2 + blur;
+      ctx.globalAlpha = a[i] * Math.min(1, 1.9 * (d * d) / (4 * r * r) + 0.06);
+      ctx.beginPath(); ctx.arc(x[i], y[i], r, 0, TAU); ctx.fill();
+    } else {
+      ctx.globalAlpha = a[i];
+      ctx.fillRect(x[i] - d / 2, y[i] - d / 2, d, d);
+    }
   }
   ctx.globalAlpha = 1;
 }
@@ -152,8 +160,10 @@ function sMatrix(ctx, t) {
     // swirl into the knot along curved paths
     const d0 = 1.12 + 0.28 * seed[i];
     const u = Ez.inOutCubic(clamp((lt - d0) / 0.46));
+    let depthBlur = 0;
     if (u > 0) {
       const [kx, ky, kz] = knotPoint(i, t);
+      depthBlur = Math.abs(kz) * 0.9;
       const cx = W / 2, cy = H / 2;
       const ang = (1 - u) * u * (2.6 + seed2[i] * 1.4);
       let mx = lerp(sx, kx, u) - cx, my = lerp(sy, ky, u) - cy;
@@ -166,6 +176,7 @@ function sMatrix(ctx, t) {
     } else {
       x[i] = sx; y[i] = sy;
     }
+    PSYS.b[i] = lift * Math.abs(f - 1.05) * 15 * (1 - u) + depthBlur * u * (1 - u) * 4;
     s[i] = size; a[i] = alpha;
   }
   const strandCol = UNR.strands.map(st => st.col.match(/\d+/g).map(Number));
@@ -248,6 +259,7 @@ function sFinale(ctx, t) {
     x[i] = d.x; y[i] = d.y;
     s[i] = 3.4 * d.f;
     a[i] = 0.92;
+    PSYS.b[i] = Math.min(18, Math.abs(d.f - 1) * 26);
     const cb = PSYS.shapes[FINALE[d.k1].key].col[i];
     const ca = d.k0 < 0 ? [37, 99, 235] : PSYS.shapes[FINALE[d.k0].key].col[i];
     cols[i] = `rgb(${Math.round(lerp(ca[0], cb[0], d.u))},${Math.round(lerp(ca[1], cb[1], d.u))},${Math.round(lerp(ca[2], cb[2], d.u))})`;

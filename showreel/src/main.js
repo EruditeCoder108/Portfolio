@@ -51,8 +51,9 @@ function fxAt(t) {
     }
   }
   if (t >= T.staysecure && t < T.wall) { fx.bloom = 0.16; fx.bloomThr = 0.8; }
+  if (t >= T.lumium + 0.45 && t < T.pagevelle) { fx.bloom = 0.14; fx.bloomThr = 0.88; fx.flare = 0.2; fx.halo = 0.04; }
   for (const [a, b] of LIGHT) {
-    if (t >= a && t < b) { fx.bloom = 0.18; fx.bloomThr = 0.95; fx.vig = 0.16; }
+    if (t >= a && t < b) { fx.bloom = 0.18; fx.bloomThr = 0.95; fx.vig = 0.16; fx.flare = 0.12; fx.halo = 0.02; }
   }
   return fx;
 }

@@ -79,14 +79,26 @@ const Post = (() => {
     o = vec4(c, 1.0);
   }`;
 
+  // anamorphic streak source: only the hottest highlights, squeezed vertically
+  const FS_STREAK = HEAD + `
+  uniform sampler2D src; uniform vec2 texel;
+  void main(){
+    vec3 c = texture(src, uv).rgb + texture(src, uv + vec2(0.0, texel.y)).rgb + texture(src, uv - vec2(0.0, texel.y)).rgb;
+    c /= 3.0;
+    float l = max(c.r, max(c.g, c.b));
+    o = vec4(c * smoothstep(0.35, 0.9, l), 1.0);
+  }`;
+
   const FS_FINAL = HEAD + `
-  uniform sampler2D acc, b1, b2, b3;
-  uniform float bloom, vig, grain, tm, lift;
+  uniform sampler2D acc, b1, b2, b3, stk;
+  uniform float bloom, vig, grain, tm, lift, flare, halo;
   uniform vec2 res;
   void main(){
     vec3 c = texture(acc, uv).rgb;
     vec3 bl = texture(b1, uv).rgb * 0.55 + texture(b2, uv).rgb * 0.8 + texture(b3, uv).rgb * 1.1;
     c += bl * bloom;
+    c += texture(stk, uv).rgb * vec3(0.32, 0.58, 1.0) * flare;        // anamorphic lens streaks
+    c += texture(b1, uv).rgb * vec3(1.0, 0.32, 0.1) * halo;            // film halation around hot edges
     vec2 d = uv - 0.5; d.x *= 1.7778;
     c *= 1.0 - vig * smoothstep(0.35, 1.2, length(d));
     c = c / (1.0 + max(c - 0.85, 0.0) * 0.9);   // gentle highlight shoulder
@@ -144,6 +156,7 @@ const Post = (() => {
     progs.down = compile(FS_DOWN);
     progs.blur = compile(FS_BLUR);
     progs.fin = compile(FS_FINAL);
+    progs.streak = compile(FS_STREAK);
     vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
     const vb = gl.createBuffer();
@@ -158,6 +171,7 @@ const Post = (() => {
     levels.l1 = target(...sizes[1]); levels.l1b = target(...sizes[1]);
     levels.l2 = target(...sizes[2]); levels.l2b = target(...sizes[2]);
     levels.l3 = target(...sizes[3]); levels.l3b = target(...sizes[3]);
+    levels.s1 = target(...sizes[1]); levels.s2 = target(...sizes[1]);
   }
 
   function draw(prog, dst, texs, uniforms) {
@@ -208,8 +222,16 @@ const Post = (() => {
     draw(progs.down, L.l3, { src: L.l2.t }, { texel: [1 / L.l2.w, 1 / L.l2.h] });
     draw(progs.blur, L.l3b, { src: L.l3.t }, { dir: [1 / L.l3.w, 0] });
     draw(progs.blur, L.l3, { src: L.l3b.t }, { dir: [0, 1 / L.l3.h] });
-    draw(progs.fin, null, { acc: a.t, b1: L.l1.t, b2: L.l2.t, b3: L.l3.t }, {
+    const sw = L.s1.w;
+    draw(progs.streak, L.s1, { src: L.l0.t }, { texel: [1 / L.l0.w, 1 / L.l0.h] });
+    let from = L.s1, to = L.s2;
+    for (const k of [1.5, 4, 10, 24]) {
+      draw(progs.blur, to, { src: from.t }, { dir: [k / sw, 0] });
+      [from, to] = [to, from];
+    }
+    draw(progs.fin, null, { acc: a.t, b1: L.l1.t, b2: L.l2.t, b3: L.l3.t, stk: from.t }, {
       bloom: fx.bloom, vig: fx.vig, grain: fx.grain, tm: t, lift: fx.lift || 0, res: [W, H],
+      flare: fx.flare ?? 0.55, halo: fx.halo ?? 0.07,
     });
     gl.finish();
   }

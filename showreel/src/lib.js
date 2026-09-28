@@ -345,6 +345,9 @@ const IMG = (() => {
     pagevelleLogo: 'assets/pagevelle-logo.png',
     glass: 'assets/glass-reeded.jpg',
     hyphaTrail: 'assets/hypha-trail.jpg',
+    lumiumLogo: 'assets/lumium-logo.png',
+    lumiumIcon: 'assets/lumium-icon.png',
+    lumiumApp: 'assets/lumium-app.jpg',
   };
   const out = {};
   out.ready = Promise.all(Object.entries(files).map(([k, src]) => {
@@ -352,7 +355,16 @@ const IMG = (() => {
     im.src = src;
     out[k] = im;
     return im.decode();
-  }));
+  })).then(() => {
+    // a pre-blurred, darkened copy of the Lumium wallpaper for its "world" backdrop
+    const c = document.createElement('canvas');
+    c.width = 960; c.height = 540;
+    const g = c.getContext('2d');
+    g.filter = 'blur(18px) saturate(1.15)';
+    const im = out.lumiumApp, sc = Math.max(1100 / im.naturalWidth, 680 / im.naturalHeight);
+    g.drawImage(im, (960 - im.naturalWidth * sc) / 2, (540 - im.naturalHeight * sc) / 2, im.naturalWidth * sc, im.naturalHeight * sc);
+    out.lumiumBlur = c;
+  });
   return out;
 })();
 
@@ -361,4 +373,10 @@ function drawCover(ctx, im, x, y, w, h, zoom = 1, ox = 0, oy = 0) {
   const s = Math.max(w / im.naturalWidth, h / im.naturalHeight) * zoom;
   const dw = im.naturalWidth * s, dh = im.naturalHeight * s;
   ctx.drawImage(im, x + (w - dw) / 2 + ox, y + (h - dh) / 2 + oy, dw, dh);
+}
+
+/** slow, continuous camera life for a vignette: a gentle push-in with a breath of rotation */
+function camDrift(ctx, lt, seed = 0) {
+  about(ctx, W / 2, H / 2, 1 + 0.024 * lt, 0.0035 * Math.sin(lt * 1.3 + seed));
+  ctx.translate(Math.sin(lt * 0.9 + seed) * 6, Math.cos(lt * 0.7 + seed) * 4);
 }
